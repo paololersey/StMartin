@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-ng-app="activitiesApp">
+<head>
+
+
+<meta charset="utf-8">
+<title>St. Martin Programs</title>
+
+<!-- CSS -->
+
+<link rel="stylesheet" type="text/css" href="css/ng-grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css">
+
+<link rel="stylesheet" type="text/css"
+	href="jqueryui/1.10/theme/smoothness/jquery-ui.css" />
+
+<script type="text/javascript" src="lib/angular/1.2.16/angular.min.js"></script>
+<script type="text/javascript" src="ang-ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script type="text/javascript" src="jquery/1.8/jquery.min.js"></script>
+<script type="text/javascript" src="lib/angular/ng-grid-2.0.11.debug.js"></script>
+
+
+<script src="js/activities.js"></script>
+</head>
+<body data-ng-controller="activitiesStMartin">
+
+
+  
+  	<tabset>
+ 	 <tab id="assisted" heading="Person in charge: Volunteer" select="beneficiarySelected()"></tab>
+ 	 <tab id="volunteers" heading="Person in charge: SocialWorker" select="volunteersSelected()"></tab>
+ 	 <tab id="socialWorkers" heading="Person in charge: Office"  select="socialWorkerSelected()"></tab>
+ 	 <tab id="physioterapists" heading="Person in charge: Physioterapists"  select="physioterapistsSelected()"></tab>
+    </tabset>
+    
+    <div style="width: 99%; height: 30px"></div>
+    
+    <div style="width: 99%;">
+		<span class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 32%; ">
+			<div class="panel-heading">
+				<a class="panel-title">Select person in charge</a>
+			</div>
+			<div class="panel-body">
+			    <select key="id" ng-model="items.people.city"  ng-options=" opt for opt in items.cities"></select>
+					
+			</div>	
+		</span> 
+    </div>	 
+	
+	<div style="width: 99%;">
+		<span class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 32%; margin-left:0.5%; ">
+			<div class="panel-heading">
+				<a class="panel-title">Search people involved</a>
+			</div>
+
+			<div class="panel-body">
+				  <span style="display: inline-block"><input type="text"
+					ng-model="filterOptions.filterText" /></span>
+					
+			</div>	
+		</span> 
+		<span  class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 32%; float:left; ">
+		     <div class="panel-heading">
+				<a class="panel-title">Print list</a>
+			</div>
+			<div class="panel-body-crud">
+				 <button ng-click="" class="btn btn-primary " style="width:20%">
+						<span class="glyphicon glyphicon-print"></span>
+				 </button>	
+			</div>	
+		</span>
+		<span class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 35%;float:right">
+			<div class="panel-heading" >
+				<a class="panel-title">Perform operations</a>
+			</div>
+			<div class="panel-body-crud">
+				 <span style="display: inline-block">
+				    
+					<button ng-click="insertRowButton('')" class="btn btn-primary box-shadow">
+						  <span 
+							class="glyphicon glyphicon-plus"></span>
+					</button>
+					 <button ng-click="deleteRowButton('')" class="btn btn-primary box-shadow">
+						<span 
+							class="glyphicon glyphicon-minus"></span>
+					</button>
+					<button ng-click="selectRowButton('')" class="btn btn-primary box-shadow">
+						<span 
+							class="glyphicon glyphicon-pencil"></span>
+					</button>
+					
+					</span> 
+			</div>
+		</span>
+	</div>
+
+	<div style="width: 99%" class="gridStyle  box-shadow" ng-grid="gridOptions"></div>
+
+    <script type="text/ng-template" id="myModalContentDelete.html">
+      <div class="modal-header">
+            <h3 class="modal-title">Delete person</h3>
+      </div>
+      <div class="modal-body"> 
+      Do you really want to delete this person? 
+      <input id="personId" type="text" hidden="true"
+				ng-model="items.people.personId" name="personId"/>
+      </div>
+      <div class="modal-footer">	
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+	<script type="text/ng-template" id="myModalContent.html">
+      <div class="modal-header">
+            <h3 class="modal-title">Insert/update person</h3>
+      </div>
+      <div class="modal-body">
+          
+		<form name="form" id="insertPersonForm" 
+			 novalidate>
+            
+         <div>          
+            <span class="formMainSpan">
+			    <div>
+                <span class="subFormSpanLeft">Name: </span>
+                <span class="subFormSpanRight">
+                    <input id="firstNameId" type="text"
+				ng-model="items.people.firstName" name="firstName" required />
+                </span>
+                </div>
+           </span>
+           <span class="formMainSpan">
+			    <div>
+                <span class="subFormSpanLeft"> Surname: </span>
+                <span class="subFormSpanRight">
+                    <input id="lastNameId" type="text"
+				ng-model="items.people.lastName" name="lastName" required />
+                </span>
+                </div>
+            </span>
+         </div>  
+
+         <div  style="height: 20%;">  <input id="personId" type="text" hidden="true"
+				ng-model="items.people.personId" name="personId"/><br /></div>
+
+         <div>            
+            <span class="formMainSpan">
+                 <div>
+                 <span class="subFormSpanLeft">City:  </span>		
+                 <span class="subFormSpanRight">
+			     <!--  <input id="cityId" type="text" ng-model="items.people.city"
+		     		name="city" required /> -->
+                 <select key="id" ng-model="items.people.city"  ng-options=" opt for opt in items.cities"></select>
+
+                </span>
+                </div>
+             </span>
+             <span class="formMainSpan">
+			    <div>
+                <span class="subFormSpanLeft">Address: </span>
+                <span class="subFormSpanRight">
+                    <input type="text"
+				ng-model="items.people.address" name="address" required />
+                </span>
+                </div>
+            </span>
+         </div>
+        
+         <div  style="height: 20%;"> <input type="text" hidden="true"
+				 /><br /></div>
+
+        <div>            
+            <span class="formMainSpan">
+                 <div>
+                 <span class="subFormSpanLeft">Tel.: </span>
+                 <span class="subFormSpanRight">
+			        <input id="telephoneId" type="text" ng-model="items.people.telephone"
+		     		name="telephone" integer ng-minlength="10" ng-pattern="/^[0-9]+$/"  required /> 
+                </span>
+                </div>
+             </span>
+             <span class="formMainSpan">
+			    <div>
+                <span class="subFormSpanLeft"> E-mail: </span>
+                <span class="subFormSpanRight">
+                    <input type="email"
+				ng-model="items.people.email" name="uEmail" required />
+                </span>
+                </div>
+            </span>
+         </div>
+
+	     <div ng-show="form.uEmail.$dirty && form.uEmail.$invalid">
+				Invalid: <span ng-show="form.uEmail.$error.required">Tell us
+					your email.</span> <span ng-show="form.uEmail.$error.email">This is
+					not a valid email.</span>
+	     </div>
+            
+         
+			<!--Gender: <input type="radio" ng-model="beneficiario.gender"
+				value="male" />male <input type="radio"
+				ng-model="beneficiario.gender" value="female" />female<br />
+			<!--<button ng-click="reset()" ng-disabled="isUnchanged(beneficiario)">RESET</button>-->
+			
+		</form>
+	  
+        </div>
+        <div class="modal-footer">	
+            <button class="btn btn-primary" ng-disabled="form.$pristine || (form.city.$invalid || form.firstName.$invalid ||
+                                                                            form.lastName.$invalid || form.address.$invalid ||
+                                                                            form.telephone.$invalid || form.uEmail.$invalid)"
+                                                                            ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+ 
+
+
+</body>
+</html>
