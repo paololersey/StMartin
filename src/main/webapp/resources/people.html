@@ -23,34 +23,81 @@
 
 
 <script src="js/people.js"></script>
-<script>
-	$(function() {
-		$("#dialog").hide();
-		$("#dialogDelete").hide();
-	});
-</script>
+<script src="js/datePicker.js"></script>
 
 </head>
 <body data-ng-controller="StMartinPrograms">
 
 
-  
-  <tabset>
-  <tab id="assisted" heading="Beneficiaries" select="beneficiarySelected()"></tab>
-  <tab id="volunteers" heading="Volunteers" select="volunteersSelected()"></tab>
-  <tab id="socialWorkers" heading="Social Workers"  select="socialWorkerSelected()"></tab>
-  <tab id="physioterapists" heading="Physioterapists"  select="physioterapistsSelected()"></tab>
-  </tabset>
+  <div align="center">
+      <span style="display: inline-block; width: 32%"></span> 
+      <span style="display: inline-block; width: 37%">
+	  <tabset>
+	  <tab heading="Beneficiaries" select="beneficiariesSelected()"></tab>
+	  <tab heading="Volunteers" select="volunteersSelected()"></tab>
+	  <tab heading="Staff Workers" select="socialWorkersSelected()"></tab>
+	  <tab data-ng-show="isCPPD" heading="Therapists"  select="physioterapistsSelected()"></tab>
+	  <tab data-ng-show="isCPCN" heading="Center managers"  select="centerManagersSelected()"></tab>
+	  </tabset>
+	  </span>
+	   <span style="display: inline-block; width: 30%"></span> 
+  </div>
 
 	
 
-	<div style="width: 99%; height: 100px"></div>
+	<div style="width: 99%; height: 10px"></div>
+	
+	<div style="width: 99%;" align="center">
+		<span class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 90%; " >
+			<div class="panel-heading"  >
+				<a class="panel-title" data-ng-show="isBeneficiary">Filter beneficiary either by person in charge, either within a period of time:</a>
+				<!--  <a class="panel-title" data-ng-hide="isBeneficiary" ng-change="filterActive()">Filter active/inactive person</a>-->
+				  <div class="btn-group" data-ng-hide="isBeneficiary">
+       				  <label class="btn btn-primary" ng-model="radioModel" btn-radio="'ACTIVE'" ng-change="filterActiveInactive()">Filter Active</label>
+      				  <label class="btn btn-primary" ng-model="radioModel" btn-radio="'INACTIVE'"  ng-change="filterActiveInactive()">Filter Inactive</label>
+      				  <label class="btn btn-primary" ng-model="radioModel" btn-radio="null" ng-change="filterActiveInactive()">Remove filter</label>
+      				  
+    			  </div>
+			</div>
+			
+			<div class="panel-body" data-ng-show="isBeneficiary">
+			    <span >
+			    Type of Person in Charge:<select  ng-change="selectPersonType(personTypeSelected)" ng-model="personTypeSelected" ng-options='personTypeSelected for personTypeSelected in personInChargeTypeList'><option value=""></option></select></select>
+			    &nbsp&nbsp <select ng-change="selectFilter(objectPCH,'','','')" ng-model="objectPCH"  ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in personInCharge'><option value=""></option></select></select>
+			    &nbsp&nbspZone:<select key="idZone" ng-change="selectFilter('','','',objectZone)" ng-model="objectZone"  ng-options='objectZone for objectZone in zoneCodes'><option value=""></option></select></select>
+			    </span>
+			    
+			    &nbsp&nbsp Start date:
+			    <span ng-controller="DatepickerDemoCtrl">
+                    
+			   			 <span>
+                		   <input style="width:8%;" type="text" ng-change="selectFilter('',dateStart,'','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+             		     </span>
+             			 <button  vtype="button" ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
+             		
+             	 </span>
+             	  &nbsp&nbsp End date:
+             	 <span ng-controller="DatepickerDemoCtrl">
+                    
+			  		    <span>
+                          <input style="width:8%;" type="text" ng-change="selectFilter('','',dateEnd,'')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+                        </span>
+                        <button  vtype="button" ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                   
+                 </span>
+			
+			</div>	
+		</span> 
+    </div>	 
+    
+    <div style="width: 99%; height: 10px"></div>
 
 	<div style="width: 99%;">
 		<span class="panel panel-primary box-shadow"
 			style="display: inline-block; width: 32%; margin-left:0.5%; ">
 			<div class="panel-heading">
-				<a class="panel-title">Search people involved in the project</a>
+				<a class="panel-title">Quick Search people data</a>
 			</div>
 
 			<div class="panel-body">
@@ -65,7 +112,7 @@
 				<a class="panel-title">Print list</a>
 			</div>
 			<div class="panel-body-crud">
-				 <button ng-click="" class="btn btn-primary " style="width:20%">
+				 <button ng-click="report1()" class="btn btn-primary " style="width:20%">
 						<span class="glyphicon glyphicon-print"></span>
 				 </button>	
 			</div>	
@@ -101,7 +148,17 @@
 	<div style="width: 99%" class="gridStyle  box-shadow" ng-grid="gridOptions"></div>
 
 
-
+    <script type="text/ng-template" id="errorDialog.html">
+      <div class="modal-header">
+            <h3 class="modal-title">Error</h3>
+      </div>
+      <div class="modal-body"> 
+      {{items.error}}     
+      </div>
+      <div class="modal-footer">	
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
     <script type="text/ng-template" id="myModalContentDelete.html">
       <div class="modal-header">
             <h3 class="modal-title">Delete person</h3>
@@ -146,24 +203,47 @@
             </span>
          </div>  
 
-         <div  style="height: 20%;">  <input id="personId" type="text" hidden="true"
+         <div  style="height: 10px;">  <input id="personId" type="text" hidden="true"
 				ng-model="items.people.personId" name="personId"/><br /></div>
+ 
+         <div>          
+            <span class="formMainSpan">
+			    <div>
+                <span class="subFormSpanLeft">ThirdName: </span>
+                <span class="subFormSpanRight">
+                    <input  type="text"
+				ng-model="items.people.thirdName" name="thirdName" required />
+                </span>
+                </div>
+           </span>
+           <span class="formMainSpan" ng-show="items.isBeneficiary">
+			    <div>
+                <span class="subFormSpanLeft">Parent/Guardian: </span>
+                <span class="subFormSpanRight">
+                    <input  type="text"
+				ng-model="items.people.parentGuardian" name="parentGuardian" />
+                </span>
+                </div>
+            </span>
+         </div>  
+
+         <div  style="height: 10px;"><input  type="text" hidden="true"/><br /></div>
 
          <div>            
             <span class="formMainSpan">
                  <div>
-                 <span class="subFormSpanLeft">City:  </span>		
+                 <span class="subFormSpanLeft">Village:  </span>		
                  <span class="subFormSpanRight">
-			     <!--  <input id="cityId" type="text" ng-model="items.people.city"
-		     		name="city" required /> -->
-                 <select key="id" ng-model="items.people.city"  ng-options=" opt for opt in items.cities"></select>
+
+               	    <select key="id" ng-model="items.people.village" name="village" ng-options=" opt for opt in items.cities" required></select>
+                           <option value=""></option></select>
 
                 </span>
                 </div>
              </span>
              <span class="formMainSpan">
 			    <div>
-                <span class="subFormSpanLeft">Address: </span>
+                <span class="subFormSpanLeft">Physical addr.: </span>
                 <span class="subFormSpanRight">
                     <input type="text"
 				ng-model="items.people.address" name="address" required />
@@ -172,16 +252,39 @@
             </span>
          </div>
         
-         <div  style="height: 20%;"> <input type="text" hidden="true"
-				 /><br /></div>
-
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+         
         <div>            
+            <span class="formMainSpan">
+                 <div>
+                 <span class="subFormSpanLeft">Zone: </span		
+                 <span class="subFormSpanRight">
+
+               	    <select key="id" ng-model="items.people.zone"  ng-options=" opt for opt in items.zones" >
+                      <option value=""></option></select>
+
+                </span>
+                </div>
+             </span>
+             <span class="formMainSpan" ng-hide="items.isCPPRBeneficiary">
+			    <div>
+                <span class="subFormSpanLeft">Status/level: </span>
+                <span class="subFormSpanRight">
+                   <select key="id" ng-model="items.people.state"  ng-options=" opt for opt in items.personState"  name="state" required></select>
+                </span>
+                </div>
+            </span>
+         </div>
+        
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+ 
+         <div>            
             <span class="formMainSpan">
                  <div>
                  <span class="subFormSpanLeft">Tel.: </span>
                  <span class="subFormSpanRight">
-			        <input id="telephoneId" type="text" ng-model="items.people.telephone"
-		     		name="telephone" integer ng-minlength="10" ng-pattern="/^[0-9]+$/"  required /> 
+			        <input id="telephoneId" type="text" ng-model="items.people.telephone"  name="telefone"
+		     		name="telephone" integer ng-minlength="10" ng-pattern="/^[0-9]+$/" /> 
                 </span>
                 </div>
              </span>
@@ -189,48 +292,112 @@
 			    <div>
                 <span class="subFormSpanLeft"> E-mail: </span>
                 <span class="subFormSpanRight">
-                    <input type="email"
-				ng-model="items.people.email" name="uEmail" required />
+                    <input type="email" 
+				ng-model="items.people.email" name="uEmail"/>
                 </span>
                 </div>
             </span>
          </div>
 
-	     <div ng-show="form.uEmail.$dirty && form.uEmail.$invalid">
-				Invalid: <span ng-show="form.uEmail.$error.required">Tell us
-					your email.</span> <span ng-show="form.uEmail.$error.email">This is
-					not a valid email.</span>
-	     </div>
-            
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+
+         <div>            
+            <span class="formMainSpan">
+                 <div>
+                 <span class="subFormSpanLeft">Birth Date: </span>
+                 <span class="subFormSpanRight" ng-controller="DatepickerDemoCtrl">
+                           
+                  <div>
+                       <span>
+                         <input id="dateOfBirth" type="text"  datepicker-popup="{{format}}" ng-model="items.date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" name="birthDate" required/>
+                       </span>
+                         <button  vtype="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                       <span>
+                       </span>
+                  </div> 	      
+                 </span>
+                 </div>
+             </span>
+             <span class="formMainSpan"  data-ng-show="items.isBeneficiary">
+			    <div>
+                <span class="subFormSpanLeft">File number: </span>
+                <span class="subFormSpanRight">
+                    <input type="text" 
+				ng-model="items.people.fileNumber" name="fileNumber" required/>
+                </span>
+                </div>
+            </span>
+             
+         </div>
          
-			<!--Gender: <input type="radio" ng-model="beneficiario.gender"
+         <div  ng-show="items.isCPPRBeneficiary" style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+
+         <div  ng-show="items.isCPPRBeneficiary" >            
+             <span class="formMainSpan">
+                 <div>
+                 <span class="subFormSpanLeft">Contact person </span>
+                 <span class="subFormSpanRight">
+			        <input type="text" ng-model="items.people.contactPerson" 
+		     	     " /> 
+                </span>
+                </div>
+             </span>
+             <span class="formMainSpan"  >
+			    <div>
+                <span class="subFormSpanLeft">Contact p. role: </span>
+                <span class="subFormSpanRight">
+                    <input type="text" 
+				ng-model="items.people.contactPersonRole"/>
+                </span>
+                </div>
+            </span>
+             
+         </div>
+         
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+
+         <div>
+            <span class="formMainSpan"  data-ng-show="items.isVolunteerNotCPPR">
+			    <div>
+                <span class="subFormSpanLeft">Major training: </span>
+                <span class="subFormSpanRight">
+                    <select  ng-model="items.people.majorTraining"  ng-options=" majorTraining for majorTraining in items.majorTrainingList"></select>
+               
+                </span>
+                </div>
+            </span>
+         </div>
+
+
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+
+	     <div ng-show="form.uEmail.$dirty && form.uEmail.$invalid">
+				Invalid:  <span ng-show="form.uEmail.$error.email">You're entering an invalid email.</span>     
+	     </div>
+         <div ng-show=" form.telefone.$invalid">
+				Invalid: You're entering an invalid  telephone number.
+         </div>   
+         
+			<!--Gender: <input type="radio" ng-model="personData.gender"
 				value="male" />male <input type="radio"
-				ng-model="beneficiario.gender" value="female" />female<br />
-			<!--<button ng-click="reset()" ng-disabled="isUnchanged(beneficiario)">RESET</button>-->
+				ng-model="personData.gender" value="female" />female<br />
+			<!--<button ng-click="reset()" ng-disabled="isUnchanged(personData)">RESET</button>-->
 			
 		</form>
 	  
         </div>
         <div class="modal-footer">	
-            <button class="btn btn-primary" ng-disabled="form.$pristine || (form.city.$invalid || form.firstName.$invalid ||
-                                                                            form.lastName.$invalid || form.address.$invalid ||
-                                                                            form.telephone.$invalid || form.uEmail.$invalid)"
+            <button ng-show="items.isBeneficiaryNotCPPR" class="btn btn-primary" ng-disabled="form.$pristine || form.village.$error.required || form.firstName.$invalid || form.thirdName.$invalid ||
+                                                                            form.lastName.$invalid || form.fileNumber.$error.required ||
+                                                                            form.birthDate.$error.required"
+                                                                            ng-click="ok()">OK</button>
+            <button ng-hide="items.isBeneficiary" class="btn btn-primary" ng-disabled="form.$pristine || form.village.$error.required || form.firstName.$invalid  ||
+                                                                            form.lastName.$invalid || form.birthDate.$error.required"
                                                                             ng-click="ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
-    <div style="display:inline-block; min-height:290px;">
-        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
-    </div>
-    
-    <div id="dialogDelete" title="Delete person">
-		<form>
-			Do you really want to delete this person? <input id="personIdDelete"
-				type="text" hidden="true" ng-model="beneficiario.personId"
-				name="personId" required /><br />
-			<button class="btn btn-primary" ng-click="deleted()">OK</button>
-		</form>
-	</div>
+
 
 
 </body>

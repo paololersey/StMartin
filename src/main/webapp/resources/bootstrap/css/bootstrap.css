@@ -2083,7 +2083,8 @@ fieldset[disabled] .btn-default.active {
   color: #285e8e;
   background-color: #E1F0FC;
   border-color: #533373;
-}
+}s
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
@@ -2091,6 +2092,11 @@ fieldset[disabled] .btn-default.active {
 .open .dropdown-toggle.btn-primary {
   color: #fff;
   background-color: #3276b1;
+  border-color: #285e8e;
+}
+.open .dropdown-toggle.btn-secondary {
+  color: #D2322D;
+  background-color: #D2322D;
   border-color: #285e8e;
 }
 .btn-primary:active,
@@ -3295,7 +3301,7 @@ input[type="button"].btn-block {
 }
 .input-group {
   position: relative;
-  display: table;
+ 
   border-collapse: separate;
 }
 .input-group[class*="col-"] {

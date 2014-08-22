@@ -64,8 +64,17 @@
   position: relative;
   z-index: 1;
   background-color: #428BCA;
+  color: #fff;
   border-bottom: 1px solid #d4d4d4;
 }
+
+.ngTopSecondPanel {
+  position: relative;
+  z-index: 1;
+  background-color: #ff0000;
+  border-bottom: 1px solid #d4d4d4;
+}
+
 .ngSortButtonDown {
   position: absolute;
   top: 3px;
@@ -378,11 +387,12 @@
   margin-left: 6px;
 }
 .ngFooterPanel {
-  background-color: #428BCA;
+  background-color: #fff;
   padding: 0;
-  border: 10px   #d4d4d4;
+  border: 10px   #428BCA;
   position: relative;
 }
+
 .nglabel {
   display: block;
   float: left;

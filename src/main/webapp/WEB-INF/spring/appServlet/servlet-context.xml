@@ -33,22 +33,27 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<!-- xml configuration settings --><!-- xml configuration settings -->
 
-	
-	
 	<beans:bean id="personDao"
 		class="org.springframework.samples.hibernate.PersonDaoImpl">
-		<beans:constructor-arg ref="sessionFactory"/>
-		
+		<beans:constructor-arg ref="sessionFactory"/>		
 	</beans:bean>
+	<beans:bean id="activityDao"
+		class="org.springframework.samples.hibernate.ActivityDaoImpl">
+		<beans:constructor-arg ref="sessionFactory"/>
+	</beans:bean>
+	<beans:bean id="natureOfCasePersonDao"
+		class="org.springframework.samples.hibernate.NatureOfCasePersonDaoImpl">
+		<beans:constructor-arg ref="sessionFactory"/>	
+	</beans:bean>
+	
 
 
 	<beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>
 		<beans:property name="url"
-			value="jdbc:mysql://localhost:3306/anagrafichedb"></beans:property>
+			value="jdbc:mysql://localhost:3306/STMARTINDB"></beans:property>
 		<beans:property name="username" value="root"></beans:property>
 		<beans:property name="password" value="password"></beans:property>
 	</beans:bean>
@@ -68,14 +73,32 @@
 			<beans:list>
 				
 				<beans:value>org.springframework.samples.hibernate.beans.Person
-				</beans:value>
+				</beans:value>			
 				<beans:value>org.springframework.samples.hibernate.beans.ProjectPerson
+				</beans:value>			
+				<beans:value>org.springframework.samples.hibernate.beans.Activity
 				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.PersonActivity
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.ReferralType
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Zone
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Village
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.PersonState
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Note
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.NatureOfCasePerson
+				</beans:value>
+				
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
 			<beans:value>
 				hibernate.format_sql=true
+				hibernate.show_sql=true
 				hibernate.dialect=org.hibernate.dialect.MySQLDialect
 			</beans:value>
 		</beans:property>

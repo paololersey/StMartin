@@ -1,6 +1,8 @@
 package org.springframework.samples.hibernate.beans;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,42 +11,60 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Person {
 
-	private Long personId;
+	private Integer personId;
 
 	private String firstName;
 
 	private String lastName;
+	
+	private String thirdName;
+	
+	private String parentGuardian;
+	
+	private String fileNumber;
 
 	private String address;
 
-	private String city;
+	private String village;
 	
 	private String telephone;
 
 	private String email;
 	
+	private String state;
+	
+	private Date dateOfBirth;
+	
+	private String zone;
+	
+	private String majorTraining;
+	
+	private String contactPerson;
+	
+	private String occupationRole;
+	
+	
+	
 	private Set<ProjectPerson> projectPersons=new HashSet<ProjectPerson>();
-
+	
 
 	@NotNull
 	@Id
 	@GeneratedValue
 	@Column(name = "PERSON_ID")
-	public Long getPersonId() {
+	public Integer getPersonId() {
 		return this.personId;
 	}
 
-	public void setPersonId(Long personId) {
+	public void setPersonId(Integer personId) {
 		this.personId = personId;
 	}
 
@@ -76,23 +96,15 @@ public class Person {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-																															
-	@Column(name = "CITY")
-	public String getCity() {
-		return city;
+	
+	@Column(name = "VILLAGE")
+	public String getVillage() {
+		return village;
 	}
 
-	public void setCity(String city) {
-		
-		this.city = city;
+	public void setVillage(String village) {
+		this.village = village;
 	}
-	
-
-	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "PROJECT_PERSON", 
-	           joinColumns = @JoinColumn(name = "PERSON_ID"), 
-	           inverseJoinColumns = @JoinColumn(name = "PROJECT_ID"))*/
-	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="PERSON_ID",nullable=false)
 	public Set<ProjectPerson> getProjectPersons() {
@@ -120,5 +132,88 @@ public class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Column(name = "DATE_OF_BIRTH")
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
 
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+    
+	@Column(name = "STATE")
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+    
+	@Column(name = "ZONE")
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+	@Column(name = "THIRDNAME")
+	public String getThirdName() {
+		return thirdName;
+	}
+
+	public void setThirdName(String thirdName) {
+		this.thirdName = thirdName;
+	}
+	@Column(name = "PARENT_GUARDIAN")
+	public String getParentGuardian() {
+		return parentGuardian;
+	}
+
+	public void setParentGuardian(String parentGuardian) {
+		this.parentGuardian = parentGuardian;
+	}
+	@Column(name = "FILE_NUMBER")
+	public String getFileNumber() {
+		return fileNumber;
+	}
+
+	public void setFileNumber(String fileNumber) {
+		this.fileNumber = fileNumber;
+	}
+
+	@Column(name = "MAJOR_TRAINING")
+	public String getmajorTraining() {
+		return majorTraining;
+	}
+
+	public void setmajorTraining(String majorTraining) {
+		this.majorTraining = majorTraining;
+	}
+	
+	@Column(name = "CONTACT_PERSON")	
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+	@Column(name = "OCCUPATION_ROLE")
+	public String getOccupationRole() {
+		return occupationRole;
+	}
+
+	public void setOccupationRole(String occupationRole) {
+		this.occupationRole = occupationRole;
+	}
+
+	
+
+	
+	
+	
 }

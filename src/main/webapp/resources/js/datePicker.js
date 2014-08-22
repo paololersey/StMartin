@@ -1,12 +1,12 @@
-angular.module('plunker', ['ui.bootstrap']);
+angular.module('datePicker', ['ui.bootstrap']);
 var DatepickerDemoCtrl = function ($scope) {
   $scope.today = function() {
-    $scope.dt = new Date();
+    $scope.date = new Date();
   };
   $scope.today();
 
   $scope.clear = function () {
-    $scope.dt = null;
+    $scope.date = null;
   };
 
   // Disable weekend selection
@@ -14,10 +14,10 @@ var DatepickerDemoCtrl = function ($scope) {
     return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
   };
 
-  $scope.toggleMin = function() {
+  /*$scope.toggleMin = function() {
     $scope.minDate = $scope.minDate ? null : new Date();
   };
-  $scope.toggleMin();
+  $scope.toggleMin();*/
 
   $scope.open = function($event) {
     $event.preventDefault();
@@ -32,6 +32,6 @@ var DatepickerDemoCtrl = function ($scope) {
   };
 
   $scope.initDate = new Date('2016-15-20');
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate','yyyy-MM-dd HH:mm:ss Z'];
+  $scope.format = $scope.formats[5];
 };

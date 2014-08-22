@@ -8,12 +8,7 @@ var type;
 app.controller('StMartinPrograms',
 		function($scope, $http, $modal,$log) {
 	
-	 /*$.getScript("part.js", function(){
-
-		  alert("Script loaded and executed.");
-		   // Here you can use anything you defined in the loaded script
-		   });*/
-	
+	       var personType="BE";	
            var url = window.location.toString();
            url.match(/\?(.+)$/);
            var params= RegExp.$1;
@@ -23,72 +18,111 @@ app.controller('StMartinPrograms',
            var lastIndex = params.lastIndexOf("=");
            var selectionCode = params.substring(lastIndex+4,lastIndex+7);
            
-           // TAB SELECTION
-          
-           $scope.beneficiarySelected=function(){
-        	   personTypeFunction("BE");
+/**********************************************************************************************************************************************/
+// These functions regards the tab selection 
+           
+           $scope.personInChargeTypeList = ['VO','SW','PH','CM'];
+           $scope.beneficiariesSelected=function(){
+        	   initialSettings("BE"); 
            };
            $scope.volunteersSelected=function(){
-        	   personTypeFunction("VO");
+        	   initialSettings("VO");     	 
            };
            $scope.socialWorkersSelected=function(){
-        	   personTypeFunction("SW");
+        	   initialSettings("SW");   
            };           
            $scope.physioterapistsSelected=function(){
-        	   personTypeFunction("PH");
+        	   initialSettings("PH");   
+           };        
+           $scope.centerManagersSelected=function(){
+        	   initialSettings("CM");   
            };
+
+           function resetFormSearch(){
+        	   $("#dateStart").attr("value",null);
+        	   $("#dateEnd").attr("value",null);
+        	   $("#idPCH").attr("value",null);
+           }
            
-
+           setFlags();
            
-			// ROW GRID SELECTION
-			$scope.selectRowButton = function(size) {
-				type="modify";
-				if ($scope.mySelections[0] == null
-						|| $scope.mySelections[0] == "") {
-					alert("No person has been selected!");
-				} else {					
-					openModal(size);					
-				}
-				$scope.beneficiario = $scope.mySelections[0];
-			};
-
-			$scope.deleteRowButton = function(size) {
-				type="delete";
-				if ($scope.mySelections[0] == null
-						|| $scope.mySelections[0] == "") {
-					alert("No person has been selected!");
-				} else {
-					type="delete";
-					openModal(size);					
-				}
-			};
-
-			// ROW INSERT
-			$scope.insertRowButton = function(size) {
-				type="insert";
-				openModal(size);			 				
-			};
 			
-        	$scope.master = {};
 
-			
+/********************************************************************************************************************************************/
+// These functions get info about villages/cities, zones, state of the person (active/inactive)
+        	
 			// HTTP services
 			$http.get('../views/citiesList').success(function(data) {
 					$scope.citiesList=data;								 	
 				 });
+        	
+        	$http.post('../views/zonesList', projectCode).success(function(data) {
+				$scope.zones=data;	
+				var arrayZones=[];
+				for (var i=0;i<$scope.zones.length;i++ ){					
+					arrayZones.push($scope.zones[i].zoneCode);
+				}
+				$scope.zoneCodes=arrayZones;
+			 });
+        	
+        	$http.post('../views/statesList',projectCode).success(function(data) {
+				
+				$scope.personStateNames=data;
+			 });
+        	
+        	$http.post('../views/majorTrainingList', projectCode).success(function(data) {          				
+  	          $scope.majorTrainingList=data;
+        	});
+        	
+        	
 			
-			$scope.deleted = function() {
-				$http({
-					url : '../views/deletePerson',
-					method : 'POST',
-					data : $scope.beneficiario
-				}).success(function(data) {
-					$scope.messages = data.messages;
-					location.reload();
-					alert("cancelled!");
-				});
-			};
 
+/*********************************************************************************************************************************************/
+// This function is for filtering the beneficiaries according to person in charge, and the time period
+        
+	    var selectedPersonIncharge=null;
+	    var dateStart=null;
+	    var dateEnd=null;
+	   	var zone=null;	    
+	   	
+		$scope.selectFilter = function(selectedPerson, dateStartPeriod, dateEndPeriod, zoneParam) {	
+								
+			if(selectedPerson==null)selectedPersonIncharge = null;
+		    if(selectedPerson!=null && selectedPerson!='' && selectedPerson.personId>0) {
+		    	selectedPersonIncharge = selectedPerson.personId;
+		    }
+		    if(dateStartPeriod!='') dateStart= dateStartPeriod;
+                if(dateEndPeriod!='') dateEnd= dateEndPeriod;
+                if(zoneParam!='') zone= zoneParam;
+				
+				var filter = {"personIdPersonInCharge":selectedPersonIncharge,
+						              "dateStart": dateStart,
+						              "dateEnd": dateEnd,
+						              "personType": personType,
+						              "projectCode": projectCode,
+						              "zone": zone};
+				$http.post('../views/beneficiarySeen', filter).success(
+						function(data) {
+							$scope.personData = data;
+						});		
+		};
+/*********************************************************************************************************************************************/
+// This function is for filtering active people
+
+		$scope.filterActiveInactive = function(){
+			var dataToPost = {"activePerson":$scope.radioModel, "personType":personType};
+			$http({
+				url : '../views/filterActiveInactive',
+				method : 'POST',
+				data :  dataToPost
+			}).success(function(data) {
+				$scope.personData = data;
+			});
+		};
+/*********************************************************************************************************************************************/
+		
+	
+		
 			$scope.projectPerson = {
 			    "projectCode" : projectCode,
 				"personCode" : "BE"
@@ -96,22 +130,21 @@ app.controller('StMartinPrograms',
 
 			/** FUNZIONE PER FARE LA PERSISTENZA SUL BACKEND */
 			function update($newScope) {
-				$scope.beneficiario = $newScope;
+				$scope.personData = $newScope;
 				// sono in delete
 				if(!$newScope.firstName && $newScope.personId){
 					$http({
 						url : '../views/deletePerson',
 						method : 'POST',
-						data : $scope.beneficiario
+						data : $scope.personData
 					}).success(function(data) {
-						$scope.messages = data.messages;
-						location.reload();
+						$scope.messages = data.messages;				
 						alert("cancelled!");
 					});
 				}
 				else{
 				var arrayData = {
-					person : $scope.beneficiario,
+					person : $scope.personData,
 					projectPerson : $scope.projectPerson
 				};
 
@@ -120,21 +153,18 @@ app.controller('StMartinPrograms',
 					method : 'POST',
 					data : arrayData
 				}).success(function(data) {
-					$scope.messages = data.messages;
-					location.reload();
-					alert("inserito!");
+					if(data!=null && data!=""){
+					   openErrorDialog(data);
+					   }
+					else{
+						alert("Insert/update succeeded");
+						location.reload();
+					}
 				});
 			  }
 			};
 
-			$http.post('../views/listaBen', $scope.projectPerson).success(
-					function(data) {
-						$scope.beneficiari = data;
-					});
 
-			$scope.isUnchanged = function(beneficiario) {
-				return angular.equals(beneficiario, $scope.master);
-			};
 
 			// NG-GRID conf. options
 
@@ -145,7 +175,7 @@ app.controller('StMartinPrograms',
 			};
 
 			$scope.gridOptions = {
-				data : 'beneficiari',
+				data : 'personData',
 				enableCellEdit : false,
 				enableRowSelection : true,
 				multiSelect : false,
@@ -161,17 +191,33 @@ app.controller('StMartinPrograms',
 					field : 'lastName',
 					displayName : 'Surname'
 				}, {
-					field : 'address',
-					displayName : 'Address'
+					field : 'thirdName',
+					displayName : 'Thirdname'
+				},  {
+					field : 'parentGuardian',
+					displayName : 'Parent/Guardian'
+				}, {
+					field : 'zone',
+					displayName : 'Zone'
 				} ,{
-					field : 'city',
-					displayName : 'City'
+					field : 'village',
+					displayName : 'Village'
 				},{
+					field : 'dateOfBirth',
+					displayName : 'Date of Birth',
+					cellFilter: "date:'dd-MM-yyyy'"
+				}, {
 					field : 'telephone',
 					displayName : 'Tel.'
+				}, {
+					field : 'fileNumber',
+					displayName : 'File Number'
 				},{
 					field : 'email',
 					displayName : 'E-mail'
+				},{
+					field : 'state',
+					displayName : 'Person state'
 				}],
 				enablePaging : true,
 				showFooter : true
@@ -192,73 +238,70 @@ app.controller('StMartinPrograms',
 					$scope.$apply();
 				}
 			};
+		
+/**********************************************************************************************************************************************/		
+/**********************************************************************************************************************************************/
+// This functions retrieve the records of current type of person selected 	
+	    	function personTypeFunction(personTypeParameter) {
+	    		$scope.projectPerson = {
+	    			    "projectCode" : projectCode,
+	    				"personCode"  : personTypeParameter
+	    			};
+	    		$http.post('../views/listaBen', $scope.projectPerson).success(
+	    				function(data) {
+	    					$scope.personData = data;      
+	    				});	    		
+	    	}
+	    	                   
+	    	
+	    	 
+/**********************************************************************************************************************************************/	    	
+// This functions retrieve the records of personInCharge related to a beneficiary
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-// JS function utilities
-			
-			
-			
-			function personTypeFunction(personType) {
-				$scope.projectPerson = {
-					    "projectCode" : projectCode,
-						"personCode"  : personType
-					};
-				$http.post('../views/listaBen', $scope.projectPerson).success(
-						function(data) {
-							$scope.beneficiari = data;
+	    	$scope.selectPersonType = function (personTypeSelected){
+	    		$scope.projectPerson = {
+	    			    "projectCode" : projectCode,
+	    				"personCode"  : personTypeSelected
+	    			};
+	    		$http.post('../views/listaBen', $scope.projectPerson).success(
+	    				function(data) {
+	    					$scope.personInCharge = data;      
+	    				});
+	    	};
+	    	
+/**********************************************************************************************************************************************/	    	
+// These functions regards the grid row selection
+			$scope.selectRowButton = function(size) {
+				type="modify";
+				if ($scope.mySelections[0] == null
+						|| $scope.mySelections[0] == "") {
+					alert("No person has been selected!");
+				} else {					
+					openModal(size);					
+				}
+				$scope.personData = $scope.mySelections[0];
+			};
 
-						});
-			}
-			
-			//datePicker
-				  $scope.today = function() {
-				    $scope.dt = new Date();
-				  };
-				  $scope.today();
+			$scope.deleteRowButton = function(size) {
+				type="delete";
+				if ($scope.mySelections[0] == null
+						|| $scope.mySelections[0] == "") {
+					alert("No person has been selected!");
+				} else {
+					type="delete";
+					openModal(size);					
+				}
+			};
 
-				  $scope.clear = function () {
-				    $scope.dt = null;
-				  };
+			// ROW INSERT
+			$scope.insertRowButton = function(size) {
+				type="insert";
+				openModal(size);			 				
+			};
 
-				  // Disable weekend selection
-				  $scope.disabled = function(date, mode) {
-				    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-				  };
-
-				  $scope.toggleMin = function() {
-				    $scope.minDate = $scope.minDate ? null : new Date();
-				  };
-				  $scope.toggleMin();
-
-				  $scope.open = function($event) {
-				    $event.preventDefault();
-				    $event.stopPropagation();
-
-				    $scope.opened = true;
-				  };
-
-				  $scope.dateOptions = {
-				    formatYear: 'yy',
-				    startingDay: 1
-				  };
-
-				  $scope.initDate = new Date('2016-15-20');
-				  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-				  $scope.format = $scope.formats[0];
-
-				  //MODAL DIALOG
-				  function openModal(size){
+/**********************************************************************************************************************************************/
+// This function opens a modal dialog and initializes the form values					 
+			function openModal(size){
 					  var modalContent= 'myModalContent.html';
 					    if(type == "delete"){
 					    	modalContent= 'myModalContentDelete.html';
@@ -266,36 +309,38 @@ app.controller('StMartinPrograms',
 						$modal.open({
 					        templateUrl: modalContent,
 					        controller: ModalInstanceCtrlUpdate,
+					        windowClass: 'app-modal-window',
 					        size: size,
 					        resolve: {
+					          
 					          items: function () {
+					        	 setFlags();
+					        	  
 					        	  if(type == "insert"){
 					        		
 					        		$("#personId").attr("value", null);
 					  				$("#firstNameId").attr("value", null);
 					  				$("#lastNameId").attr("value", null);
 					  				$("#cityId").attr("value", null);
-					  				$http.get('../views/citiesList').success(function(data) {
-											$scope.citiesList=data;								 	
-										 });
+					  				$("#dateOfBirth").attr("value", null);
+					  				
 					  				 
-					  				var array = {"people": null, "cities": $scope.citiesList};
+					  				var array = {"people": null, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
+					  						    "date":null,
+					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
+					  						    "majorTrainingList": $scope.majorTrainingList};
 					  				return array;
 					  				
 					        	  }
 					        	  else if (type == "modify"){
-					        		$("#personId").attr("value",$scope.mySelections[0].personId);
-					            	$("#firstNameId").attr("value",$scope.mySelections[0].firstName);
-						            $("#lastNameId").attr("value",$scope.mySelections[0].lastName);
-						            $("#cityId").attr("value", $scope.mySelections[0].city);
-						            $http.get('../views/citiesList').success(function(data) {
-										$scope.citiesList=data;										
-										 $scope.options = [
-										                   { label: 'one', value: 1 },
-										                   { label: 'two', value: 2 }
-										                 ];
-									 });
-						            return {"people": $scope.mySelections[0], "cities": $scope.citiesList};
+					        		$("#personId").attr("value",$scope.mySelections[0].personId);	
+						            if($scope.mySelections[0].personState==='A'){
+						            	$scope.personState = 'ACTIVE';
+						            }
+						            return {"people": $scope.mySelections[0], "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
+						            	    "cities": $scope.citiesList, "date":$scope.mySelections[0].dateOfBirth,
+						            	    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR,
+						            	    "majorTrainingList": $scope.majorTrainingList};
 						            
 					        	  }	  
 					        	  else{
@@ -303,7 +348,9 @@ app.controller('StMartinPrograms',
 					        		  $("#personId").attr("value",$scope.mySelections[0].personId);
 					        		  return {"people": $scope.mySelections[0]};					        		  
 					        	  }
+					        	 
 					        	  
+								 
 					          }
 					        }
 					      });
@@ -312,12 +359,14 @@ app.controller('StMartinPrograms',
 
 					}
 
-
+/**********************************************************************************************************************************************/
+// This function defines a new controller for the modal dialog and it is called when pressed ok or cancel after filling the form		  
 				  
-				  var ModalInstanceCtrlUpdate = function ($scope, $modalInstance, items) {
+			var ModalInstanceCtrlUpdate = function ($scope, $modalInstance, items) {
 	  
 					  $scope.items = items;
 					  $scope.ok = function () {
+						$scope.$$childTail.items.people.dateOfBirth = $scope.$$childTail.items.date;
 						update($scope.$$childTail.items.people);
 						$modalInstance.dismiss('cancel');
 					    
@@ -325,7 +374,92 @@ app.controller('StMartinPrograms',
 
 					  $scope.cancel = function () {
 					    $modalInstance.dismiss('cancel');
+					    location.reload();
 					  };
-					};
-					
-		});
+					 
+			};
+			
+/**********************************************************************************************************************************************/
+// Open error dialog	
+			function openErrorDialog(code){
+				$modal.open({
+					templateUrl: 'errorDialog.html',
+					controller: ModalErrorDialog,
+			    	size: "",
+					resolve: {		          
+				          items: function () {
+				        	  if(code=="fileNumberError"){
+				        		  $scope.error = "This file number is already present!";
+				        	  }
+				        	  if(code=="threeNamesError" || "twoNamesVillagesError"){
+				        		  $scope.error = "This person is already present!";
+				        	  }
+				        	  var error = {"error":$scope.error};
+				        	  return error;
+				          }
+					}
+				});			
+			}
+			
+			var ModalErrorDialog= function ($scope, $modalInstance, items) {				  
+				  
+				$scope.items = items;	
+				$scope.cancel = function () {
+				    $modalInstance.dismiss('cancel');
+				  };
+
+		};		
+/**********************************************************************************************************************************************/
+// Report
+			
+		$scope.report1 = function(){
+			$http.get("../pdf/createPdf").success(function(data){
+				$scope.citiesList=data;	
+			});
+		};
+
+
+/*********************************************************************************************************************************************/
+// flag personType
+
+		function setFlags(){
+			$scope.isBeneficiaryNotCPPR=false;
+			$scope.isVolunteerNotCPPR=false;
+			$scope.isCPPRBeneficiary=false;
+			$scope.isBeneficiary=false;
+			$scope.isCPPR=false;
+			$scope.isCPPD=false;
+			$scope.isCPCN=false;
+			  
+			  if(personType=="BE" && projectCode=="CPPR") {
+				  $scope.isCPPRBeneficiary=true;
+			  }
+			  if(projectCode=="CPCN") {
+				  $scope.isCPCN=true;
+			  }
+			  if(projectCode=="CPPR") {
+				  $scope.isCPPR=true;
+			  }
+			  if(projectCode=="CPPD") {
+				  $scope.isCPPD=true;
+			  }
+			  if(personType=="BE") {
+				  $scope.isBeneficiary=true;
+			  }
+			  if(personType=="VO" && projectCode!="CPPR") {
+				  $scope.isVolunteerNotCPPR=true;
+			  }
+			  if(personType=="BE" && projectCode!="CPPR") {
+				  $scope.isBeneficiaryNotCPPR=true;
+			  }
+			 
+		}
+		
+	function initialSettings(personTypeParameter){
+	   personType =personTypeParameter;
+  	   personTypeFunction(personTypeParameter);  
+  	   setFlags();
+  	   resetFormSearch();
+  	   $scope.selectFilter(null, null, null, null, null);
+	}	
+});

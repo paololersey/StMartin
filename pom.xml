@@ -123,6 +123,8 @@
 			<version>1.0.0</version>
 		</dependency>
 
+        <!-- Itext -->
+      
 		<!-- JSR 303 with Hibernate Validator -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -230,6 +232,11 @@
      		<groupId>org.springframework</groupId>
      		<artifactId>spring-tx</artifactId>
      		<version>4.0.3.RELEASE</version>
+     	</dependency>
+     	<dependency>
+     		<groupId>com.itextpdf</groupId>
+     		<artifactId>itextpdf</artifactId>
+     		<version>5.5.1</version>
      	</dependency>
 	</dependencies>
 	<repositories>
