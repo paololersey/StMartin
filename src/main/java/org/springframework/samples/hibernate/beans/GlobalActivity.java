@@ -11,6 +11,8 @@ public class GlobalActivity {
 	private Person personInCharge;
 	
 	private Note note;
+	
+	private String levelChange;
 
 	public Activity getActivity() {
 		return activity;
@@ -43,6 +45,14 @@ public class GlobalActivity {
 
 	public void setNote(Note note) {
 		this.note = note;
+	}
+
+	public String getLevelChange() {
+		return levelChange;
+	}
+
+	public void setLevelChange(String levelChange) {
+		this.levelChange = levelChange;
 	}
 
 }

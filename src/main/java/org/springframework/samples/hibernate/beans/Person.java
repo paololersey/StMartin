@@ -27,6 +27,8 @@ public class Person {
 	
 	private String thirdName;
 	
+	private String gender;
+	
 	private String parentGuardian;
 	
 	private String fileNumber;
@@ -49,9 +51,15 @@ public class Person {
 	
 	private String contactPerson;
 	
+	private String contactPersonRole;
+	
 	private String occupationRole;
 	
+	private String volunteerType;
 	
+	private String medicalStatus;
+	
+	private String school;
 	
 	private Set<ProjectPerson> projectPersons=new HashSet<ProjectPerson>();
 	
@@ -211,9 +219,50 @@ public class Person {
 		this.occupationRole = occupationRole;
 	}
 
-	
+	public String getGender() {
+		return gender;
+	}
 
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	@Column(name = "CONTACT_PERSON_ROLE")
+	public String getContactPersonRole() {
+		return contactPersonRole;
+	}
+
+	public void setContactPersonRole(String contactPersonRole) {
+		this.contactPersonRole = contactPersonRole;
+	}
 	
+	@Column(name = "VOLUNTEER_TYPE")
+	public String getVolunteerType() {
+		return volunteerType;
+	}
+	
+	public void setVolunteerType(String volunteerType) {
+		this.volunteerType = volunteerType;
+	}
+
+	public String getMedicalStatus() {
+		return medicalStatus;
+	}
+
+	public void setMedicalStatus(String medicalStatus) {
+		this.medicalStatus = medicalStatus;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+	
+	//@Column(name = "MEDICAL_STATUS")
+		
 	
 	
 }

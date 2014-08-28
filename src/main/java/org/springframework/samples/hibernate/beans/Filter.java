@@ -13,7 +13,7 @@ public class Filter {
 	
 	private Integer personIdPersonInCharge;
 	
-	private String  activePerson;
+	private String  status;
 	
 	private String  personType;
 	
@@ -30,8 +30,13 @@ public class Filter {
 	private String  intervention;
 	
 	private String  natureOfCaseStatus;
+	
+	private String  majorTraining;
 
-
+    private String volunteerType;
+    
+    private String contactPerson;
+    
 	public Date getDateStart() {
 		return dateStart;
 	}
@@ -62,14 +67,6 @@ public class Filter {
 
 	public void setPersonIdBeneficiary(Integer personIdBeneficiary) {
 		this.personIdBeneficiary = personIdBeneficiary;
-	}
-
-	public String getActivePerson() {
-		return activePerson;
-	}
-
-	public void setActivePerson(String activePerson) {
-		this.activePerson = activePerson;
 	}
 
 	public String getPersonType() {
@@ -134,6 +131,38 @@ public class Filter {
 
 	public void setIntervention(String intervention) {
 		this.intervention = intervention;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getMajorTraining() {
+		return majorTraining;
+	}
+
+	public void setMajorTraining(String majorTraining) {
+		this.majorTraining = majorTraining;
+	}
+
+	public String getVolunteerType() {
+		return volunteerType;
+	}
+
+	public void setVolunteerType(String volunteerType) {
+		this.volunteerType = volunteerType;
+	}
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
 	}
 
 

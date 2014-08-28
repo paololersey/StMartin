@@ -52,7 +52,7 @@ app.controller('StMartinPrograms',
 // These functions get info about villages/cities, zones, state of the person (active/inactive)
         	
 			// HTTP services
-			$http.get('../views/citiesList').success(function(data) {
+			$http.post('../views/citiesList',projectCode).success(function(data) {
 					$scope.citiesList=data;								 	
 				 });
         	
@@ -65,9 +65,12 @@ app.controller('StMartinPrograms',
 				$scope.zoneCodes=arrayZones;
 			 });
         	
-        	$http.post('../views/statesList',projectCode).success(function(data) {
-				
+        	$http.post('../views/statesList',projectCode).success(function(data) {				
 				$scope.personStateNames=data;
+			 });
+        	
+            $http.post('../views/volunteerTypeList',projectCode).success(function(data) {			
+				$scope.volunteerTypeList=data;
 			 });
         	
         	$http.post('../views/majorTrainingList', projectCode).success(function(data) {          				
@@ -83,9 +86,14 @@ app.controller('StMartinPrograms',
 	    var selectedPersonIncharge=null;
 	    var dateStart=null;
 	    var dateEnd=null;
-	   	var zone=null;	    
+	   	var zone=null;	
+	   	var status=null;
+	   	var majorTraining=null;
+	   	var volunteerType=null;
+	   	var contactPersonParam=null;
 	   	
-		$scope.selectFilter = function(selectedPerson, dateStartPeriod, dateEndPeriod, zoneParam) {	
+		$scope.selectFilter = function(selectedPerson, dateStartPeriod, dateEndPeriod, zoneParam, statusParam,
+				                      majorTrainingParam,volunteerTypeParam, contactPersonParam) {	
 								
 			if(selectedPerson==null)selectedPersonIncharge = null;
 		    if(selectedPerson!=null && selectedPerson!='' && selectedPerson.personId>0) {
@@ -94,13 +102,21 @@ app.controller('StMartinPrograms',
 		    if(dateStartPeriod!='') dateStart= dateStartPeriod;
                 if(dateEndPeriod!='') dateEnd= dateEndPeriod;
                 if(zoneParam!='') zone= zoneParam;
-				
+                if(statusParam!='') status= statusParam;
+                if(majorTrainingParam!='') majorTraining= majorTrainingParam;
+                if(volunteerTypeParam!='') volunteerType= volunteerTypeParam;
+				if(contactPersonParam!=null) contactPerson= contactPersonParam;
 				var filter = {"personIdPersonInCharge":selectedPersonIncharge,
 						              "dateStart": dateStart,
 						              "dateEnd": dateEnd,
 						              "personType": personType,
 						              "projectCode": projectCode,
-						              "zone": zone};
+						              "zone": zone,
+						              "status": status,
+						              "majorTraining":majorTraining,
+						              "volunteerType":volunteerType,
+						              "contactPerson":contactPerson};
+				
 				$http.post('../views/beneficiarySeen', filter).success(
 						function(data) {
 							$scope.personData = data;
@@ -138,8 +154,9 @@ app.controller('StMartinPrograms',
 						method : 'POST',
 						data : $scope.personData
 					}).success(function(data) {
-						$scope.messages = data.messages;				
+										
 						alert("cancelled!");
+						location.reload();
 					});
 				}
 				else{
@@ -193,6 +210,10 @@ app.controller('StMartinPrograms',
 				}, {
 					field : 'thirdName',
 					displayName : 'Thirdname'
+				},{
+					field : 'gender',
+					displayName : 'M/F',
+					width: 50
 				},  {
 					field : 'parentGuardian',
 					displayName : 'Parent/Guardian'
@@ -211,13 +232,14 @@ app.controller('StMartinPrograms',
 					displayName : 'Tel.'
 				}, {
 					field : 'fileNumber',
-					displayName : 'File Number'
+					displayName : 'File Number',
+					width:150
 				},{
 					field : 'email',
 					displayName : 'E-mail'
 				},{
 					field : 'state',
-					displayName : 'Person state'
+					displayName : 'Status'
 				}],
 				enablePaging : true,
 				showFooter : true
@@ -270,7 +292,10 @@ app.controller('StMartinPrograms',
 	    	};
 	    	
 /**********************************************************************************************************************************************/	    	
-// These functions regards the grid row selection
+// These functions regards back button and buttons for the grid operations
+	    	$scope.backButton = function(size) {
+	    		location.assign("../resources/selectPeopleCasesActivities.html?projectCode='"+projectCode+"'");
+	    	};
 			$scope.selectRowButton = function(size) {
 				type="modify";
 				if ($scope.mySelections[0] == null
@@ -326,7 +351,7 @@ app.controller('StMartinPrograms',
 					  				
 					  				 
 					  				var array = {"people": null, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
-					  						    "date":null,
+					  						    "date":null, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
 					  						    "majorTrainingList": $scope.majorTrainingList};
 					  				return array;
@@ -337,8 +362,8 @@ app.controller('StMartinPrograms',
 						            if($scope.mySelections[0].personState==='A'){
 						            	$scope.personState = 'ACTIVE';
 						            }
-						            return {"people": $scope.mySelections[0], "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
-						            	    "cities": $scope.citiesList, "date":$scope.mySelections[0].dateOfBirth,
+						            return {"people": $scope.mySelections[0], "zones":$scope.zoneCodes, "personState": $scope.personStateNames, "isVolunteer": $scope.isVolunteer,
+						            	    "cities": $scope.citiesList, "date":$scope.mySelections[0].dateOfBirth,"volunteerTypeList":$scope.volunteerTypeList,
 						            	    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR,
 						            	    "majorTrainingList": $scope.majorTrainingList};
 						            
@@ -394,6 +419,9 @@ app.controller('StMartinPrograms',
 				        	  if(code=="threeNamesError" || "twoNamesVillagesError"){
 				        		  $scope.error = "This person is already present!";
 				        	  }
+				        	  if(code=="threeNamesAnotherProgram"){
+				        		  $scope.error = "This person is present in another program, we'll update it with the new infos!";
+				        	  }
 				        	  var error = {"error":$scope.error};
 				        	  return error;
 				          }
@@ -412,7 +440,7 @@ app.controller('StMartinPrograms',
 /**********************************************************************************************************************************************/
 // Report
 			
-		$scope.report1 = function(){
+		$scope.report = function(){
 			$http.get("../pdf/createPdf").success(function(data){
 				$scope.citiesList=data;	
 			});
@@ -425,6 +453,7 @@ app.controller('StMartinPrograms',
 		function setFlags(){
 			$scope.isBeneficiaryNotCPPR=false;
 			$scope.isVolunteerNotCPPR=false;
+			$scope.isVolunteer=false;
 			$scope.isCPPRBeneficiary=false;
 			$scope.isBeneficiary=false;
 			$scope.isCPPR=false;
@@ -445,6 +474,9 @@ app.controller('StMartinPrograms',
 			  }
 			  if(personType=="BE") {
 				  $scope.isBeneficiary=true;
+			  }
+			  if(personType=="VO") {
+				  $scope.isVolunteer=true;
 			  }
 			  if(personType=="VO" && projectCode!="CPPR") {
 				  $scope.isVolunteerNotCPPR=true;

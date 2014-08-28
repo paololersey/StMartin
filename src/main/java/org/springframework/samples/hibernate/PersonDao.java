@@ -30,8 +30,6 @@ public interface PersonDao {
 	
 	List<Person> findByTypeAndProjectCode(String personType, String projectCode);
 
-	List<String> getCitiesList();
-
 	List<ProjectPerson> findPersonCodeByPersonId(int personId);
 	
 	List<Person> findPersonByPersonId(int personId, String personCode);
@@ -39,8 +37,6 @@ public interface PersonDao {
 	List<Person> findByFilter(Filter filter);
 
 	List<String> getStatesList(String projectCode);
-
-	List<Person> getActiveInactive(Filter filter);
 
 	String credentials(Login login);
 
@@ -51,5 +47,9 @@ public interface PersonDao {
 	String checkFileNumber(GlobalPerson globalPerson);
 
 	String checkNames(GlobalPerson globalPerson);
+
+	List<String> getVillagesList(String projectCode);
+
+	List<String> getVolunteerTypeList(String projectCode);
 
 }

@@ -12,7 +12,7 @@ select.controller('selectController',
     var startIndex = params.indexOf("=");
     var projectCode = params.substring(startIndex+4,startIndex+8);
     
-    if(projectCode =='CPPR') $scope.CPPRenabled = true;
+    if(projectCode =='CPPD') $scope.CPPDenabled = true;
     
 	$scope.setSelection = function(code){	
 		if(code==="PEO"){

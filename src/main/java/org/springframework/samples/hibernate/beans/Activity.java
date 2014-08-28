@@ -28,6 +28,14 @@ public class Activity {
 	private String referral;
 	
 	private String intervention;
+	
+	private Integer attendingPeople;
+	
+	private String levelChange;
+	
+	private String projectCode;
+	
+	private String applianceSource;
 
 	private Set<PersonActivity> personActivities=new HashSet<PersonActivity>();
 	
@@ -83,13 +91,50 @@ public class Activity {
 	public void setActivityDate(Date activityDate) {
 		this.activityDate = activityDate;
 	}
-
+	
+	@Column(name = "INTERVENTION")
 	public String getIntervention() {
 		return intervention;
 	}
 
 	public void setIntervention(String intervention) {
 		this.intervention = intervention;
+	}
+	
+	@Column(name = "ATTENDING_PEOPLE")
+	public Integer getAttendingPeople() {
+		return attendingPeople;
+	}
+
+	public void setAttendingPeople(Integer attendingPeople) {
+		this.attendingPeople = attendingPeople;
+	}
+	@Column(name = "LEVEL_CHANGE")
+	public String getLevelChange() {
+		return levelChange;
+	}
+
+	public void setLevelChange(String levelChange) {
+		this.levelChange = levelChange;
+	}
+
+	
+	@Column(name = "PROJECT_CODE")
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+    
+	@Column(name = "APPLIANCE_SOURCE")
+	public String getApplianceSource() {
+		return applianceSource;
+	}
+
+	public void setApplianceSource(String applianceSource) {
+		this.applianceSource = applianceSource;
 	}
 	
 	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -43,11 +43,11 @@ activitiesApp.controller('activitiesStMartin',
            };
            
            if(personType){
-           personTypeFunction(personType);
+           personTypeFunction(personType);           
            }
-           
+           setFlags();
  /**********************************************************************************************************************************************/
- // This function gets the referrralType,activityType,interventionType
+ // This function gets the referrralType,activityType,interventionType,statesList (for levelChange)
          
            $http.post('../views/referralType', projectCode).success(function(data) {
 				$scope.referralType=data;
@@ -61,17 +61,22 @@ activitiesApp.controller('activitiesStMartin',
  				$scope.interventionType=data;
  			 });
 		
+           $http.post('../views/statesList',projectCode).success(function(data) {
+				
+				$scope.personStateNames=data;
+			 });
 /**********************************************************************************************************************************************/
 // This function is for filtering beneficiary, person in charge, and period
 
             
-			var selectedBeneficiary;
-		    var selectedPersonIncharge;
-		    var dateStart;
-		    var dateEnd;
-		    var activityType;
-		    var referral;
-		    var intervention;
+			var selectedBeneficiary=null;
+		    var selectedPersonIncharge=null;
+		    var dateStart=null;
+		    var dateEnd=null;
+		    var activityType=null;
+		    var referral=null;
+		    var intervention=null;
+		    var filterActivity=null;
 		   		    
 			$scope.selectActivityfiltered = function(selectedBeneficiaryParam, selectedPersonInchargeParam, dateStartPeriod, dateEndPeriod, 
 					                                 activityTypeParam, referralParam, interventionParam) {	
@@ -90,13 +95,14 @@ activitiesApp.controller('activitiesStMartin',
                     if(referralParam!='') referral=referralParam;
                     if(interventionParam!='') intervention=interventionParam;
 					
-					var filterActivity = {"personIdPersonInCharge":selectedPersonIncharge,
+					filterActivity = {"personIdPersonInCharge":selectedPersonIncharge,
 							              "personIdBeneficiary":selectedBeneficiary,
 							              "dateStart": dateStart,
 							              "dateEnd": dateEnd,
 							              "activityType": activityType,
 							              "referral": referral,
-							              "intervention":intervention};
+							              "intervention":intervention,
+							              "projectCode":projectCode};
 					$http.post('../views/activityList', filterActivity).success(
 							function(data) {
 																
@@ -111,7 +117,7 @@ activitiesApp.controller('activitiesStMartin',
 										note=$scope.activities[i][1].noteDescription;
 									}
 									
-									activitiesNotesArray.push({"act":act,"note":note});
+									activitiesNotesArray.push({"activity":act,"note":note});
 												
     								$scope.isNoteAlreadyWritten=true;
     							}
@@ -143,6 +149,8 @@ activitiesApp.controller('activitiesStMartin',
 								if(dataPCH!=null && dataPCH.length!=0){
 								$scope.personInChargeSelected = dataPCH;
 								flagPersonInChargeSelected = 'true';
+								//if($scope.beneficiaryToShow==false) flagBeneficiarySelected=true;
+								flagBeneficiarySelected="true";
 								if(flagPersonInChargeSelected==='true' && flagBeneficiarySelected==='true'){
 									 openModal(size);
 								 }
@@ -173,17 +181,17 @@ activitiesApp.controller('activitiesStMartin',
 				pagingOptions : $scope.pagingOptions,
 				filterOptions : $scope.filterOptions,
 				columnDefs : [ {
-					field : 'act.activityType',
+					field : 'activity.activityType',
 					displayName : 'Activity Type'
 				}, {
-					field : 'act.activityDate',
+					field : 'activity.activityDate',
 					displayName : 'Activity Date',
 					cellFilter: "date:'dd-MM-yyyy'"
 				}, {
-					field : 'act.intervention',
+					field : 'activity.intervention',
 					displayName : 'Intervention'
 				}, {
-					field : 'act.referral',
+					field : 'activity.referral',
 					displayName : 'Referral'
 				},{
 					field : 'note.noteDescription',
@@ -217,17 +225,21 @@ activitiesApp.controller('activitiesStMartin',
 /**********************************************************************************************************************************************/		
 /**********************************************************************************************************************************************/
 // These functions regards the grid row selection
-						$scope.selectRowButton = function(size) {
+							$scope.backButton = function(size) {
+								location.assign("../resources/selectPeopleCasesActivities.html?projectCode='"+projectCode+"'");
+							};		
+			$scope.selectRowButton = function(size) {
 							type="modify";
 							if ($scope.mySelections[0] == null
 									|| $scope.mySelections[0] == "") {
 								alert("No activity has been selected!");
 							} else {				
-								retrievePeople($scope.mySelections[0].act.personActivities[0],size);
-								retrievePeople($scope.mySelections[0].act.personActivities[1],size);
+								var ben = $scope.mySelections[0].activity.personActivities[1];
+								retrievePeople($scope.mySelections[0].activity.personActivities[0],size);
+								if(ben!=null && ben!='')retrievePeople(ben,size);
 												
 							}
-							$scope.activity = $scope.mySelections[0].act;
+							//$scope.activity = $scope.mySelections[0].activity;
 						};
 
 						$scope.deleteRowButton = function(size) {
@@ -237,6 +249,7 @@ activitiesApp.controller('activitiesStMartin',
 								alert("No person has been selected!");
 							} else {
 								type="delete";
+								//$scope.activity = $scope.mySelections[0].activity;
 								openModal(size);					
 							}
 						};
@@ -271,9 +284,7 @@ activitiesApp.controller('activitiesStMartin',
 						});
 			}
 								
-			$scope.getBen = function (){
-      		  alert("Ciao scope");
-      	  }
+			
       	  
       	  	  
 /**********************************************************************************************************************************************/
@@ -292,18 +303,7 @@ activitiesApp.controller('activitiesStMartin',
 					        resolve: {
 					          items: function () {
 					        	  
-					        	// flag beneficiaryNeeded      		
-					        	  $scope.setBenAccordingActivityType = function(){
-					        			$scope.beneficiaryNeeded=false;
-					        			if($scope.activity.activityType=='TRAINING')$scope.beneficiaryNeeded=true;
-					        				
-					        	  };
-					        	  
-					        	  
-					        	  $scope.isCPCN = false;								  
-								  if (projectCode=='CPCN'){
-									  $scope.isCPCN = true;
-								  }
+					        	 
 					        	  $scope.projectPerson = {
 										    "projectCode" : projectCode,
 											"personCode"  : personType
@@ -331,22 +331,22 @@ activitiesApp.controller('activitiesStMartin',
 					        		
 					        		
 					        		return {"activity":null, "activityTypeList": $scope.activityType, "referralList": $scope.referralType, "interventionTypeList": $scope.interventionType,
-				  						     "personInCharge":$scope.personInCharge,"beneficiaries":$scope.beneficiaries, "date":null,
-				  						     "isCPCN":$scope.isCPCN};				  				
+				  						     "personInCharge":$scope.personInCharge,"beneficiaries":$scope.beneficiaries, "personStateNames":$scope.personStateNames, "date":null,
+				  						     "isCPCN":$scope.isCPCN,"isCPPD":$scope.isCPPD};				  				
 					  				
 					        	  }
 					        	  else if (type == "modify"){
 					        		
-						            return {"activity": $scope.mySelections[0].act, "activityTypeList": $scope.activityType,"referralList": $scope.referralType, "interventionTypeList": $scope.interventionType,
-					                    	"personInCharge":$scope.personInChargeSelected,"beneficiaries":$scope.beneficiarySelected,"date":$scope.mySelections[0].act.activityDate,
-					                	    "isCPCN":$scope.isCPCN};
+						            return {"activity": $scope.mySelections[0].activity, "activityTypeList": $scope.activityType,"referralList": $scope.referralType, "interventionTypeList": $scope.interventionType,
+					                    	"personInCharge":$scope.personInChargeSelected,"beneficiaries":$scope.beneficiarySelected,"personStateNames":$scope.personStateNames,"date":$scope.mySelections[0].activity.activityDate,
+					                	    "isCPCN":$scope.isCPCN,"isCPPD":$scope.isCPPD};
 					        		
 					        	  }	  
 					        	  else{
-					        		  $scope.mySelections[0].referral=null;
-					        		  $scope.mySelections[0].activityType=null;
+					        		  $scope.mySelections[0].activity.referral=null;
+					        		  $scope.mySelections[0].activity.activityType=null;
 					        		  $("#activityId").attr("value",$scope.mySelections[0].activityId);
-					        		  return {"activity": $scope.mySelections[0]};					        		  
+					        		  return {"activity": $scope.mySelections[0].activity};					        		  
 					        	  }
 					        	  
 					          }
@@ -361,8 +361,32 @@ activitiesApp.controller('activitiesStMartin',
 				  var ModalInstanceCtrlUpdate = function ($scope, $modalInstance, items) {
 	  
 					  $scope.items = items;
+					// flag beneficiaryNeeded      
+					 
+						  $scope.activityTypeChange = function() {
+							if (items.activity != null
+									&& items.activity.activityType != null) {
+
+								items.beneficiaryToShow = false;
+								$http.post('../views/getBeneficiaryNeededForActivityType', items.activity.activityType).success(
+			    						function(data) {
+			    							if(data!=null && data!=""){
+			    							items.beneficiaryToShow = true;
+			    							}
+			    						});
+								
+								
+								if( items.activity.activityType == 'THERAPY'){
+									items.applianceToShow = true;
+								}else{
+									items.applianceToShow = false;
+								}
+							}
+						};
+						$scope.items.beneficiaryToShow=$scope.beneficiaryToShow;
+					 
 					  
-					  
+		        	 
 					  $scope.ok = function () {
 					    $scope.$$childTail.items.activity.activityDate = ($scope.$$childTail.items.date);
 						update($scope.$$childTail.items);
@@ -381,41 +405,42 @@ activitiesApp.controller('activitiesStMartin',
 /*********************************************************************************************************************************************/
 //This Function is called when I click ok on the form, and it handles INSERT,UPDATE, AND DELETE of a record of the table activity
 				function update($newScope) {	
+					        $newScope.activity.levelChange = $newScope.levelChange;
+					        $newScope.activity.projectCode=projectCode;  
 					        
-							$scope.activityData = $newScope.activity;
-					        $scope.personInCharge = $newScope.objectPCH;
-							$scope.beneficiary = $newScope.objectBEN;
-						
-							
+					        var globalActivity = {
+								    activity : $newScope.activity,
+							     	beneficiary : $newScope.objectBEN,
+							     	personInCharge : $newScope.objectPCH,
+							     	levelChange : $newScope.levelChange
+							    };
 							// delete
-							if(!$newScope.referralType && !$newScope.activityType && $newScope.activityId){
+							if(!globalActivity.activity.referralType && !globalActivity.activity.activityType && globalActivity.activity.activityId){
 								$http({
 									url : '../views/deleteActivity',
 									method : 'POST',
-									data : $scope.activityData
+									data : globalActivity
 								}).success(function(data) {
 									$scope.messages = data.messages;
-									location.reload();
 									alert("cancelled!");
+									location.reload();
+									
 								});
 							}
 							// insert or update
 							else{
 								
-							    var globalActivity = {
-								    activity : $scope.activityData,
-							     	beneficiary : $scope.beneficiary,
-							     	personInCharge : $scope.personInCharge,
-							    };
-
+								
+                            
 							$http({
 								url : '../views/insertActivity',
 								method : 'POST',
 								data : globalActivity
 							}).success(function(data) {
 								$scope.messages = data.messages;
+								alert("insert/update succeeded!");
 								location.reload();
-								alert("inserito!");
+								
 							});
 					   }
 				};
@@ -434,7 +459,7 @@ activitiesApp.controller('activitiesStMartin',
             size: size,
             resolve: {
               notes: function () {
-            	  $scope.activityId = row.entity.act.activityId; 
+            	  $scope.activityId = row.entity.activity.activityId; 
             	  $scope.noteDescription = row.entity.note;            	  
             	  if($scope.noteDescription!=null && $scope.noteDescription!="") $scope.isNoteAlreadyWritten=true;
             	  return {"noteDescription":$scope.noteDescription, "activityId": $scope.activityId,"isNoteAlreadyWritten": $scope.isNoteAlreadyWritten};
@@ -535,6 +560,26 @@ activitiesApp.controller('activitiesStMartin',
  					  openModalAddNote($scope.notes.activityId);
  					};
  				};
+
+/**********************************************************************************************************************************************/
+// Report
+ 						
+ 				$scope.report = function(){
+ 					var activityArray=[];
+ 					var noteArray=[];
+ 					for(var i=0;i<$scope.activitiesNotes.length;i++){
+ 						activityArray.push($scope.activitiesNotes[i].activity);
+ 						noteArray.push($scope.activitiesNotes[i].note);
+ 					}
+ 					var globalActivityPdf = {"activityList":activityArray, "noteList": noteArray, "filter": filterActivity};
+ 					$http.post("../pdf/createPdf",globalActivityPdf).success(function(data){
+ 						    if(data!=null && data!=""){
+ 						    	openMessageDialog(data);
+ 						    }
+ 						  
+ 					});
+ 				}; 				
+ 				
 /*********************************************************************************************************************************************/
 // flag personType
 
@@ -545,7 +590,7 @@ activitiesApp.controller('activitiesStMartin',
       			$scope.isBeneficiary=false;
       			$scope.isCPPR=false;
       			$scope.isCPPD=false;
-      			$scope.isCPCN=fal
+      			$scope.isCPCN=false;
       			  
       			  if(personType=="BE" && projectCode=="CPPR") {
       				  $scope.isCPPRBeneficiary=true;
@@ -569,16 +614,38 @@ activitiesApp.controller('activitiesStMartin',
       				  $scope.isBeneficiaryNotCPPR=true;
       			  }
       			 
-      		}	
-      		
-      		
-      		function getBen(){
-      			alert("Ciao");
-      		}
-      		
-      		$scope.getBen = function (){
-      		  alert("Ciao scope fuori");
-      	  };
-				
-      	
+      		};
+
+/**********************************************************************************************************************************************/
+// Open error dialog	
+    			function openMessageDialog(code){
+    				$modal.open({
+    					templateUrl: 'messageDialog.html',
+    					controller: ModalMessageDialog,
+    			    	size: "",
+    					resolve: {		          
+    				          items: function () {
+    				        	  if(code=="filePdfAlreadyInUse"){
+    				        		  $scope.message = "Please, store and close the pdf that is already in use";
+    				        	  }
+    				        	  if(code=="okPdf"){
+    				        		  $scope.message = "Pdf correctly generated"; 
+    				        	  }
+    				        	  
+    				        	  var message = {"message":$scope.message};
+    				        	  return message;
+    				          }
+    					}
+    				});			
+    			}
+    			
+    			var ModalMessageDialog= function ($scope, $modalInstance, items) {				  
+    				  
+    				$scope.items = items;	
+    				$scope.cancel = function () {
+    				    $modalInstance.dismiss('cancel');
+    				  };
+
+    		};		
+/**********************************************************************************************************************************************/
 });					

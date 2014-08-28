@@ -97,11 +97,23 @@ public class PersonController {
 			if (person.getFirstName()!=null && person.getLastName()!=null && person.getThirdName()!=null){
 				String isNamePresent= personDao.checkNames(globalPerson);
 			    if(isNamePresent!=null && "-1".equals(isNamePresent)) return "threeNamesError";
-			    
+			    if(isNamePresent!=null && Integer.valueOf(isNamePresent)>0){
+			    	person.setPersonId(Integer.valueOf(isNamePresent));
+			    	ProjectPerson pp = new ProjectPerson();
+			    	pp.setPersonId(Integer.valueOf(isNamePresent));
+			    	pp.setProjectCode(globalPerson.getProjectPerson().getProjectCode());
+			    	pp.setPersonCode(globalPerson.getProjectPerson().getPersonCode());
+			    	Set<ProjectPerson> prS=new HashSet<ProjectPerson>();
+			    	prS.add(pp);
+			    	person.setProjectPersons(prS);
+			    	personDao.merge(person);
+			    	return "threeNamesAnotherProgram";
+			    }
+				    
 			}
 			if (person.getFirstName()!=null && person.getLastName()!=null && person.getVillage()!=null){
 				String isNamePresent= personDao.checkNames(globalPerson);
-				if(isNamePresent!=null && "-2".equals(isNamePresent)) return "twoNamesVillagesError";
+				if(isNamePresent!=null && "-3".equals(isNamePresent)) return "twoNamesVillagesError";
 			}
 			
 			if (person.getFileNumber()!=null){
@@ -121,18 +133,11 @@ public class PersonController {
 
 	}
 	
-	 @RequestMapping(value="filterActiveInactive",method=RequestMethod.POST, produces="application/json")
-	    public @ResponseBody List<Person>  filterActiveInactive(@RequestBody Filter filter)
+	 @RequestMapping(value="citiesList",method=RequestMethod.POST, produces="application/json")
+	    public @ResponseBody List<String>  citiesList(@RequestBody String projectCode)
 	    {
 		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
-	    	return personDao.getActiveInactive(filter);
-	    }
-	 
-	 @RequestMapping(value="citiesList",method=RequestMethod.GET, produces="application/json")
-	    public @ResponseBody List<String>  citiesList()
-	    {
-		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
-	    	return personDao.getCitiesList();
+	    	return personDao.getVillagesList(projectCode);
 	    }
 	 
 
@@ -155,6 +160,14 @@ public class PersonController {
 	    {
 		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
 	    	return personDao.getStatesList(projectCode);
+	    }
+	 
+	 
+	 @RequestMapping(value="volunteerTypeList",method=RequestMethod.POST, produces="application/json")
+	    public @ResponseBody List<String>  volunteerTypeList(@RequestBody String projectCode)
+	    {
+		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+	    	return personDao.getVolunteerTypeList(projectCode);
 	    }
 	 
 	 @RequestMapping(value="submitCredentials",method=RequestMethod.POST, produces="application/json")

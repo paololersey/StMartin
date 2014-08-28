@@ -84,8 +84,7 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.Zone
 				</beans:value>
-				<beans:value>org.springframework.samples.hibernate.beans.Village
-				</beans:value>
+				
 				<beans:value>org.springframework.samples.hibernate.beans.PersonState
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.Note

@@ -119,8 +119,12 @@ public class PersonDaoImpl implements PersonDao {
 	
 	
 	@Override
-	public List<String> getCitiesList() {	
-		return citiesList;		
+	public List<String> getVillagesList(String projectCode) {
+		String sql="SELECT VILLAGE FROM VILLAGE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY VILLAGE.VILLAGE asc";
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		query.setParameter("projectCode", projectCode);
+		return query.list();
+	
 	}
 	
 	@Override
@@ -170,11 +174,13 @@ public class PersonDaoImpl implements PersonDao {
 		   Integer personIdPersonIncharge =filter.getPersonIdPersonInCharge();
 		   Date dateStart = filter.getDateStart();		  
 		   Date dateEnd = filter.getDateEnd();
-		   String activePerson = filter.getActivePerson();
+		   String status = filter.getStatus();
 		   String personType = filter.getPersonType();
 		   String projectCode = filter.getProjectCode();
 		   String zone = filter.getZone();
-		   
+		   String majorTraining = filter.getMajorTraining();
+		   String volunteerType = filter.getVolunteerType();
+		   String contactPerson = filter.getContactPerson();
 		   
 		   String sqlActivityFromCondition = "";
 		   String sqlActivityWhereCondition = "";
@@ -184,9 +190,10 @@ public class PersonDaoImpl implements PersonDao {
 		   String sqlPersonInChargeWhereCondition = "";
 		   String sqlActivePersonCondition = "";
 		   String sqlZoneEndCondition= "";
-		   
-		  
-		   
+		   String sqlStatusCondition = "";
+		   String sqlMajorTrainingCondition = "";
+		   String sqlvolunteerTypeCondition = "";
+		   String sqlContactPersonCondition ="";
 		   
 		   if (dateStart != null || dateEnd!= null || personIdPersonIncharge!=null) {
 			    sqlActivityFromCondition = ", PERSON_ACTIVITY PBEN, ACTIVITY A ";
@@ -209,6 +216,18 @@ public class PersonDaoImpl implements PersonDao {
 		   if (zone != null) {
 				sqlZoneEndCondition = "AND ZONE=:zone ";
 		   };
+		   if (status != null) {
+			   sqlStatusCondition = "AND STATE=:status ";
+		   };
+		   if(majorTraining!=null){
+			   sqlMajorTrainingCondition = "AND MAJOR_TRAINING=:majorTraining ";
+		   }
+		   if(volunteerType!=null){
+			   sqlvolunteerTypeCondition= "AND VOLUNTEER_TYPE=:volunteerType ";
+		   }
+		   if(contactPerson!=null){
+			   sqlContactPersonCondition  = "AND CONTACT_PERSON =: contactPerson ";
+		   }
 		   
 		   String sql= null;
            if("BE".equals(personType)){
@@ -224,13 +243,18 @@ public class PersonDaoImpl implements PersonDao {
 	 	  		  + sqlPersonInChargeWhereCondition
 	 	  	      + sqlDateStartCondition
 	              + sqlDateEndCondition 
-	              + sqlZoneEndCondition;	
+	              + sqlZoneEndCondition
+	              + sqlStatusCondition
+	              + sqlContactPersonCondition;	
            }
            else{
         	   sql="SELECT DISTINCT PERSON.* FROM PERSON, PROJECT_PERSON PP "
         	   		+ "WHERE PERSON.PERSON_ID = PP.PERSON_ID "
         			+ "AND PERSON_CODE=:personType "
-        			+ "AND PROJECT_CODE=:projectCode ";
+        			+ "AND PROJECT_CODE=:projectCode "
+        			+ sqlStatusCondition 
+        			+ sqlMajorTrainingCondition
+        			+ sqlvolunteerTypeCondition;
         			
            }
         
@@ -241,31 +265,14 @@ public class PersonDaoImpl implements PersonDao {
 		if (dateEnd != null) query.setParameter("dateEnd", dateEnd);			
 		if (zone != null) query.setParameter("zone", zone);
 		if (projectCode != null) query.setParameter("projectCode", projectCode);
+		if (status!=null) query.setParameter("status", status);
+		if (majorTraining!=null) query.setParameter("majorTraining", majorTraining);
+		if (volunteerType!=null) query.setParameter("volunteerType",volunteerType);
+		if (contactPerson!=null) query.setParameter("contactPerson",contactPerson);
 		
 		return query.list();
 	}
 
-
-
-	@Override
-	public List<Person> getActiveInactive(Filter filter) {
-		String activePerson =  filter.getActivePerson();
-		String personCode = filter.getPersonType();
-		
-		String whereCondition ="";
-		if(activePerson!=null) whereCondition= "AND STATE=:activePerson ";
-		
-		String sql="SELECT * FROM PERSON,PROJECT_PERSON "
-				+ "WHERE 1=1 "
-				+ whereCondition
-				+ "AND PERSON.PERSON_ID=PROJECT_PERSON.PERSON_ID "
-				+ "AND PERSON_CODE=:personCode";
-		SQLQuery query = instantiateQuery(sql);
-		if(activePerson!=null)query.setParameter("activePerson",activePerson);
-		query.setParameter("personCode",personCode);
-		
-		return query.list();
-	}
 
 
 	@Override
@@ -304,6 +311,14 @@ public class PersonDaoImpl implements PersonDao {
 		query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
+	
+	@Override
+	public List<String> getVolunteerTypeList(String projectCode) {
+		String sql="SELECT VOLUNTEER_TYPE FROM VOLUNTEER_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL";
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		query.setParameter("projectCode", projectCode);
+		return query.list();
+	}
 
 
 	@Override
@@ -320,12 +335,14 @@ public class PersonDaoImpl implements PersonDao {
 		
 		return (String) query.uniqueResult();
 	}
+	
 	@Override
 	public String checkNames(GlobalPerson globalPerson) {
 		String firstName = globalPerson.getPerson().getFirstName();
 		String lastName = globalPerson.getPerson().getLastName();
 		String thirdName = globalPerson.getPerson().getThirdName();
 		String village = globalPerson.getPerson().getVillage();
+		String projectCode = globalPerson.getProjectPerson().getProjectCode();
 		
 		String sqlThirdNameCondition = "";
 		
@@ -334,7 +351,7 @@ public class PersonDaoImpl implements PersonDao {
 			sqlThirdNameCondition = "AND THIRDNAME =:thirdName ";
 		
 		
-		String sql= "SELECT FIRSTNAME FROM PERSON "
+		String sql= "SELECT PERSON_ID FROM PERSON "
                 + "WHERE FIRSTNAME=:firstName "
                 + "AND LASTNAME =:lastName "
                 + sqlThirdNameCondition;
@@ -342,9 +359,25 @@ public class PersonDaoImpl implements PersonDao {
 		query.setParameter("firstName", firstName);
 		query.setParameter("lastName", lastName);
 	    query.setParameter("thirdName", thirdName);
-		String result = (String)query.uniqueResult();
+	    Integer peId = (Integer)query.uniqueResult();
 		
-		if(result!=null && !"".equals(result)) return "-1";
+		if(peId!=null && peId!=0) {
+			    sql= "SELECT * FROM PROJECT_PERSON "
+	                + "WHERE PERSON_ID =:peId "
+			    	+ "AND PROJECT_CODE =:projectCode";   
+			query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		    query.setParameter("peId", peId);
+		    query.setParameter("projectCode", projectCode);
+		    String secondResult = (String)query.uniqueResult();
+		    if(secondResult!=null && !"".equals(secondResult)) {	
+		    	// The person is already registered within this program: error
+		    	return "-1";
+		    }
+		    else{
+		    	// The person is already registered but within another program
+		    	return peId.toString();
+		    }
+		}
 		
 		}
 		
@@ -361,6 +394,8 @@ public class PersonDaoImpl implements PersonDao {
 		if(result!=null && !"".equals(result)) return "-2";
 		return null;
 	}
+
+
 
 
 

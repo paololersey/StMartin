@@ -11,7 +11,7 @@ var DatepickerDemoCtrl = function ($scope) {
 
   // Disable weekend selection
   $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    return false;//( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
   };
 
   /*$scope.toggleMin = function() {
@@ -33,5 +33,5 @@ var DatepickerDemoCtrl = function ($scope) {
 
   $scope.initDate = new Date('2016-15-20');
   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate','yyyy-MM-dd HH:mm:ss Z'];
-  $scope.format = $scope.formats[5];
+  $scope.format = $scope.formats[1];
 };

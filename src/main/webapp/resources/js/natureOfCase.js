@@ -132,7 +132,9 @@ activitiesApp.controller('activitiesStMartin',
 /**********************************************************************************************************************************************/
 // These functions regards the grid row selection
 						
-
+						$scope.backButton = function(size) {
+								location.assign("../resources/selectPeopleCasesActivities.html?projectCode='"+projectCode+"'");
+						};
 						$scope.deleteRowButton = function(size) {
 							type="delete";
 							if ($scope.mySelections[0] == null

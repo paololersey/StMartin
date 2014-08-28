@@ -7,10 +7,12 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.samples.hibernate.ActivityDao;
+import org.springframework.samples.hibernate.PersonDao;
 import org.springframework.samples.hibernate.beans.Activity;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalActivity;
 import org.springframework.samples.hibernate.beans.Note;
+import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonActivity;
 import org.springframework.samples.hibernate.beans.ReferralType;
 import org.springframework.stereotype.Controller;
@@ -98,19 +100,33 @@ public class ActivityController {
 		}
 			
 		else{ //insert
-			PersonActivity personActivityBeneficiary = new PersonActivity();				
-			personActivityBeneficiary.setPersonId(globalActivity.getBeneficiary().getPersonId());			
-			PersonActivity personActivityInCharge=   new PersonActivity();		
-			personActivityInCharge.setPersonId(globalActivity.getPersonInCharge().getPersonId());
-			
-			
 			Set<PersonActivity> personActivitySet=new HashSet<PersonActivity>();
-			personActivitySet.add(personActivityBeneficiary);
-			personActivitySet.add(personActivityInCharge);
-
+			
+			if(globalActivity.getBeneficiary()!=null && globalActivity.getBeneficiary().getPersonId()!=null){
+				PersonActivity personActivityBeneficiary = new PersonActivity();
+				personActivityBeneficiary.setPersonId(globalActivity.getBeneficiary().getPersonId());	
+				if(globalActivity.getLevelChange()!=null){
+					PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+					List<Person> personList = personDao.findPersonByPersonId(globalActivity.getBeneficiary().getPersonId(), "BE");
+					if(personList!=null && personList.size()>0){
+						Person person = personList.get(0);
+						person.setState(globalActivity.getLevelChange());
+						personDao.merge(person);
+					}					
+				}
+				personActivitySet.add(personActivityBeneficiary);
+			}
+						
+			if(globalActivity.getPersonInCharge()!=null && globalActivity.getPersonInCharge().getPersonId()!=null){
+				PersonActivity personActivityInCharge=   new PersonActivity();		
+				personActivityInCharge.setPersonId(globalActivity.getPersonInCharge().getPersonId());
+				personActivitySet.add(personActivityInCharge);
+			}
+			if(!personActivitySet.isEmpty()){
 			activity.setPersonActivities(personActivitySet);
-            
+			}
 			activity.setActivityId(100);
+			activity.setProjectCode(globalActivity.getActivity().getProjectCode());
 			activityDao.save( activity);	
 		}
 
@@ -120,9 +136,9 @@ public class ActivityController {
 	
 	@RequestMapping(value = "deleteActivity", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	String deleteActivity(@RequestBody Activity activity) {
+	String deleteActivity(@RequestBody GlobalActivity globalActivity) {
 		ActivityDao activityDao = (ActivityDao) appContext.getBean("activityDao");
-		activityDao.delete(activity);
+		activityDao.delete(globalActivity.getActivity());
 		return "OK";
 	}
 	

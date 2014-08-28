@@ -86,6 +86,7 @@ public class ActivityDaoImpl implements ActivityDao {
 		   String activityType = filterActivity.getActivityType();
 		   String referral = filterActivity.getReferral();
 		   String intervention = filterActivity.getIntervention();
+		   String projectCode = filterActivity.getProjectCode();
 		   
 		   String sqlDateStartCondition = "";
 		   String sqlDateEndCondition = "";
@@ -96,8 +97,10 @@ public class ActivityDaoImpl implements ActivityDao {
 		   String sqlActivityTypeCondition="";
 		   String sqlReferralCondition = "";
            String sqlInterventionCondition ="";
+		   String sqlBeneficiarySelect = "";
 		   
-		   if(personIdBeneficiary!=null){			                                    
+		   if(personIdBeneficiary!=null){
+			   sqlBeneficiarySelect = ",P1.* ";
 			   sqlBeneficiaryFromCondition =" JOIN PERSON_ACTIVITY PA1 " +
 			    " ON PA1.ACTIVITY_ID=ACTIVITY.ACTIVITY_ID JOIN PERSON P1 " +
 			    " ON	PA1.PERSON_ID=P1.PERSON_ID ";
@@ -129,7 +132,9 @@ public class ActivityDaoImpl implements ActivityDao {
 			   sqlInterventionCondition = "AND INTERVENTION =:intervention ";
 		   }
 
-		String sql="SELECT ACTIVITY.*,NOTE.* FROM ACTIVITY LEFT JOIN NOTE " 
+		String sql="SELECT ACTIVITY.*,NOTE.* "
+			 	+ sqlBeneficiarySelect 
+				+ "FROM ACTIVITY LEFT JOIN NOTE " 
 	            + "ON ACTIVITY.ACTIVITY_ID =NOTE.ACTIVITY_ID " 
 		        + sqlPersonInChargeFromCondition 
 		        + sqlBeneficiaryFromCondition
@@ -140,7 +145,9 @@ public class ActivityDaoImpl implements ActivityDao {
 		        + sqlReferralCondition
 				+ sqlDateStartCondition 	
 	         	+ sqlDateEndCondition
-	         	+ sqlInterventionCondition;	
+	         	+ sqlInterventionCondition
+	         	+ "AND ACTIVITY.PROJECT_CODE=:projectCode "
+	         	+ "ORDER BY ACTIVITY_DATE";	
 		
 		SQLQuery query = instantiateQuery(sql);
 		query.addEntity(Note.class);
@@ -151,6 +158,7 @@ public class ActivityDaoImpl implements ActivityDao {
 		if (activityType != null) query.setParameter("activityType", activityType);
 		if (referral != null) query.setParameter("referral", referral);
 		if (intervention != null) query.setParameter("intervention", intervention);
+		if (projectCode != null) query.setParameter("projectCode", projectCode);
 		
 		return query.list();
 		
@@ -159,7 +167,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	@Override
 	public List<String> getReferralList(String projectCode) {
-		String sql="SELECT REFERRAL_TYPE FROM REFERRAL_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null";
+		String sql="SELECT REFERRAL_TYPE FROM REFERRAL_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY REFERRAL_TYPE.REFERRAL_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.setParameter("projectCode", projectCode);
 		return query.list();
@@ -182,7 +190,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	@Override
 	public List<String> getActivityTypeList(String projectCode) {
-		String sql="SELECT ACTIVITY_TYPE FROM ACTIVITY_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null";
+		String sql="SELECT ACTIVITY_TYPE FROM ACTIVITY_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY ACTIVITY_TYPE.ACTIVITY_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.setParameter("projectCode", projectCode);
 		return query.list();
@@ -190,7 +198,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	
 	@Override
 	public List<String> getInterventionList(String projectCode) {
-		String sql="SELECT INTERVENTION FROM INTERVENTION WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null";
+		String sql="SELECT INTERVENTION FROM INTERVENTION WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY INTERVENTION.INTERVENTION asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.setParameter("projectCode", projectCode);
 		return query.list();
