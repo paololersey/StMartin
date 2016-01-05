@@ -6,13 +6,8 @@ import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.hibernate.beans.Activity;
 import org.springframework.samples.hibernate.beans.Filter;
-import org.springframework.samples.hibernate.beans.GlobalActivity;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
-import org.springframework.samples.hibernate.beans.Note;
-import org.springframework.samples.hibernate.beans.Person;
-import org.springframework.samples.hibernate.beans.ReferralType;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +59,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		   Date dateEnd = filter.getDateEnd();
 		   String natureOfCase = filter.getNatureOfCase();
 		   String natureOfCaseStatus = filter.getNatureOfCaseStatus();
+		   String projectCode = filter.getProjectCode();
 		   
 		   String sqlDateStartCondition = "";
 		   String sqlDateEndCondition = "";
@@ -102,7 +98,8 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		        + sqlNatureOfCaseCondition
 				+ sqlDateStartCondition 	
 	         	+ sqlDateEndCondition
-	         	+ sqlNatureOfCaseStatusCondition;	
+	         	+ sqlNatureOfCaseStatusCondition
+	         	+ "AND NATURE_OF_CASE_PERSON.PROJECT_CODE =:projectCode ";	
 		
 		SQLQuery query = instantiateQuery(sql);
 		
@@ -111,6 +108,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		if (dateEnd != null) query.setParameter("dateEnd", dateEnd);	
 		if (natureOfCase != null) query.setParameter("natureOfCase", natureOfCase);
 		if (natureOfCaseStatus != null) query.setParameter("natureOfCaseStatus", natureOfCaseStatus);
+		if (projectCode != null) query.setParameter("projectCode", projectCode);
 		
 		return query.list();
 		

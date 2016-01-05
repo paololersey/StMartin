@@ -50,8 +50,12 @@ body {
 .formMainSpan {
 	width: 49%;
 	display:inline-block;
+	
 }
-
+.formMainSpan select, input{
+	min-width:70%;
+	height:25px;
+}
 
 
 .subFormSpanLeft {

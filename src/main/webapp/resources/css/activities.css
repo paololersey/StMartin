@@ -41,11 +41,15 @@
 .panel-primary > .panel-heading {
   color: #fff;
   background-color: #E8332A;
-  border-color: #E8332A;
+  border-color: #FADFC4;
 }
 
 .btn-primary {
   color: #fff;
   background-color: #E8332A;
-  border-color: #E8332A;
+  border-color: #FADFC4;
+}
+a {
+  color: #E8332A;
+  text-decoration: none;
 }

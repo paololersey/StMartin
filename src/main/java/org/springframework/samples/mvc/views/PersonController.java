@@ -1,5 +1,6 @@
 package org.springframework.samples.mvc.views;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,6 @@ import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonActivity;
-import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
 import org.springframework.samples.hibernate.beans.Zone;
 import org.springframework.stereotype.Controller;
@@ -126,6 +126,7 @@ public class PersonController {
 			prSet.add(projectPerson);
 			person.setProjectPersons(prSet);
 			person.setPersonId(100);
+			person.setInsertDate(new Date());
 			personDao.save(person);	
 		}
 

@@ -40,20 +40,22 @@ activitiesApp.controller('activitiesStMartin',
 			 });
            
           
+          
            
            $http.post('../views/listaBen', $scope.projectPerson).success(
 					function(data) {
 						$scope.beneficiaries = data;
+						 $scope.selectFilter(null);
 					});
 	
 /**********************************************************************************************************************************************/
 // This function is for filtering beneficiary, person in charge, and period
            
-			var selectedBeneficiary;
-		    var dateStart;
-		    var dateEnd;
-		    var natureOfCase;
-		   	var status;
+			var selectedBeneficiary=null;
+		    var dateStart=null;
+		    var dateEnd=null;
+		    var natureOfCase=null;
+		   	var status=null;
 		   	
 			$scope.selectFilter = function(selectedPerson, dateStartPeriod, dateEndPeriod, natureOfCaseParam, statusParam) {	
 				  
@@ -71,7 +73,8 @@ activitiesApp.controller('activitiesStMartin',
 							              "dateStart": dateStart,
 							              "dateEnd": dateEnd,
 							              "natureOfCase": natureOfCase,
-							              "natureOfCaseStatus": status};
+							              "natureOfCaseStatus": status,
+							              "projectCode":projectCode};
 					$http.post('../views/natureOfCasePersonList', filter).success(
 							function(data) {						
 								$scope.natureOfCasePersonList = data;								
@@ -238,11 +241,11 @@ activitiesApp.controller('activitiesStMartin',
 								});
 							}
 							// insert or update
-							else{
-								
+							else{						
 							    var globalPerson = {
 							    	natureOfCasePerson : $scope.natureOfCasePerson,
-							     	person : $scope.beneficiary
+							     	person : $scope.beneficiary,
+							     	projectPerson: $scope.projectPerson
 							    };
 
 							$http({

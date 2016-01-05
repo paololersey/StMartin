@@ -1,22 +1,15 @@
 package org.springframework.samples.mvc.views;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.samples.hibernate.NatureOfCasePersonDao;
-import org.springframework.samples.hibernate.PersonDao;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
-import org.springframework.samples.hibernate.beans.Person;
-import org.springframework.samples.hibernate.beans.PersonActivity;
-import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
-import org.springframework.samples.hibernate.beans.Zone;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -89,6 +82,7 @@ public class NatureOfCaseController {
 				natureOfCasePerson.setInsertDate(new Date());
 			}			
 			natureOfCasePerson.setNatureOfCasePersonId(100);
+			natureOfCasePerson.setProjectCode(globalPerson.getProjectPerson().getProjectCode());		
 			natureOfCasePersonDao.save(natureOfCasePerson);	
 			}
 			catch (Exception e){

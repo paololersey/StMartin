@@ -145,7 +145,7 @@ public class ActivityDaoImpl implements ActivityDao {
 		        + sqlReferralCondition
 				+ sqlDateStartCondition 	
 	         	+ sqlDateEndCondition
-	         	+ sqlInterventionCondition
+	         	//+ sqlInterventionCondition
 	         	+ "AND ACTIVITY.PROJECT_CODE=:projectCode "
 	         	+ "ORDER BY ACTIVITY_DATE";	
 		
@@ -202,6 +202,22 @@ public class ActivityDaoImpl implements ActivityDao {
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.setParameter("projectCode", projectCode);
 		return query.list();
+	}
+
+
+
+
+	@Override
+	public String getBeneficiaryNeededForActivityType(Filter filter) {
+		 String activityType = filter.getActivityType();
+		 String projectCode = filter.getProjectCode();
+		 String sql = " SELECT NEEDS_BENEFICIARY FROM ACTIVITY_TYPE "
+		 	      	+ " WHERE ACTIVITY_TYPE=:activityType "
+		 	      	+ "AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		 SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);			
+		 query.setParameter("activityType", activityType);
+		 query.setParameter("projectCode", projectCode);		 
+		return (String) query.uniqueResult();
 	}
 
 

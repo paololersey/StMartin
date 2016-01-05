@@ -34,6 +34,8 @@ public interface ActivityDao {
 
 	List<String> getInterventionList(String projectCode);
 
+	String getBeneficiaryNeededForActivityType(Filter filter);
+
 
 	
 	

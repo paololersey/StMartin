@@ -8,11 +8,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.samples.hibernate.PersonDao;
-import org.springframework.samples.hibernate.beans.Activity;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPdf;
-import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Person;
+import org.springframework.samples.hibernate.beans.ProjectPerson;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.List;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -35,23 +33,23 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Controller
 @RequestMapping("/pdf/*")
 @Transactional
-public class CreatePdf {
- private static String FILE = "C:\\Temp\\ProgressReport.pdf";
+public class CreatePeoplePdfReport {
+ private static String FILE = "C:\\Temp\\PeopleReport.pdf";
 
  private static Font bigFont  = new Font(Font.FontFamily.HELVETICA, 18,  Font.BOLD);
  private static Font redFont  = new Font(Font.FontFamily.HELVETICA, 10,  Font.NORMAL, BaseColor.RED);
- private static Font subFont  = new Font(Font.FontFamily.HELVETICA, 14,  Font.BOLD);
+ private static Font subFont  = new Font(Font.FontFamily.HELVETICA, 10,  Font.BOLD);
  private static Font smallBold  = new Font(Font.FontFamily.HELVETICA, 10,  Font.BOLD);
  private static Font smallNormal  = new Font(Font.FontFamily.HELVETICA, 8,  Font.NORMAL);
- 
+
  static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
  
  @Autowired
 	private ApplicationContext appContext;
  
-	@RequestMapping(value = "createPdf", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "createPeoplePdf", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	String createPdf(@RequestBody GlobalPdf globalPdf){
+	String createPeoplePdf(@RequestBody GlobalPdf globalPdf){
  
        try {
         Document document = new Document();
@@ -81,14 +79,14 @@ public class CreatePdf {
   addBlankLine(titleParagraph, 1);
    
   // Aggiungiamo il titolo
-  Element titleElement = new Paragraph("Progress Report, "+  DATE_FORMAT.format(new Date()).toString(), bigFont);
+  Element titleElement = new Paragraph("People Report, "+  DATE_FORMAT.format(new Date()).toString(), bigFont);
   titleParagraph.setAlignment(Element.ALIGN_CENTER);
   titleParagraph.add(titleElement);
  
   addBlankLine(titleParagraph, 1);
    
   // Questa linea scrive "Documento generato da: nome utente, data"
-  titleParagraph.add(new Paragraph("Generated report by " + System.getProperty("user.name")));
+  titleParagraph.add(new Paragraph("Generated report by " + System.getProperty("user.name"),subFont));
    
   addBlankLine(titleParagraph, 3);
 
@@ -104,44 +102,45 @@ public class CreatePdf {
 
  
  private static void addContent(Document document, GlobalPdf globalPdf) throws DocumentException {
-  PdfPTable tableHead = new PdfPTable(4);
-  setTableWidth(tableHead,4);
-  if(isThisProgram("CPPD",globalPdf)){
-	  tableHead =  new PdfPTable(5);
+  PdfPTable tableHead = new PdfPTable(5);
+ 
+  if(!isThisProgram("CPPR",globalPdf.getProjectPerson())){
+	  tableHead =  new PdfPTable(6);
+	  setTableWidth(tableHead,6);
+  }else{
 	  setTableWidth(tableHead,5);
   }
   
-  // tableActivity.setBorderColor(BaseColor.GRAY);
-  // tableActivity.setPadding(4);
-  // tableActivity.setSpacing(4);
-  // tableActivity.setBorderWidth(1);
-  java.util.List<Activity> activityList=globalPdf.getActivityList();
+  java.util.List<Person> peopleList=globalPdf.getPeopleList();
   
-  PdfPCell c1 = new PdfPCell(new Phrase("Act.Type"));
+  PdfPCell c1 = new PdfPCell(new Phrase("Names",subFont));
   c1.setHorizontalAlignment(Element.ALIGN_CENTER);
   c1.setGrayFill(0.8f);
   tableHead.addCell(c1);
+  
+  c1 = new PdfPCell(new Phrase("G",subFont));
+  c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+  c1.setGrayFill(0.8f);
+  tableHead.addCell(c1);
+  
 
-  c1 = new PdfPCell(new Phrase("Date"));
+  c1 = new PdfPCell(new Phrase("Adm.Date",subFont));
   c1.setHorizontalAlignment(Element.ALIGN_CENTER);
   c1.setGrayFill(0.8f);
   tableHead.addCell(c1);
   
-  c1 = new PdfPCell(new Phrase("Intervention"));
+  c1 = new PdfPCell(new Phrase("File number",subFont));
   c1.setHorizontalAlignment(Element.ALIGN_CENTER);
   c1.setGrayFill(0.8f);
   tableHead.addCell(c1);
   
-  if(!isThisProgram("CPCN",globalPdf)){
-  c1 = new PdfPCell(new Phrase("Referral"));
+  c1 = new PdfPCell(new Phrase("Village",subFont));
   c1.setHorizontalAlignment(Element.ALIGN_CENTER);
   c1.setGrayFill(0.8f);
   tableHead.addCell(c1);
- // tableHead.setHeaderRows(1);
-  }
   
-  if(!isThisProgram("CPPR",globalPdf)){
-	  c1 = new PdfPCell(new Phrase("Level"));
+  if(!isThisProgram("CPPR",globalPdf.getProjectPerson())){
+	  c1 = new PdfPCell(new Phrase("Level",subFont));
 	  c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 	  c1.setGrayFill(0.8f);
 	  tableHead.addCell(c1);
@@ -149,45 +148,46 @@ public class CreatePdf {
   document.add(tableHead);
  
   
-  for(int i=0; i<activityList.size();i++){
-	  PdfPTable tableActivity = new PdfPTable(4);
-	  setTableWidth(tableActivity,4);
-	  if(isThisProgram("CPPD",globalPdf)){
-		  tableActivity =  new PdfPTable(5);
-		  setTableWidth(tableActivity,5);
+  for(int i=0; i<peopleList.size();i++){
+	  PdfPTable tablePeople = new PdfPTable(5);
+	  
+	  setTableWidth(tablePeople,5);
+	  if(!isThisProgram("CPPR",globalPdf.getProjectPerson())){
+		  tablePeople =  new PdfPTable(6);
+		  setTableWidth(tablePeople,6);
 		  
 	  }
-	  c1 = new PdfPCell(new Phrase(activityList.get(i).getActivityType(),smallBold));
-	  tableActivity.addCell(c1);
+	  String baptismName =peopleList.get(i).getFirstName();
+	  String middleName=peopleList.get(i).getLastName();
+	  String familyName=peopleList.get(i).getThirdName();
+	  c1 = tablePeople.addCell(new PdfPCell (new Phrase(baptismName+" "+middleName+" "+(familyName!=null?familyName:""),smallBold)));	
 	  
-	  
-      tableActivity.addCell(new PdfPCell(new Phrase(DATE_FORMAT.format(activityList.get(i).getActivityDate()),smallNormal)));
-	  tableActivity.addCell(new PdfPCell(new Phrase(activityList.get(i).getIntervention(),smallNormal)));
-	  if(!isThisProgram("CPCN",globalPdf)) tableActivity.addCell(new PdfPCell(new Phrase(activityList.get(i).getReferral(),smallNormal)));
-	  if(!isThisProgram("CPPR",globalPdf)) tableActivity.addCell(new PdfPCell(new Phrase(activityList.get(i).getLevelChange(),smallNormal)));
-	  document.add(tableActivity);
-	  if(globalPdf.getNoteList()!=null && globalPdf.getNoteList().size()>0){
-		  PdfPTable tableNote = new PdfPTable(1);
-		  String iNote = globalPdf.getNoteList().get(i);
-		  if (iNote!=null){
-			  tableNote.addCell(new PdfPCell(new Phrase("Report note: "+ iNote,smallNormal)));		  
-		  }
-		  document.add(tableNote);
+	  tablePeople.addCell(new PdfPCell(new Phrase(peopleList.get(i).getGender(),smallNormal)));
+	  if(peopleList.get(i).getInsertDate()!=null){
+		  tablePeople.addCell(new PdfPCell(new Phrase(DATE_FORMAT.format(peopleList.get(i).getInsertDate()),smallNormal)));
+      }
+	  else{
+		  tablePeople.addCell("");
 	  }
+	  tablePeople.addCell(new PdfPCell(new Phrase(peopleList.get(i).getFileNumber(),smallNormal)));
+	  tablePeople.addCell(new PdfPCell(new Phrase(peopleList.get(i).getVillage(),smallNormal)));
+	  if(!isThisProgram("CPPR",globalPdf.getProjectPerson()))tablePeople.addCell(new PdfPCell(new Phrase(peopleList.get(i).getState(),smallNormal)));
+	
+	  document.add(tablePeople);
   }
  
  }
 
 private static void setTableWidth(PdfPTable table,int length) throws DocumentException{
-	if(length==4)table.setWidths(new int[]{300,100,120,100});	
-	if(length==5){
+	if(length==5)table.setWidths(new int[]{300,30,100,120,100});	
+	if(length==6){
 		table.setTotalWidth(1200);
-		table.setWidths(new int[]{300,180,200,200,170});	
+		table.setWidths(new int[]{300,30,180,200,230,170});	
 	}
 }
 
-private static boolean isThisProgram(String thisProgram, GlobalPdf globalPdf) {
-	if(globalPdf.getFilter()!=null && globalPdf.getFilter().getProjectCode()!=null && thisProgram.equals(globalPdf.getFilter().getProjectCode())){
+private static boolean isThisProgram(String thisProgram, ProjectPerson projectPerson) {
+	if( projectPerson!=null && projectPerson.getProjectCode()!=null && thisProgram.equals(projectPerson.getProjectCode())){
 		return true;
 	}
 	return false;
@@ -245,21 +245,18 @@ private static void addBlankLine(Paragraph paragraph, int number) {
 		  addBlankLine(titleParagraph, 1);
 	  }
 		
-	  if(filter!=null && filter.getActivityType()!=null){
-		  titleParagraph.add(new Paragraph("Type of activity : " + filter.getActivityType() , smallBold));
+	  if(filter!=null && filter.getZone()!=null){
+		  titleParagraph.add(new Paragraph("Zone : " + filter.getZone() , smallBold));
 		  addBlankLine(titleParagraph, 1);
 	  }
 	  if(filter!=null && filter.getReferral()!=null){
-		  titleParagraph.add(new Paragraph("Referral Type : " + filter.getReferral() , smallBold));
+		  titleParagraph.add(new Paragraph("Staus/level : " + filter.getStatus() , smallBold));
 		  addBlankLine(titleParagraph, 1);
 	  }
-	  if(filter!=null && filter.getIntervention()!=null){
-		  if (filter.getProjectCode()!=null && "CPPD".equals(filter.getProjectCode())){
-			  titleParagraph.add(new Paragraph("Applicance/Kits : " + filter.getIntervention() , smallBold));
-		  }
-		  else{
-			  titleParagraph.add(new Paragraph("Referral Type : " + filter.getIntervention() , smallBold));
-		  }
+	  if(filter!=null && filter.getMajorTraining()!=null){
+		 
+			  titleParagraph.add(new Paragraph("Major training : " + filter.getMajorTraining() , smallBold));
+		  
 		  
 		  addBlankLine(titleParagraph, 1);
 	  }

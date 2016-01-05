@@ -23,6 +23,8 @@ public class NatureOfCasePerson {
 	
 	private String natureOfCase;
 	
+	private String projectCode;
+	
 	
 	@NotNull
 	@Id
@@ -72,6 +74,15 @@ public class NatureOfCasePerson {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	@Column(name = "PROJECT_CODE")
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
 	}
 
 

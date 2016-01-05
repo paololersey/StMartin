@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
+import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Person;
-import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
 import org.springframework.samples.hibernate.beans.Zone;
 import org.springframework.stereotype.Repository;
@@ -60,11 +60,7 @@ public class PersonDaoImpl implements PersonDao {
 		this.sessionFactory.getCurrentSession().delete(person);
 	}
 
-	@Override
-	public List<Person> findByLastName(String firstname) {
-		//TODO
-		return null;
-	}
+
 	
 	@Override
 	public List<Person> findAll() {
@@ -108,7 +104,9 @@ public class PersonDaoImpl implements PersonDao {
 	@Override
 	public List<Person> findByTypeAndProjectCode(String personType,
 			String projectCode) {
-		String sql="SELECT * FROM PERSON LEFT JOIN PROJECT_PERSON ON PERSON.PERSON_ID=PROJECT_PERSON.PERSON_ID WHERE PROJECT_CODE =:projectCode AND PERSON_CODE=:personType";
+		String sql="SELECT * FROM PERSON LEFT JOIN PROJECT_PERSON ON PERSON.PERSON_ID=PROJECT_PERSON.PERSON_ID WHERE PROJECT_CODE =:projectCode AND PERSON_CODE=:personType ORDER BY PERSON.LASTNAME";
+		
+		String s="1";
 		SQLQuery query = instantiateQuery(sql);
 		query.setParameter("personType", personType);
 		query.setParameter("projectCode", projectCode);
@@ -199,6 +197,7 @@ public class PersonDaoImpl implements PersonDao {
 			    sqlActivityFromCondition = ", PERSON_ACTIVITY PBEN, ACTIVITY A ";
 			    sqlActivityWhereCondition = "AND   PBEN.ACTIVITY_ID = A.ACTIVITY_ID "
 			    		                  +  "AND   BEN.PERSON_ID=PBEN.PERSON_ID ";
+			    
 		   }
 		   
 		   if(personIdPersonIncharge!=null){
@@ -226,18 +225,19 @@ public class PersonDaoImpl implements PersonDao {
 			   sqlvolunteerTypeCondition= "AND VOLUNTEER_TYPE=:volunteerType ";
 		   }
 		   if(contactPerson!=null){
-			   sqlContactPersonCondition  = "AND CONTACT_PERSON =: contactPerson ";
+			   sqlContactPersonCondition  = "AND CONTACT_PERSON =:contactPerson ";
 		   }
 		   
 		   String sql= null;
            if("BE".equals(personType)){
-	 	          sql="SELECT DISTINCT BEN.* FROM PERSON BEN, PROJECT_PERSON PP "
+	 	          sql="SELECT DISTINCT BEN.* "
+	 	          + "FROM PERSON BEN, PROJECT_PERSON PP "
 	 	          + sqlActivityFromCondition
 	 	  		  + sqlPersonInChargeFromCondition
 	 	  		  + "WHERE BEN.PERSON_ID = PP.PERSON_ID "
 	 	  		  + "AND   PP.PERSON_CODE = 'BE' "
 	  		  
-	 	  		  + "AND   PROJECT_CODE=:projectCode "
+	 	  		  + "AND   PP.PROJECT_CODE=:projectCode "
 	 	  		  + sqlActivityWhereCondition
 	 	  		  + sqlActivePersonCondition
 	 	  		  + sqlPersonInChargeWhereCondition
@@ -248,10 +248,11 @@ public class PersonDaoImpl implements PersonDao {
 	              + sqlContactPersonCondition;	
            }
            else{
-        	   sql="SELECT DISTINCT PERSON.* FROM PERSON, PROJECT_PERSON PP "
+        	   sql="SELECT DISTINCT PERSON.* "
+        	   		+ "FROM PERSON, PROJECT_PERSON PP "
         	   		+ "WHERE PERSON.PERSON_ID = PP.PERSON_ID "
         			+ "AND PERSON_CODE=:personType "
-        			+ "AND PROJECT_CODE=:projectCode "
+        			+ "AND PP.PROJECT_CODE=:projectCode "
         			+ sqlStatusCondition 
         			+ sqlMajorTrainingCondition
         			+ sqlvolunteerTypeCondition;
@@ -393,6 +394,20 @@ public class PersonDaoImpl implements PersonDao {
 		String result = (String)query2.uniqueResult();
 		if(result!=null && !"".equals(result)) return "-2";
 		return null;
+	}
+
+
+
+	@Override
+	public List<String> getNatureOfCaseByPersonId(Person person) {
+		int personId = person.getPersonId();
+		String sql= "SELECT DISTINCT NATURE_OF_CASE FROM PERSON, NATURE_OF_CASE_PERSON "
+				  + "WHERE NATURE_OF_CASE_PERSON.PERSON_ID=PERSON.PERSON_ID "
+				  + "AND PERSON.PERSON_ID=:personId ";
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		query.setParameter("personId", personId);	
+				
+		return query.list();
 	}
 
 

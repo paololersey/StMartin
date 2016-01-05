@@ -22,12 +22,17 @@ activitiesApp.controller('activitiesStMartin',
            var startIndex = params.indexOf("=");
            var projectCode = params.substring(startIndex+4,startIndex+8);
            
+           
+           
+           
 /**********************************************************************************************************************************************/
 // These functions regards the tab selection
            
            $scope.volunteerSelected=function(){
         	   personType = 'VO';
         	   personTypeFunction(personType);
+        	   $scope.selectActivityfiltered(null);
+        	   
            };
            $scope.socialWorkerSelected=function(){
         	   personType = 'SW';
@@ -367,10 +372,11 @@ activitiesApp.controller('activitiesStMartin',
 							if (items.activity != null
 									&& items.activity.activityType != null) {
 
+								var filter= {"activityType":items.activity.activityType, "projectCode": projectCode};
 								items.beneficiaryToShow = false;
-								$http.post('../views/getBeneficiaryNeededForActivityType', items.activity.activityType).success(
+								$http.post('../views/beneficiaryNeededForActivityType', filter).success(
 			    						function(data) {
-			    							if(data!=null && data!=""){
+			    							if(data!=null && data!="" && data=='Y'){
 			    							items.beneficiaryToShow = true;
 			    							}
 			    						});

@@ -35,7 +35,7 @@
   	<tabset>
  	 <tab heading="Person in charge: Volunteer" select="volunteerSelected()" class="redColor"></tab>
  	 <tab heading="Person in charge: Staff Worker" select="socialWorkerSelected()"></tab>
- 	 <tab data-ng-show="isCPCN" heading="Person in charge: Center Manager"  select="centeManagerSelected()"></tab>
+ 	 <tab data-ng-show="isCPCN" heading="Person in charge: Center Manager"  select="centerManagerSelected()"></tab>
  	 <tab data-ng-show="isCPPD" heading="Person in charge: Therapyst"  select="physioterapistSelected()"></tab>
     </tabset>
     </span> 
@@ -314,7 +314,7 @@
                 </div>
            </span>          
             <span class="formMainSpan" ng-hide="items.isCPCN">
-                 <div>
+                 <div ng-show="items.beneficiaryToShow">
                  <span class="subFormSpanLeft">Referral:  </span>		
                  <span class="subFormSpanRight">
                  	<select  ng-model="items.activity.referral" ng-options=" opt for opt in items.referralList"><option value=""></option></select>
@@ -323,10 +323,10 @@
                 </div>
              </span>
              <span class="formMainSpan" ng-show="items.isCPCN">
-                 <div>
+                 <div ng-show="items.beneficiaryToShow">
                  <span class="subFormSpanLeft">Level change:  </span>		
                  <span class="subFormSpanRight">
-                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select></select>
+                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
 
                 </span>
                 </div>
@@ -341,7 +341,7 @@
 			    <div>
                 <span class="subFormSpanLeft">Person in Charge: </span>
                 <span class="subFormSpanRight">
-                    <select ng-model="items.objectPCH" ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in items.personInCharge' name="personInCharge" required><option value=""></option></select></select>
+                    <select ng-model="items.objectPCH" ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in items.personInCharge' name="personInCharge" required><option value=""></option></select>
 			    
                 </span>
                 </div>
@@ -351,7 +351,7 @@
                 <span class="subFormSpanLeft">Beneficiary: </span>
                 <span class="subFormSpanRight">
                      <select 
-                       ng-model="items.objectBEN" ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'  name="beneficiary" required><option value=""></option></select></select>
+                       ng-model="items.objectBEN" ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'  name="beneficiary" required><option value=""></option></select>
                 </span>
                 </div>
             </span>
@@ -384,12 +384,12 @@
                  </div>                 
              </span>         
 			 <span class="formMainSpan" >
-                 <div>
+                 <div ng-show="items.beneficiaryToShow">
                  <span class="subFormSpanLeft" data-ng-hide="items.isCPPD">Intervention:  </span>
                  <span class="subFormSpanLeft" data-ng-show="items.applianceToShow">Appliance/kits:  </span>				
                  <span class="subFormSpanRight">
-                 	<select data-ng-hide="items.isCPPD" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select></select>
-                    <select data-ng-show="items.applianceToShow" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select></select>
+                 	<select data-ng-hide="items.isCPPD" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
+                    <select data-ng-show="items.applianceToShow" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
 
                 </span>
                 </div>
@@ -402,14 +402,23 @@
 
          <div> 
           <span class="formMainSpan" ng-show="items.isCPPD">
-                 <div>
+                 <div ng-show="items.beneficiaryToShow">
                  <span class="subFormSpanLeft">Level change:  </span>		
                  <span class="subFormSpanRight">
-                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select></select>
+                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
 
                 </span>
                 </div>
-             </span>   
+          </span> 
+           <span class="formMainSpan" ng-show="items.isCPPD">
+                 <div ng-show="items.beneficiaryToShow">
+                 <span class="subFormSpanLeft">Level of improvement:  </span>		
+                 <span class="subFormSpanRight">
+                 	<select ng-model="items.activity.levelOfImprovement" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
+
+                </span>
+                </div>
+          </span>   
          </div
 
          <div  style="height: 20%;"> <input type="text" hidden="true"

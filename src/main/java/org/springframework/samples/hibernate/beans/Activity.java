@@ -33,6 +33,8 @@ public class Activity {
 	
 	private String levelChange;
 	
+	private String levelOfImprovement;
+	
 	private String projectCode;
 	
 	private String applianceSource;
@@ -135,6 +137,15 @@ public class Activity {
 
 	public void setApplianceSource(String applianceSource) {
 		this.applianceSource = applianceSource;
+	}
+
+	@Column(name = "LEVEL_OF_IMPROVEMENT")
+	public String getLevelOfImprovement() {
+		return levelOfImprovement;
+	}
+
+	public void setLevelOfImprovement(String levelOfImprovement) {
+		this.levelOfImprovement = levelOfImprovement;
 	}
 	
 	/*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

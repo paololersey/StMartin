@@ -56,7 +56,7 @@
 				<a class="panel-title" >Filter beneficiary either by person in charge, either within a period of time:</a>				
 			</div>
 			<div class="panel-heading" data-ng-hide="isBeneficiary" style="height:35px;">
-				<a class="panel-title" >Filter status, training and type of volunteers/workers:</a>
+				<a class="panel-title" >Filter level, training and type of volunteers/workers:</a>
 				
 			</div>
 			 
@@ -108,7 +108,7 @@
                         </span> 
                 </span>	        
                 <span class="formMainSpan" data-ng-hide="isCPPRBeneficiary">
-                        <span class="subFilterSpanLeft">Status</span>
+                        <span class="subFilterSpanLeft">Level</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
                       	    <select data-ng-change="selectFilter('','','','',objStatus,'','')" ng-model="objStatus"  ng-options='obj for obj in personStateNames'><option value=""></option></select>
 			            </span>                
@@ -120,6 +120,8 @@
 			            </span>                
                 </span>	   
 			    </div>
+			    
+			   
 			    
 			    <div style="width: 99%; height: 20px"></div>
 			    	
@@ -206,7 +208,7 @@
 					        	<span class="glyphicon glyphicon-pencil"></span></button>  
 				     	</span> 
 				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	     <button data-ng-click="report1()" class="btn btn-primary crudButtons" >
+                      	     <button data-ng-click="report()" class="btn btn-primary crudButtons" >
 						     <span class="glyphicon glyphicon-print"></span></button>
 				     	</span> 
 				     	</div>                    
@@ -230,12 +232,12 @@
       </span> 
     </div>
 
-    <script type="text/ng-template" id="errorDialog.html">
+    <script type="text/ng-template" id="messageDialog.html">
       <div class="modal-header">
-            <h3 class="modal-title">Error</h3>
+            <h3 class="modal-title">Message</h3>
       </div>
       <div class="modal-body"> 
-      {{items.error}}     
+      {{items.message}}     
       </div>
       <div class="modal-footer">	
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
@@ -267,7 +269,7 @@
          <div>          
             <span class="formMainSpan">
 			    <div>
-                <span class="subFormSpanLeft">Name: </span>
+                <span class="subFormSpanLeft">Baptism Name: </span>
                 <span class="subFormSpanRight">
                     <input id="firstNameId" type="text"
 				ng-model="items.people.firstName" name="firstName" required />
@@ -276,7 +278,7 @@
            </span>
            <span class="formMainSpan">
 			    <div>
-                <span class="subFormSpanLeft"> Surname: </span>
+                <span class="subFormSpanLeft"> Middle name: </span>
                 <span class="subFormSpanRight">
                     <input id="lastNameId" type="text"
 				ng-model="items.people.lastName" name="lastName" required />
@@ -291,7 +293,7 @@
          <div>          
             <span class="formMainSpan">
 			    <div>
-                <span class="subFormSpanLeft">ThirdName: </span>
+                <span class="subFormSpanLeft">Family name: </span>
                 <span class="subFormSpanRight">
                     <input  type="text"
 				ng-model="items.people.thirdName" name="thirdName" required />
@@ -317,7 +319,7 @@
                  <span class="subFormSpanLeft">Village:  </span>		
                  <span class="subFormSpanRight">
 
-               	    <select key="id" ng-model="items.people.village" name="village" ng-options=" opt for opt in items.cities" required>
+               	    <select style="width:45%" ng-model="items.people.village" name="village" ng-options=" opt for opt in items.cities" required>
                            <option value=""></option></select>
 
                 </span>
@@ -342,7 +344,7 @@
                  <span class="subFormSpanLeft">Zone: </span		
                  <span class="subFormSpanRight">
 
-               	    <select key="id" ng-model="items.people.zone"  ng-options=" opt for opt in items.zones" >
+               	    <select style="width:30%" ng-model="items.people.zone"  ng-options=" opt for opt in items.zones" >
                       <option value=""></option></select>
 
                 </span>
@@ -352,7 +354,7 @@
 			    <div>
                 <span class="subFormSpanLeft">Status/level: </span>
                 <span class="subFormSpanRight">
-                   <select key="id" ng-model="items.people.state"  ng-options=" opt for opt in items.personState"  name="state" required></select>
+                   <select style="width:45%" ng-model="items.people.state"  ng-options=" opt for opt in items.personState"  name="state" required></select>
                 </span>
                 </div>
             </span>
@@ -467,7 +469,28 @@
                 </div>
             </span>
          </div>
-         
+
+         <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
+
+         <div>               
+			   <span class="formMainSpan" ng-show="items.isBeneficiary">
+			    <div>
+                <span class="subFormSpanLeft">School: </span>
+                <span class="subFormSpanRight">
+                    <input  type="text" ng-model="items.people.school"  />
+                </span>
+                </div>
+            </span>
+            <span class="formMainSpan"  data-ng-show="items.isBeneficiary">
+			    <div>
+                <span class="subFormSpanLeft">Medical status: </span>
+                <span class="subFormSpanRight">
+                    <input  type="text" ng-model="items.people.medicalStatus"  />              
+                </span>
+                </div>
+            </span>         
+		 </div>
+
          <div  style="height: 10px;"><input type="text" hidden="true"/><br /></div>
 
 	     <div ng-show="form.uEmail.$dirty && form.uEmail.$invalid">
@@ -477,9 +500,7 @@
 				Invalid: You're entering an invalid  telephone number.
          </div>   
          
-			<!--Gender: <input type="radio" ng-model="personData.gender"
-				value="male" />male <input type="radio"
-				ng-model="personData.gender" value="female" />female<br />
+
 			<!--<button ng-click="reset()" ng-disabled="isUnchanged(personData)">RESET</button>-->
 			
 		</form>

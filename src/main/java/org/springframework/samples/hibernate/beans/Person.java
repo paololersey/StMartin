@@ -45,6 +45,8 @@ public class Person {
 	
 	private Date dateOfBirth;
 	
+	private Date insertDate;
+	
 	private String zone;
 	
 	private String majorTraining;
@@ -244,7 +246,7 @@ public class Person {
 	public void setVolunteerType(String volunteerType) {
 		this.volunteerType = volunteerType;
 	}
-
+	@Column(name = "MEDICAL_STATUS")
 	public String getMedicalStatus() {
 		return medicalStatus;
 	}
@@ -259,6 +261,14 @@ public class Person {
 
 	public void setSchool(String school) {
 		this.school = school;
+	}
+	@Column(name = "INSERT_DATE")
+	public Date getInsertDate() {
+		return insertDate;
+	}
+
+	public void setInsertDate(Date insertDate) {
+		this.insertDate = insertDate;
 	}
 	
 	//@Column(name = "MEDICAL_STATUS")

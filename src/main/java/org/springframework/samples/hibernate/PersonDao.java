@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
+import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
@@ -23,8 +24,6 @@ public interface PersonDao {
 	List<Person> findAll();
 
 	List<Person> findByFirstName(String firstname);
-
-	List<Person> findByLastName(String lastname);
 
 	List<Person> findById(Integer id);
 	
@@ -51,5 +50,7 @@ public interface PersonDao {
 	List<String> getVillagesList(String projectCode);
 
 	List<String> getVolunteerTypeList(String projectCode);
+
+	List<String> getNatureOfCaseByPersonId(Person person);
 
 }

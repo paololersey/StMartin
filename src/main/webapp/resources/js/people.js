@@ -90,7 +90,8 @@ app.controller('StMartinPrograms',
 	   	var status=null;
 	   	var majorTraining=null;
 	   	var volunteerType=null;
-	   	var contactPersonParam=null;
+	   	var contactPerson=null;
+	   	var filter = null;
 	   	
 		$scope.selectFilter = function(selectedPerson, dateStartPeriod, dateEndPeriod, zoneParam, statusParam,
 				                      majorTrainingParam,volunteerTypeParam, contactPersonParam) {	
@@ -106,7 +107,7 @@ app.controller('StMartinPrograms',
                 if(majorTrainingParam!='') majorTraining= majorTrainingParam;
                 if(volunteerTypeParam!='') volunteerType= volunteerTypeParam;
 				if(contactPersonParam!=null) contactPerson= contactPersonParam;
-				var filter = {"personIdPersonInCharge":selectedPersonIncharge,
+				filter = {"personIdPersonInCharge":selectedPersonIncharge,
 						              "dateStart": dateStart,
 						              "dateEnd": dateEnd,
 						              "personType": personType,
@@ -171,7 +172,7 @@ app.controller('StMartinPrograms',
 					data : arrayData
 				}).success(function(data) {
 					if(data!=null && data!=""){
-					   openErrorDialog(data);
+					   openMessageDialog(data);
 					   }
 					else{
 						alert("Insert/update succeeded");
@@ -405,31 +406,37 @@ app.controller('StMartinPrograms',
 			};
 			
 /**********************************************************************************************************************************************/
-// Open error dialog	
-			function openErrorDialog(code){
+// Open message dialog	
+			function openMessageDialog(code){
 				$modal.open({
-					templateUrl: 'errorDialog.html',
-					controller: ModalErrorDialog,
+					templateUrl: 'messageDialog.html',
+					controller: ModalMessageDialog,
 			    	size: "",
 					resolve: {		          
 				          items: function () {
-				        	  if(code=="fileNumberError"){
-				        		  $scope.error = "This file number is already present!";
+				        	  if(code=="fileNumbermessage"){
+				        		  $scope.message = "This file number is already present!";
 				        	  }
-				        	  if(code=="threeNamesError" || "twoNamesVillagesError"){
-				        		  $scope.error = "This person is already present!";
+				        	  if(code=="threeNamesmessage" || "twoNamesVillagesmessage"){
+				        		  $scope.message = "This person is already present!";
 				        	  }
 				        	  if(code=="threeNamesAnotherProgram"){
-				        		  $scope.error = "This person is present in another program, we'll update it with the new infos!";
+				        		  $scope.message = "This person is present in another program, we'll update it with the new infos!";
 				        	  }
-				        	  var error = {"error":$scope.error};
-				        	  return error;
+				        	  if(code=="filePdfAlreadyInUse"){
+				        		  $scope.message = "Please, store and close the pdf that is already in use";
+				        	  }
+				        	  if(code=="okPdf"){
+				        		  $scope.message = "Pdf correctly generated"; 
+				        	  }
+				        	  var message = {"message":$scope.message};
+				        	  return message;
 				          }
 					}
 				});			
 			}
 			
-			var ModalErrorDialog= function ($scope, $modalInstance, items) {				  
+			var ModalMessageDialog= function ($scope, $modalInstance, items) {				  
 				  
 				$scope.items = items;	
 				$scope.cancel = function () {
@@ -441,8 +448,11 @@ app.controller('StMartinPrograms',
 // Report
 			
 		$scope.report = function(){
-			$http.get("../pdf/createPdf").success(function(data){
-				$scope.citiesList=data;	
+			var globalPdf ={"peopleList":$scope.personData, "projectPerson":$scope.projectPerson, "filter":filter};
+			$http.post("../pdf/createPeoplePdf", globalPdf).success(function(data){
+				if(data!=null && data!=""){
+				    	openMessageDialog(data);
+				    };	
 			});
 		};
 
