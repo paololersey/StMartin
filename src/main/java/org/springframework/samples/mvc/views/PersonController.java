@@ -93,7 +93,7 @@ public class PersonController {
 		}
 			
 		else{ //insert
-			// sto aggiungendo un nominativo ma devo controllare se esiste già a db. In tal caso introduco solo ProjectPerson
+			// sto aggiungendo un nominativo ma devo controllare se esiste gia a db. In tal caso introduco solo ProjectPerson
 			if (person.getFirstName()!=null && person.getLastName()!=null && person.getThirdName()!=null){
 				String isNamePresent= personDao.checkNames(globalPerson);
 			    if(isNamePresent!=null && "-1".equals(isNamePresent)) return "threeNamesError";
