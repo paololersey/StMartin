@@ -27,11 +27,11 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
-	<!-- <beans:bean
+	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean> -->
+		<beans:property name="prefix" value="/resources" />
+		<beans:property name="suffix" value="loginPage.html" />
+	</beans:bean>
 
 
 	<beans:bean id="personDao"
