@@ -66,7 +66,7 @@
 			             <span class="subFilterSpanLeft">Start</span>
                          <span class="subFilterSpanRight">
 			   			 	 <span>
-                		 	  <input style="width:40%" type="text" ng-change="selectFilter('',dateStart,'','','','','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+                		 	  <input style="width:40%" type="text" ng-change="selectFilter('',dateStart,'','','','','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
              		    	 </span>
              				 <button  vtype="button" ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
              	         </span>
@@ -75,7 +75,7 @@
                         <span class="subFilterSpanLeft">End</span>
 			  		    <span class="subFilterSpanRight">
 			  		  	  <span>
-                      	    <input style="width:40%"  type="text" ng-change="selectFilter('','',dateEnd,'','','','')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+                      	    <input style="width:40%"  type="text" ng-change="selectFilter('','',dateEnd,'','','','')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
                       	  </span>
                       	  <button  vtype="button" ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>                
@@ -393,7 +393,7 @@
                            
                   <div>
                        <span>
-                         <input id="dateOfBirth" type="text"  datepicker-popup="{{format}}" ng-model="items.date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" name="birthDate" required/>
+                         <input id="dateOfBirth" type="text"  datepicker-popup="{{format}}" ng-model="items.date" is-open="opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" name="birthDate" required/>
                        </span>
                          <button  vtype="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                        <span>
