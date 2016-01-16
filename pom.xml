@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples</groupId>
-	<artifactId>myProject</artifactId>
-	<name>myProject</name>
+	<artifactId>StMartin</artifactId>
+	<name>StMartin</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -368,7 +368,7 @@
             <version>2.1.1</version>
             <configuration>
               <outputDirectory>deployments</outputDirectory>
-              <warName>StMartin</warName>
+              <warName>ROOT</warName>
             </configuration>
           </plugin>
         </plugins>
