@@ -199,6 +199,7 @@ app.controller('StMartinPrograms',
 				multiSelect : false,
 				showColumnMenu : true,
 				showFilter : true,
+				enableColumnResize :true,
 				selectedItems : $scope.mySelections,
 				pagingOptions : $scope.pagingOptions,
 				filterOptions : $scope.filterOptions,
@@ -215,9 +216,16 @@ app.controller('StMartinPrograms',
 					field : 'gender',
 					displayName : 'M/F',
 					width: 50
+				},
+				{
+					field : 'insertDate',
+					displayName : 'Adm.date',
+					cellFilter: "date:'dd-MM-yyyy'",
+					width: 80
 				},  {
 					field : 'parentGuardian',
-					displayName : 'Parent/Guardian'
+					displayName : 'Parent/Guardian',
+					width: 80
 				}, {
 					field : 'zone',
 					displayName : 'Zone'
@@ -328,7 +336,8 @@ app.controller('StMartinPrograms',
 /**********************************************************************************************************************************************/
 // This function opens a modal dialog and initializes the form values					 
 			function openModal(size){
-					  var modalContent= 'myModalContent.html';
+					  //var modalContent= 'myModalContent.html';
+				        var modalContent= '/StMartin/resources/dialog/insertUpdatePeopleDialog.html';
 					    if(type == "delete"){
 					    	modalContent= 'myModalContentDelete.html';
 					    }
@@ -342,33 +351,31 @@ app.controller('StMartinPrograms',
 					          items: function () {
 					        	 setFlags();
 					        	  
-					        	  if(type == "insert"){
-					        		
-					        		$("#personId").attr("value", null);
-					  				$("#firstNameId").attr("value", null);
-					  				$("#lastNameId").attr("value", null);
-					  				$("#cityId").attr("value", null);
-					  				$("#dateOfBirth").attr("value", null);
-					  				
-					  				 
-					  				var array = {"people": null, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
-					  						    "date":null, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
+					        	  if(type == "insert" || type == "modify"){
+					        		  var peopleData=null;
+					        		  var dateOfBirthPerson=null;
+					        		  if(type == "insert"){
+					        			  $("#personId").attr("value", null);
+							  				$("#firstNameId").attr("value", null);
+							  				$("#lastNameId").attr("value", null);
+							  				$("#cityId").attr("value", null);
+							  				$("#dateOfBirth").attr("value", null); 
+					        		  }
+					        		  else{
+					        			  $("#personId").attr("value",$scope.mySelections[0].personId);	
+								            if($scope.mySelections[0].personState==='A'){
+								            	$scope.personState = 'ACTIVE';
+								            }
+								            peopleData=$scope.mySelections[0];
+								            dateOfBirthPerson=$scope.mySelections[0].dateOfBirth;
+					        		  }		  				 
+					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
+					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
-					  						    "majorTrainingList": $scope.majorTrainingList};
-					  				return array;
+					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA};
+					  				  return array;
 					  				
 					        	  }
-					        	  else if (type == "modify"){
-					        		$("#personId").attr("value",$scope.mySelections[0].personId);	
-						            if($scope.mySelections[0].personState==='A'){
-						            	$scope.personState = 'ACTIVE';
-						            }
-						            return {"people": $scope.mySelections[0], "zones":$scope.zoneCodes, "personState": $scope.personStateNames, "isVolunteer": $scope.isVolunteer,
-						            	    "cities": $scope.citiesList, "date":$scope.mySelections[0].dateOfBirth,"volunteerTypeList":$scope.volunteerTypeList,
-						            	    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR,
-						            	    "majorTrainingList": $scope.majorTrainingList};
-						            
-					        	  }	  
 					        	  else{
 					        		  $scope.mySelections[0].firstName=null;
 					        		  $("#personId").attr("value",$scope.mySelections[0].personId);
@@ -469,7 +476,8 @@ app.controller('StMartinPrograms',
 			$scope.isCPPR=false;
 			$scope.isCPPD=false;
 			$scope.isCPCN=false;
-			  
+			$scope.isCPHA=false;
+			
 			  if(personType=="BE" && projectCode=="CPPR") {
 				  $scope.isCPPRBeneficiary=true;
 			  }
@@ -481,6 +489,9 @@ app.controller('StMartinPrograms',
 			  }
 			  if(projectCode=="CPPD") {
 				  $scope.isCPPD=true;
+			  }
+			  if(projectCode=="CPHA") {
+				  $scope.isCPHA=true;
 			  }
 			  if(personType=="BE") {
 				  $scope.isBeneficiary=true;

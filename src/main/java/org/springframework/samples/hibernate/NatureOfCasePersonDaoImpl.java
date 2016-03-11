@@ -89,7 +89,10 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		   if (natureOfCaseStatus != null) {
 			   sqlNatureOfCaseStatusCondition = "AND STATUS =:natureOfCaseStatus ";
 		   };
-		   
+		   String sqlProjectCode="AND NATURE_OF_CASE_PERSON.PROJECT_CODE =:projectCode ";
+		   if(projectCode!=null && projectCode.equals("DIRE")){
+				 sqlProjectCode="";
+	       }
 
 		String sql="SELECT NATURE_OF_CASE_PERSON.* FROM NATURE_OF_CASE_PERSON "
 		        + sqlBeneficiaryFromCondition
@@ -99,7 +102,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 				+ sqlDateStartCondition 	
 	         	+ sqlDateEndCondition
 	         	+ sqlNatureOfCaseStatusCondition
-	         	+ "AND NATURE_OF_CASE_PERSON.PROJECT_CODE =:projectCode ";	
+	         	+ sqlProjectCode;	
 		
 		SQLQuery query = instantiateQuery(sql);
 		
@@ -108,7 +111,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		if (dateEnd != null) query.setParameter("dateEnd", dateEnd);	
 		if (natureOfCase != null) query.setParameter("natureOfCase", natureOfCase);
 		if (natureOfCaseStatus != null) query.setParameter("natureOfCaseStatus", natureOfCaseStatus);
-		if (projectCode != null) query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		
 		return query.list();
 		
@@ -116,9 +119,14 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 
 	@Override
 	public List<String> getNatureOfCasesList(String projectCode) {
-		String sql="SELECT NATURE_OF_CASE FROM NATURE_OF_CASE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null";
+		 String sqlProjectCode="AND PROJECT_CODE=:projectCode OR PROJECT_CODE is null ";
+		  if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+        }
+		String sql="SELECT NATURE_OF_CASE FROM NATURE_OF_CASE WHERE 1=1 "
+				+ sqlProjectCode;
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
 
@@ -132,9 +140,14 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 
 	@Override
 	public List<String> getNatureOfCaseStatus(String projectCode) {
-		String sql="SELECT NATURE_OF_CASE_STATUS FROM NATURE_OF_CASE_STATUS WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null";
+		String sqlProjectCode="AND PROJECT_CODE=:projectCode OR PROJECT_CODE is null ";
+		  if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+      }
+		String sql="SELECT NATURE_OF_CASE_STATUS FROM NATURE_OF_CASE_STATUS WHERE 1=1"
+				+ sqlProjectCode;
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
 

@@ -98,6 +98,7 @@ public class ActivityDaoImpl implements ActivityDao {
 		   String sqlReferralCondition = "";
            String sqlInterventionCondition ="";
 		   String sqlBeneficiarySelect = "";
+		   String sqlProjectCode="";
 		   
 		   if(personIdBeneficiary!=null){
 			   sqlBeneficiarySelect = ",P1.* ";
@@ -131,6 +132,9 @@ public class ActivityDaoImpl implements ActivityDao {
 		   if (intervention != null) {
 			   sqlInterventionCondition = "AND INTERVENTION =:intervention ";
 		   }
+		   if (projectCode!=null && !projectCode.equals("DIRE")){
+			   sqlProjectCode="AND ACTIVITY.PROJECT_CODE=:projectCode ";
+		   }
 
 		String sql="SELECT ACTIVITY.*,NOTE.* "
 			 	+ sqlBeneficiarySelect 
@@ -145,8 +149,8 @@ public class ActivityDaoImpl implements ActivityDao {
 		        + sqlReferralCondition
 				+ sqlDateStartCondition 	
 	         	+ sqlDateEndCondition
-	         	//+ sqlInterventionCondition
-	         	+ "AND ACTIVITY.PROJECT_CODE=:projectCode "
+	         	+ sqlInterventionCondition
+	         	+ sqlProjectCode
 	         	+ "ORDER BY ACTIVITY_DATE";	
 		
 		SQLQuery query = instantiateQuery(sql);
@@ -158,7 +162,7 @@ public class ActivityDaoImpl implements ActivityDao {
 		if (activityType != null) query.setParameter("activityType", activityType);
 		if (referral != null) query.setParameter("referral", referral);
 		if (intervention != null) query.setParameter("intervention", intervention);
-		if (projectCode != null) query.setParameter("projectCode", projectCode);
+		if (projectCode!=null && !projectCode.equals("DIRE")) query.setParameter("projectCode", projectCode);
 		
 		return query.list();
 		
@@ -167,9 +171,15 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	@Override
 	public List<String> getReferralList(String projectCode) {
-		String sql="SELECT REFERRAL_TYPE FROM REFERRAL_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY REFERRAL_TYPE.REFERRAL_TYPE asc";
+		String sqlProjectCode="AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+		 }
+		String sql="SELECT REFERRAL_TYPE FROM REFERRAL_TYPE WHERE 1=1 "
+				+ sqlProjectCode
+				+ "ORDER BY REFERRAL_TYPE.REFERRAL_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	
 	}
@@ -190,17 +200,30 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	@Override
 	public List<String> getActivityTypeList(String projectCode) {
-		String sql="SELECT ACTIVITY_TYPE FROM ACTIVITY_TYPE WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY ACTIVITY_TYPE.ACTIVITY_TYPE asc";
+		String sqlProjectCode="AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+		 }
+		String sql="SELECT ACTIVITY_TYPE FROM ACTIVITY_TYPE WHERE 1=1 "
+				+ sqlProjectCode
+				+ "ORDER BY ACTIVITY_TYPE.ACTIVITY_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
 	
 	@Override
 	public List<String> getInterventionList(String projectCode) {
-		String sql="SELECT INTERVENTION FROM INTERVENTION WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE is null ORDER BY INTERVENTION.INTERVENTION asc";
+		String sqlProjectCode="AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		 if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+		 }
+		String sql="SELECT INTERVENTION FROM INTERVENTION "
+				+ "WHERE 1=1 "
+				+ sqlProjectCode
+				+ "ORDER BY INTERVENTION.INTERVENTION asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("projectCode", projectCode);
+		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
 
@@ -211,9 +234,13 @@ public class ActivityDaoImpl implements ActivityDao {
 	public String getBeneficiaryNeededForActivityType(Filter filter) {
 		 String activityType = filter.getActivityType();
 		 String projectCode = filter.getProjectCode();
+		 String sqlProjectCode="AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		 if(projectCode!=null && projectCode.equals("DIRE")){
+			 sqlProjectCode="";
+		 }
 		 String sql = " SELECT NEEDS_BENEFICIARY FROM ACTIVITY_TYPE "
 		 	      	+ " WHERE ACTIVITY_TYPE=:activityType "
-		 	      	+ "AND (PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL) ";
+		 	      	+ sqlProjectCode;
 		 SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);			
 		 query.setParameter("activityType", activityType);
 		 query.setParameter("projectCode", projectCode);		 

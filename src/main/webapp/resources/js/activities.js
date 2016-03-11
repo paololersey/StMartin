@@ -296,8 +296,8 @@ activitiesApp.controller('activitiesStMartin',
 // This function opens a modal dialog related to the grid data, and initializes the form values			  
 
 				  function openModal(size){
-					  
-					  var modalContent= 'myModalContent.html';
+					  var modalContent= '/StMartin/resources/dialog/insertUpdateActivitiesDialog.html';
+					//  var modalContent= 'myModalContent.html';
 					    if(type == "delete"){
 					    	modalContent= 'myModalContentDelete.html';
 					    }

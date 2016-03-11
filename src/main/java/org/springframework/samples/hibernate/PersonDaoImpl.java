@@ -105,14 +105,18 @@ public class PersonDaoImpl implements PersonDao {
 	public List<Person> findByTypeAndProjectCode(String personType,
 			String projectCode) {
 		String sql="SELECT * FROM PERSON LEFT JOIN PROJECT_PERSON ON PERSON.PERSON_ID=PROJECT_PERSON.PERSON_ID WHERE PROJECT_CODE =:projectCode AND PERSON_CODE=:personType ORDER BY PERSON.LASTNAME";
+		if(projectCode.equals("DIRE")){
+			sql="SELECT * FROM PERSON LEFT JOIN PROJECT_PERSON ON PERSON.PERSON_ID=PROJECT_PERSON.PERSON_ID WHERE PERSON_CODE=:personType ORDER BY PERSON.LASTNAME";
+		}
 		
-		String s="1";
 		SQLQuery query = instantiateQuery(sql);
 		query.setParameter("personType", personType);
-		query.setParameter("projectCode", projectCode);
+		if(!projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	
 	}
+	
+	
 
 	
 	

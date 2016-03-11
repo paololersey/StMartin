@@ -31,6 +31,10 @@ public class Person {
 	
 	private String parentGuardian;
 	
+	private String parentGuardianGender;
+	
+	private String parentGuardianTel;
+	
 	private String fileNumber;
 
 	private String address;
@@ -60,6 +64,16 @@ public class Person {
 	private String volunteerType;
 	
 	private String medicalStatus;
+	
+	private String father;
+	
+	private String deadAliveFather;
+	
+	private String mother;
+	
+	private String deadAliveMother;
+	
+
 	
 	private String school;
 	
@@ -181,10 +195,29 @@ public class Person {
 	public String getParentGuardian() {
 		return parentGuardian;
 	}
-
+	
 	public void setParentGuardian(String parentGuardian) {
 		this.parentGuardian = parentGuardian;
 	}
+	
+	@Column(name = "PARENT_GUARDIAN_GENDER")
+	public String getParentGuardianGender() {
+		return parentGuardianGender;
+	}
+	
+	public void setParentGuardianGender(String parentGuardianGender) {
+		this.parentGuardianGender = parentGuardianGender;
+	}
+	
+	@Column(name = "PARENT_GUARDIAN_TEL")
+	public String getParentGuardianTel() {
+		return parentGuardianTel;
+	}
+	
+	public void setParentGuardianTel(String parentGuardianTel) {
+		this.parentGuardianTel = parentGuardianTel;
+	}
+
 	@Column(name = "FILE_NUMBER")
 	public String getFileNumber() {
 		return fileNumber;
@@ -255,6 +288,7 @@ public class Person {
 		this.medicalStatus = medicalStatus;
 	}
 
+	@Column(name = "SCHOOL")
 	public String getSchool() {
 		return school;
 	}
@@ -269,6 +303,42 @@ public class Person {
 
 	public void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
+	}
+
+	@Column(name = "FATHER")
+	public String getFather() {
+		return father;
+	}
+
+	public void setFather(String father) {
+		this.father = father;
+	}
+
+	@Column(name = "DEAD_ALIVE_FATHER")
+	public String getDeadAliveFather() {
+		return deadAliveFather;
+	}
+
+	public void setDeadAliveFather(String deadAliveFather) {
+		this.deadAliveFather = deadAliveFather;
+	}
+
+	@Column(name = "MOTHER")
+	public String getMother() {
+		return mother;
+	}
+
+	public void setMother(String mother) {
+		this.mother = mother;
+	}
+
+	@Column(name = "DEAD_ALIVE_MOTHER")
+	public String getDeadAliveMother() {
+		return deadAliveMother;
+	}
+
+	public void setDeadAliveMother(String deadAliveMother) {
+		this.deadAliveMother = deadAliveMother;
 	}
 	
 	//@Column(name = "MEDICAL_STATUS")
