@@ -1,0 +1,319 @@
+
+<div class="modal-header">
+	<h3 class="modal-title">Insert/update person</h3>
+</div>
+<div class="modal-body">
+
+	<form name="form" id="insertPersonForm" novalidate>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Baptism
+					Name: </span> <span class="subFormSpanRight"> <input
+					id="firstNameId" type="text" data-ng-model="items.people.firstName"
+					name="firstName" required />
+			</span>
+
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">
+					Middle name: </span> <span class="subFormSpanRight"> <input
+					id="lastNameId" type="text" data-ng-model="items.people.lastName"
+					name="lastName" required />
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input id="personId" type="text" hidden="true"
+				data-ng-model="items.people.personId" name="personId" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Family
+					name: </span> <span class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.thirdName" name="thirdName" required />
+			</span>
+
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Gender:
+			</span> <span class="subFormSpanRight"> <label
+					class="btn btn-primary" data-ng-model="items.people.gender"
+					btn-radio="'M'" name="gender">Male</label> <label
+					class="btn btn-primary" data-ng-model="items.people.gender"
+					btn-radio="'F'" name="gender">Female</label>
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Village:
+			</span> <span class="subFormSpanRight"> <select style="width: 45%"
+					data-ng-model="items.people.village" name="village"
+					data-ng-options=" opt for opt in items.cities" required>
+						<option value=""></option>
+				</select>
+
+			</span>
+
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Physical
+					addr.: </span> <span class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.address" name="address" required />
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Zone:
+			</span> <span class="subFormSpanRight"> <select style="width: 30%"
+					data-ng-model="items.people.zone"
+					data-ng-options=" opt for opt in items.zones">
+						<option value=""></option>
+				</select>
+
+			</span>
+
+			</span> <span class="formMainSpan" data-ng-hide="items.isCPPRBeneficiary">
+
+				<span class="subFormSpanLeft">Status/level: </span> <span
+				class="subFormSpanRight"> <select style="width: 45%"
+					data-ng-model="items.people.state"
+					data-ng-options=" opt for opt in items.personState" name="state"
+					required></select>
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan">
+				<div>
+					<span class="subFormSpanLeft">Tel.: </span> <span
+						class="subFormSpanRight"> <input id="telephoneId"
+						type="text" data-ng-model="items.people.telephone" name="telefone"
+						name="telephone" integer ng-minlength="10"
+						data-ng-pattern="/^[0-9/]+$/" />
+					</span>
+				</div>
+			</span> <span class="formMainSpan">
+				<div>
+					<span class="subFormSpanLeft"> E-mail: </span> <span
+						class="subFormSpanRight"> <input type="email"
+						data-ng-model="items.people.email" name="uEmail" />
+					</span>
+				</div>
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Birth
+					Date: </span> <span class="subFormSpanRight"
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+						id="dateOfBirth" type="text" datepicker-popup="{{format}}"
+						data-ng-model="items.date" is-open="opened" min-date="minDate"
+						datepicker-options="dateOptions"
+						date-disabled="disabled(date, mode)" data-ng-required="true"
+						close-text="Close" name="birthDate" required />
+				</span>
+					<button vtype="button" class="btn btn-default"
+						data-ng-click="open($event)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button> <span> </span>
+
+			</span>
+
+			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary">
+
+				<span class="subFormSpanLeft">File number: </span> <span
+				class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.fileNumber" name="fileNumber" required />
+			</span>
+
+			</span>
+
+		</div>
+
+		<div data-ng-if="items.isCPPRBeneficiary" style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div data-ng-if="items.isCPPRBeneficiary">
+			<span class="formMainSpan"> < <span class="subFormSpanLeft">Contact
+					person </span> <span class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.contactPerson" />
+			</span>
+
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Contact
+					p. role: </span> <span class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.contactPersonRole" />
+			</span>
+
+			</span>
+
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"
+				data-ng-if="items.isVolunteerNotCPPR"> <span
+				class="subFormSpanLeft">Major training: </span> <span
+				class="subFormSpanRight"> <select
+					data-ng-model="items.people.majorTraining"
+					data-ng-options=" majorTraining for majorTraining in items.majorTrainingList"></select>
+
+			</span>
+			</span>
+			 <span class="formMainSpan" data-ng-if="items.isBeneficiary && !items.isCPHA">
+
+				<span class="subFormSpanLeft">Parent/Guard.: </span> <span
+				class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.parentGuardian" name="parentGuardian" />
+			</span>
+
+			</span>
+
+			 <span class="formMainSpan" data-ng-if="items.isVolunteer">
+
+				<span class="subFormSpanLeft">Volunteer type: </span> <span
+				class="subFormSpanRight"> <select
+					data-ng-model="items.people.volunteerType"
+					data-ng-options=" obj for obj in items.volunteerTypeList"></select>
+
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan" data-ng-if="items.isBeneficiary">
+
+				<span class="subFormSpanLeft">School: </span> <span
+				class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.school" />
+			</span>
+
+			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary">
+
+				<span class="subFormSpanLeft">Medical status: </span> <span
+				class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.people.medicalStatus" />
+			</span>
+
+			</span>
+		</div>
+
+		<div style="height: 10px;">&nbsp;
+		</div>
+		
+		
+			<!-- CPHAADA section -->
+		<div data-ng-if="items.isCPHA && items.isBeneficiary">
+			<div>
+				<hr></hr>
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Father: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.father" name="father" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'D'"
+						name="deadAliveFather">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'A'"
+						name="deadAliveFather">Alive</label>
+				</span>
+
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Mother: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.mother" name="mothser" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'D'"
+						name="deadAliveMother">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'A'"
+						name="deadAliveMother">Alive</label>
+				</span>
+				</span>
+
+			</div>
+			<div data-ng-if="items.isCPHA && items.isBeneficiary">
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.parentGuardian" name="parentGuardian" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guard. gender:</span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.parentGuardianGender" btn-radio="'M'"
+						name="parentGuardianGender">Male</label> <label
+						class="btn btn-primary"
+						data-ng-model="items.people.parentGuardianGender" btn-radio="'F'"
+						name="parentGuardianGender">Female</label>
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian telephone:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.parentGuardianTel" integer data-ng-minlength="10"
+						data-ng-pattern="/^[0-9/]+$/" name="parentGuardianTel" />
+				</span>
+				</span>
+			</div>
+		</div>
+		
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div data-ng-if="form.uEmail.$dirty && form.uEmail.$invalid">
+			Invalid: <span data-ng-if="form.uEmail.$error.email">You're
+				entering an invalid email.</span>
+		</div>
+		<div data-ng-if=" form.telefone.$invalid">Invalid: You're
+			entering an invalid telephone number.</div>
+
+		
+		<!--<button data-ng-click="reset()" data-ng-disabled="isUnchanged(personData)">RESET</button>-->
+
+	</form>
+
+</div>
+<div class="modal-footer">
+	<button data-ng-if="items.isBeneficiary" class="btn btn-primary"
+		data-ng-disabled="form.$pristine ||  form.village.$error.required || form.firstName.$invalid || form.thirdName.$invalid ||
+                                                                            form.lastName.$invalid || form.gender.$error.required  || form.fileNumber.$error.required ||
+                                                                            form.birthDate.$error.required"
+		data-ng-click="ok()">OK</button>
+	<button data-ng-hide="items.isBeneficiary" class="btn btn-primary"
+		data-ng-disabled="form.$pristine || form.gender.$error.required || form.village.$error.required || form.firstName.$invalid  ||
+                                                                            form.lastName.$invalid "
+		data-ng-click="ok()">OK</button>
+	<button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+</div>
+

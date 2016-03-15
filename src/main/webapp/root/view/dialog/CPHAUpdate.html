@@ -1,0 +1,58 @@
+	<!-- CPHAADA section -->
+		<div data-ng-if="items.isCPHA && items.isBeneficiary">
+			<div>
+				<hr></hr>
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Father: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.father" name="father" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'D'"
+						name="deadAliveFather">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'A'"
+						name="deadAliveFather">Alive</label>
+				</span>
+
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Mother: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.mother" name="mothser" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'D'"
+						name="deadAliveMother">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'A'"
+						name="deadAliveMother">Alive</label>
+				</span>
+				</span>
+
+			</div>
+			<div data-ng-if="items.isCPHA && items.isBeneficiary">
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.parentGuardian" name="parentGuardian" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guard. gender:</span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.genderParentGuardian" btn-radio="'M'"
+						name="genderParentGuardian">Male</label> <label
+						class="btn btn-primary"
+						data-ng-model="items.people.genderParentGuardian" btn-radio="'F'"
+						name="genderParentGuardian">Female</label>
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian telephone:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.genderParentGuardian" integer data-ng-minlength="10"
+						data-ng-pattern="/^[0-9/]+$/" name="genderParentGuardian" />
+				</span>
+				</span>
+			</div>
+		</div>

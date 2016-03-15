@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+
+<meta charset="utf-8">
+
+</head>
+<body>
+  <div align="center">
+     <span style="display: inline-block; width: 20%"></span>
+      <span style="display: inline-block; width: 60%">
+		  <tabset>
+		  <tab heading="Beneficiaries" select="beneficiariesSelected()"></tab>
+		  <tab heading="Volunteers" select="volunteersSelected()"></tab>
+		  <tab heading="Staff Workers" select="socialWorkersSelected()"></tab>
+		  <tab data-ng-show="isCPPD" heading="Therapists"  select="physioterapistsSelected()"></tab>
+		  <tab data-ng-show="isCPCN" heading="Center managers"  select="centerManagersSelected()"></tab>
+		  </tabset>
+	  </span>
+	 
+  </div>
+
+	
+    
+	
+	<div style="width: 99%; height: 30px"></div>
+	
+	<div style="width: 99%;">
+	  
+		<div class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 60%;height:230px;float:left" >
+			<div class="panel-heading" data-ng-show="isBeneficiary" style="height:35px;">
+				<a class="panel-title" >Filter beneficiary either by person in charge, either within a period of time:</a>				
+			</div>
+			<div class="panel-heading" data-ng-hide="isBeneficiary" style="height:35px;">
+				<a class="panel-title" >Filter level, training and type of volunteers/workers:</a>
+				
+			</div>
+			 
+			<div class="panel-body" data-ng-show="isBeneficiary" >
+			     <div>
+			     <span class="formMainSpan" data-ng-controller="DatepickerDemoCtrl">
+			             <span class="subFilterSpanLeft">Start</span>
+                         <span class="subFilterSpanRight">
+			   			 	 <span>
+                		 	  <input style="width:40%" type="text" data-ng-change="selectFilter('',dateStart,'','','','','')" datepicker-popup="{{format}}" data-ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+             		    	 </span>
+             				 <button  vtype="button" data-ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
+             	         </span>
+             	 </span> 	
+             	 <span class="formMainSpan" data-ng-controller="DatepickerDemoCtrl">
+                        <span class="subFilterSpanLeft">End</span>
+			  		    <span class="subFilterSpanRight">
+			  		  	  <span>
+                      	    <input style="width:40%"  type="text" data-ng-change="selectFilter('','',dateEnd,'','','','')" datepicker-popup="{{format}}" data-ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+                      	  </span>
+                      	  <button  vtype="button" data-ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>                
+                 </span>
+		
+			   </div>
+			   
+			   <div>
+			   <span  class="formMainSpan" >
+                        <span class="subFilterSpanLeft">PersonType</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select  data-ng-change="selectPersonType(personTypeSelected)" data-ng-model="personTypeSelected" data-ng-options='personTypeSelected for personTypeSelected in personInChargeTypeList'><option value=""></option></select>
+                        </span> 
+                </span>	        
+                <span class="formMainSpan" >
+                        <span class="subFilterSpanLeft">Person</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select data-ng-change="selectFilter(objectPCH,'','','','','','')" data-ng-model="objectPCH"  data-ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in personInCharge'><option value=""></option></select>
+			            </span>                
+                </span>	   
+			    </div>
+			    
+			    <div style="width: 99%; height: 10px"></div>
+			    
+			    <div>
+			    <span class="formMainSpan" >
+                        <span class="subFilterSpanLeft">Zone</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select key="idZone" data-ng-change="selectFilter('','','',objectZone,'','','')" data-ng-model="objectZone"  data-ng-options='objectZone for objectZone in zoneCodes'><option value=""></option></select>
+                        </span> 
+                </span>	        
+                <span class="formMainSpan" data-ng-hide="isCPPRBeneficiary">
+                        <span class="subFilterSpanLeft">Level</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select data-ng-change="selectFilter('','','','',objStatus,'','')" data-ng-model="objStatus"  data-ng-options='obj for obj in personStateNames'><option value=""></option></select>
+			            </span>                
+                </span>
+                <span class="formMainSpan" data-ng-show="isCPPRBeneficiary">
+                        <span class="subFilterSpanLeft">ContactPerson</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <input data-ng-click="selectFilter('','','','','','','',objContact)" data-ng-model="objContact"/>
+			            </span>                
+                </span>	   
+			    </div>
+			    
+			   
+			    
+			    <div style="width: 99%; height: 20px"></div>
+			    	
+			    <div>
+			    <span class="formMainSpan" >
+			      <span class="subFilterSpanLeft"><i>Quicksearch</i></span>
+			      <span class="subFilterSpanRight">	
+				 	 <span style="display: inline-block"><input type="text"
+						data-ng-model="filterOptions.filterText" /></span>
+				  </span>  
+				</span>	
+				</div>
+				
+				
+			</div>	
+			
+			<div class="panel-body" data-ng-hide="isBeneficiary" >
+			 <div>
+			    <span class="formMainSpan" >
+                        <span class="subFilterSpanLeft">Status</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select data-ng-change="selectFilter('','','','',objStatus,'','')" data-ng-model="objStatus"  data-ng-options='obj for obj in personStateNames'><option value=""></option></select>
+			            </span>                
+                </span>	 	        
+                <span class="formMainSpan" >
+                        <span class="subFilterSpanLeft">Maj.training</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select data-ng-change="selectFilter('','','','','',objTraining,'')" data-ng-model="objTraining"  data-ng-options='obj for obj in majorTrainingList'><option value=""></option></select>
+			            </span>                
+                </span>	   
+			  </div>
+			  
+			   <div style="width: 99%; height: 15px"></div>
+			  
+			  <div>
+			     <span class="formMainSpan" data-ng-show="items.isVolunteer">
+                        <span class="subFilterSpanLeft">VolunteerType</span>
+			  		    <span class="subFilterSpanRight">			  		  	  
+                      	    <select data-ng-change="selectFilter('','','','','','',objVolType)" data-ng-model="objVolType"  data-ng-options='obj for obj in volunteerTypeList'><option value=""></option></select>
+			            </span>                
+                </span>	 
+               </div>
+			  
+			  
+			   <div style="width: 99%; height: 15px"></div>
+			  <div>
+			    <span class="formMainSpan" >
+			      <span class="subFilterSpanLeft"><i>Quicksearch</i></span>
+			      <span class="subFilterSpanRight">	
+				 	 <span style="display: inline-block"><input type="text"
+						data-ng-model="filterOptions.filterText" /></span>
+				  </span>  
+				</span>	
+				</div>
+			
+			</div>	
+				
+		 </div>
+		 
+		
+		 <div class="panel panel-primary box-shadow"
+			style="display: inline-block; width: 38%;height:230px; float:left; ">
+			<div class="panel-heading" style="height:35px;">
+				<a class="panel-title">Perform operations</a>
+			</div>
+
+			<div class="panel-body-crud" >
+			            <div>
+			            <span class="panelBodyCrudSpan">                 		  		  	  
+                      	     <button data-ng-click="insertRowButton('')" class="btn btn-primary crudButtons">
+									  <span class="glyphicon glyphicon-plus"></span></button>  
+				     	</span> 
+				        <span class="panelBodyCrudSpan" >                 		  		  	  
+                      	      <button data-ng-click="deleteRowButton('')" class="btn btn-primary crudButtons">
+						<span  class="glyphicon glyphicon-minus"></span></button>
+				     	</span> 
+				     	</div>
+				     	
+				     	<div style="width: 99%; height: 10px"></div>	
+				     		     	
+				     	 <div>
+				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
+                      	     <button data-ng-click="selectRowButton('')" class="btn btn-primary crudButtons" >
+					        	<span class="glyphicon glyphicon-pencil"></span></button>  
+				     	</span> 
+				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
+                      	     <button data-ng-click="report()" class="btn btn-primary crudButtons" >
+						     <span class="glyphicon glyphicon-print"></span></button>
+				     	</span> 
+				     	</div>                    
+					
+			</div>	
+	 </div>
+		 
+    </div>	 
+    
+    <div style="width: 99%; height: 10px"></div>
+
+	
+
+	<div style="width: 99%" class="gridStyle  box-shadow" ng-grid="gridOptions"></div>
+    <div style="width: 99%;height:10px;"></div>
+    <div>
+     <span style="display: inline-block; width: 30% ;">
+     	 <button data-ng-click="backButton('')" style="width:20%;" class="btn btn-primary box-shadow">
+			<span >Back</span>
+		 </button>
+      </span> 
+    </div>
+
+    <script type="text/ng-template" id="messageDialog.html">
+      <div class="modal-header">
+            <h3 class="modal-title">Message</h3>
+      </div>
+      <div class="modal-body"> 
+      {{items.message}}     
+      </div>
+      <div class="modal-footer">	
+            <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="myModalContentDelete.html">
+      <div class="modal-header">
+            <h3 class="modal-title">Delete person</h3>
+      </div>
+      <div class="modal-body"> 
+      Do you really want to delete this person? 
+      <input id="personId" type="text" hidden="true"
+				data-ng-model="items.people.personId" name="personId"/>
+      </div>
+      <div class="modal-footer">	
+            <button class="btn btn-primary" data-ng-click="ok()">OK</button>
+            <button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+
+
+</body>
+</html>
