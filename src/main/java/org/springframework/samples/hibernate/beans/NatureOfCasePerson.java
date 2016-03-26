@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="NATURE_OF_CASE_PERSON")
+@Table(name="nature_of_case_person")
 public class NatureOfCasePerson {
 
 	private Integer natureOfCasePersonId;

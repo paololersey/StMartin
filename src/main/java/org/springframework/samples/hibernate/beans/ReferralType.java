@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="REFERRAL_TYPE")
+@Table(name="referral_type")
 public class ReferralType {
 
 	private Integer referralTypeId;

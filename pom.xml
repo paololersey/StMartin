@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples</groupId>
-	<artifactId>StMartin</artifactId>
+	<artifactId>myProject</artifactId>
 	<name>StMartin</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -353,12 +353,13 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-    <profile>
+	
      <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
      <!-- Use this profile for any OpenShift specific customization your app will need. -->
      <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
      <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+     <!-- <profiles>
+     <profile>
      <id>openshift</id>
      <build>
         <finalName>jbossas</finalName>
@@ -374,5 +375,5 @@
         </plugins>
       </build>
     </profile>
-  </profiles>
+  </profiles> -->
 </project>

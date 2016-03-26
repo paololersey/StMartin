@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="ZONE")
+@Table(name="zone")
 public class Zone {
 
 	private int zoneId;

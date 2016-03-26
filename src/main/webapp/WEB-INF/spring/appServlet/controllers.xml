@@ -11,5 +11,6 @@
 	<mvc:view-controller path="/" view-name="/"/>
 	
 	<context:component-scan base-package="org.springframework.samples.mvc" />
+
 	<mvc:default-servlet-handler />
 </beans>

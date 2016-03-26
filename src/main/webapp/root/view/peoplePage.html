@@ -11,11 +11,18 @@
      <span style="display: inline-block; width: 20%"></span>
       <span style="display: inline-block; width: 60%">
 		  <tabset>
-		  <tab heading="Beneficiaries" select="beneficiariesSelected()"></tab>
+		  <!-- beneficiaries -->
+		  <tab data-ng-if="!isCPHA" heading="Beneficiaries" select="beneficiariesSelected()"></tab>		  
+		  <tab data-ng-if="isCPHA" heading="Orphans" select="orphansSelected()"></tab>
+		  <tab data-ng-if="isCPHA" heading="People living HIV" select="peopleLivingHIVSelected()"></tab>
+	      <tab data-ng-if="isCPHA" heading="Recoverees" select="recovereesSelected()"></tab>
+	      <!--  -->
 		  <tab heading="Volunteers" select="volunteersSelected()"></tab>
 		  <tab heading="Staff Workers" select="socialWorkersSelected()"></tab>
-		  <tab data-ng-show="isCPPD" heading="Therapists"  select="physioterapistsSelected()"></tab>
-		  <tab data-ng-show="isCPCN" heading="Center managers"  select="centerManagersSelected()"></tab>
+		  <tab data-ng-if="isCPPD" heading="Therapists"  select="physioterapistsSelected()"></tab>
+		  <tab data-ng-if="isCPCN" heading="Center managers"  select="centerManagersSelected()"></tab>
+		  
+		  
 		  </tabset>
 	  </span>
 	 

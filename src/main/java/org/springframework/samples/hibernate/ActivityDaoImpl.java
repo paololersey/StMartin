@@ -67,7 +67,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	@Override
 	public List<Activity> findById(Integer id) {
 		String idString = id.toString();
-		String sql = "SELECT * FROM ACTIVITY WHERE ACTIVITY_ID=:idString";
+		String sql = "SELECT * FROM activity WHERE ACTIVITY_ID=:idString";
 		SQLQuery query = instantiateQuery(sql);
 		query.setParameter("idString", id);
 		return query.list();
@@ -101,20 +101,20 @@ public class ActivityDaoImpl implements ActivityDao {
 		   String sqlProjectCode="";
 		   
 		   if(personIdBeneficiary!=null){
-			   sqlBeneficiarySelect = ",P1.* ";
-			   sqlBeneficiaryFromCondition =" JOIN PERSON_ACTIVITY PA1 " +
-			    " ON PA1.ACTIVITY_ID=ACTIVITY.ACTIVITY_ID JOIN PERSON P1 " +
-			    " ON	PA1.PERSON_ID=P1.PERSON_ID ";
+			   sqlBeneficiarySelect = ",p1.* ";
+			   sqlBeneficiaryFromCondition =" JOIN person_activity pa1 " +
+			    " ON pa1.ACTIVITY_ID=activity.ACTIVITY_ID JOIN person p1 " +
+			    " ON	pa1.PERSON_ID=p1.PERSON_ID ";
 			   
-			   sqlBeneficiaryWhereCondition = "AND P1.PERSON_ID=:personIdBeneficiary ";
+			   sqlBeneficiaryWhereCondition = "AND p1.PERSON_ID=:personIdBeneficiary ";
 			   
 		   }
 		   if(personIdPersonIncharge!=null){			 			   
-			   sqlPersonInChargeFromCondition =" JOIN PERSON_ACTIVITY PA2 " +
-					    " ON PA2.ACTIVITY_ID=ACTIVITY.ACTIVITY_ID JOIN PERSON P2 " +
-					    " ON	PA2.PERSON_ID=P2.PERSON_ID ";
+			   sqlPersonInChargeFromCondition =" JOIN person_activity pa2 " +
+					    " ON pa2.ACTIVITY_ID=activity.ACTIVITY_ID JOIN person p2 " +
+					    " ON	pa2.PERSON_ID=p2.PERSON_ID ";
 					   
-			   sqlPersonInChargeWhereCondition = "AND P2.PERSON_ID=:personIdPersonIncharge ";
+			   sqlPersonInChargeWhereCondition = "AND p2.PERSON_ID=:personIdPersonIncharge ";
 		   }
 		   
 		   if (activityDateStart != null) {
@@ -133,13 +133,13 @@ public class ActivityDaoImpl implements ActivityDao {
 			   sqlInterventionCondition = "AND INTERVENTION =:intervention ";
 		   }
 		   if (projectCode!=null && !projectCode.equals("DIRE")){
-			   sqlProjectCode="AND ACTIVITY.PROJECT_CODE=:projectCode ";
+			   sqlProjectCode="AND activity.PROJECT_CODE=:projectCode ";
 		   }
 
-		String sql="SELECT ACTIVITY.*,NOTE.* "
+		String sql="SELECT activity.*,note.* "
 			 	+ sqlBeneficiarySelect 
-				+ "FROM ACTIVITY LEFT JOIN NOTE " 
-	            + "ON ACTIVITY.ACTIVITY_ID =NOTE.ACTIVITY_ID " 
+				+ "FROM activity LEFT JOIN note " 
+	            + "ON activity.ACTIVITY_ID =note.ACTIVITY_ID " 
 		        + sqlPersonInChargeFromCondition 
 		        + sqlBeneficiaryFromCondition
 		        + "WHERE 1=1 "
@@ -175,9 +175,9 @@ public class ActivityDaoImpl implements ActivityDao {
 		if(projectCode!=null && projectCode.equals("DIRE")){
 			 sqlProjectCode="";
 		 }
-		String sql="SELECT REFERRAL_TYPE FROM REFERRAL_TYPE WHERE 1=1 "
+		String sql="SELECT REFERRAL_TYPE FROM referral_type WHERE 1=1 "
 				+ sqlProjectCode
-				+ "ORDER BY REFERRAL_TYPE.REFERRAL_TYPE asc";
+				+ "ORDER BY referral_type.REFERRAL_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
@@ -188,7 +188,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	@Override
 	public List<Note> getNotesList(int activityId) {
-		String sql="SELECT * FROM NOTE WHERE ACTIVITY_ID=:activityId";
+		String sql="SELECT * FROM note WHERE ACTIVITY_ID=:activityId";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.setParameter("activityId", activityId);
 		query.addEntity(Note.class);
@@ -204,9 +204,9 @@ public class ActivityDaoImpl implements ActivityDao {
 		if(projectCode!=null && projectCode.equals("DIRE")){
 			 sqlProjectCode="";
 		 }
-		String sql="SELECT ACTIVITY_TYPE FROM ACTIVITY_TYPE WHERE 1=1 "
+		String sql="SELECT ACTIVITY_TYPE FROM activity_type WHERE 1=1 "
 				+ sqlProjectCode
-				+ "ORDER BY ACTIVITY_TYPE.ACTIVITY_TYPE asc";
+				+ "ORDER BY activity_type.ACTIVITY_TYPE asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
@@ -218,10 +218,10 @@ public class ActivityDaoImpl implements ActivityDao {
 		 if(projectCode!=null && projectCode.equals("DIRE")){
 			 sqlProjectCode="";
 		 }
-		String sql="SELECT INTERVENTION FROM INTERVENTION "
+		String sql="SELECT intervention FROM intervention "
 				+ "WHERE 1=1 "
 				+ sqlProjectCode
-				+ "ORDER BY INTERVENTION.INTERVENTION asc";
+				+ "ORDER BY intervention.INTERVENTION asc";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
@@ -238,8 +238,8 @@ public class ActivityDaoImpl implements ActivityDao {
 		 if(projectCode!=null && projectCode.equals("DIRE")){
 			 sqlProjectCode="";
 		 }
-		 String sql = " SELECT NEEDS_BENEFICIARY FROM ACTIVITY_TYPE "
-		 	      	+ " WHERE ACTIVITY_TYPE=:activityType "
+		 String sql = " SELECT NEEDS_BENEFICIARY FROM activity_type "
+		 	      	+ " WHERE activity_type=:activityType "
 		 	      	+ sqlProjectCode;
 		 SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);			
 		 query.setParameter("activityType", activityType);

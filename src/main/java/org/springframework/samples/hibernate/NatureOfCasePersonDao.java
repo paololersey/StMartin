@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalActivity;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
+import org.springframework.samples.hibernate.beans.NatureOfCasePersonMapBean;
 import org.springframework.samples.hibernate.beans.Person;
 
 public interface NatureOfCasePersonDao {
@@ -24,5 +25,6 @@ public interface NatureOfCasePersonDao {
 	List<NatureOfCasePerson> findById(Integer natureOfCasePersonId);
 
 	List<String> getNatureOfCaseStatus(String projectCode);
+
 	
 }

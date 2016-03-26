@@ -1,14 +1,18 @@
 package org.springframework.samples.mvc.views;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.samples.hibernate.NatureOfCasePersonDao;
+import org.springframework.samples.hibernate.PersonDao;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
+import org.springframework.samples.hibernate.beans.NatureOfCasePersonMapBean;
+import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +33,26 @@ public class NatureOfCaseController {
 	
 	@RequestMapping(value = "natureOfCasePersonList", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	List<NatureOfCasePerson> natureOfCasePersonList(@RequestBody Filter filter) {
+	List<NatureOfCasePersonMapBean> natureOfCasePersonList(@RequestBody Filter filter) {
 		NatureOfCasePersonDao natureOfCasePersonDao = (NatureOfCasePersonDao) appContext.getBean("natureOfCasePersonDao");
-		List<NatureOfCasePerson> natureOfCasePerson = natureOfCasePersonDao.findByFilter(filter);
-		return natureOfCasePerson;
+		List<NatureOfCasePerson> natureOfCasePersonList = natureOfCasePersonDao.findByFilter(filter);
+		PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+		// NatureOfCasePersonMapBean is the bean to be sent client side;
+		ArrayList<NatureOfCasePersonMapBean> natureOfCasePersonMapBeanList=new ArrayList<>();
+		for (NatureOfCasePerson natureOfCasePerson:natureOfCasePersonList){
+			List<Person> beneficiary = (List<Person>)personDao.findById(natureOfCasePerson.getPersonId());		
+			// mapping: it can be done also creating a NatureOfCasePersonMapper between both
+			NatureOfCasePersonMapBean natureOfCasePersonMapBean = new NatureOfCasePersonMapBean();
+			natureOfCasePersonMapBean.setNatureOfCase(natureOfCasePerson.getNatureOfCase());
+			natureOfCasePersonMapBean.setInsertDate(natureOfCasePerson.getInsertDate());
+			natureOfCasePersonMapBean.setStatus(natureOfCasePerson.getStatus());
+			if(beneficiary.size()>0){
+				Person ben=beneficiary.get(0);
+				natureOfCasePersonMapBean.setBeneficiary(ben.getFirstName() + " " + ben.getLastName() + " " + ben.getThirdName());
+			}
+			natureOfCasePersonMapBeanList.add(natureOfCasePersonMapBean);
+		}
+		return natureOfCasePersonMapBeanList;
 	}
 
 	@RequestMapping(value = "natureOfCasesList", method = RequestMethod.POST, produces = "application/json")

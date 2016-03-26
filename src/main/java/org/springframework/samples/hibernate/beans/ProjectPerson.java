@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
 
 @Entity
-@Table(name="PROJECT_PERSON")
+@Table(name="project_person")
 public class ProjectPerson {
 
 	private int projectPersonId;

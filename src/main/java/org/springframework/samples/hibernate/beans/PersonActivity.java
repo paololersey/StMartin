@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="PERSON_ACTIVITY")
+@Table(name="person_activity")
 public class PersonActivity {
 
 	private int personActivityId;

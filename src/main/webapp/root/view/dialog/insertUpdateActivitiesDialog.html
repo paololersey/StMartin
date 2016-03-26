@@ -1,4 +1,5 @@
-  <div class="modal-header">
+
+      <div class="modal-header">
             <h3 class="modal-title">Insert/update activity</h3>
       </div>
       <div class="modal-body">
@@ -10,56 +11,61 @@
 
          <div>  
              <span class="formMainSpan">
-			    
+			   
                 <span class="subFormSpanLeft">Activity Type: </span>
                 <span class="subFormSpanRight">
-                    <select data-ng-model="items.activity.activityType"  ng-change="activityTypeChange()" data-ng-options='object for object in items.activityTypeList' name="activityType" required><option value=""></option></select>
+                    <select ng-model="items.activity.activityType"  ng-change="activityTypeChange()" ng-options='object for object in items.activityTypeList' name="activityType" required><option value=""></option></select>
 			    
                 </span>
-                
+               
            </span>          
-            <span class="formMainSpan" data-ng-hide="items.isCPCN">
-                 <span data-ng-show="items.beneficiaryToShow" class="subFormSpanLeft">Referral:  </span>		
-                 <span data-ng-show="items.beneficiaryToShow" class="subFormSpanRight">
-                 	<select  data-ng-model="items.activity.referral" data-ng-options=" opt for opt in items.referralList"><option value=""></option></select>
+            <span class="formMainSpan" ng-hide="items.isCPCN">
+                
+                 <span ng-show="items.beneficiaryToShow" class="subFormSpanLeft">Referral:  </span>		
+                 <span ng-show="items.beneficiaryToShow" class="subFormSpanRight">
+                 	<select  ng-model="items.activity.referral" ng-options=" opt for opt in items.referralList"><option value=""></option></select>
 
                 </span>
+                
              </span>
-             <span class="formMainSpan" data-ng-show="items.isCPCN">
-                 <span data-ng-show="items.beneficiaryToShow" class="subFormSpanLeft">Level change:  </span>		
-                 <span data-ng-show="items.beneficiaryToShow" class="subFormSpanRight">
-                 	<select data-ng-model="items.levelChange" data-ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
+             <span class="formMainSpan" ng-show="items.isCPCN">
+                 
+                 <span ng-show="items.beneficiaryToShow" class="subFormSpanLeft">Level change:  </span>		
+                 <span ng-show="items.beneficiaryToShow" class="subFormSpanRight">
+                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
 
                 </span>
+              
              </span>   
             
          </div>
          
          <div  style="height: 20%;">  <input id="activityId" type="text" hidden="true"
-				data-ng-model="items.activity.activityId" name="activityId"/><br /></div>
+				ng-model="items.activity.activityId" name="activityId"/><br /></div>
          <div>          
             <span class="formMainSpan">
+			    
                 <span class="subFormSpanLeft">Person in Charge: </span>
                 <span class="subFormSpanRight">
-                    <select data-ng-model="items.objectPCH" data-ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in items.personInCharge' name="personInCharge" required><option value=""></option></select>
+                    <select ng-model="items.objectPCH" ng-options='objectPCH.firstName+" "+objectPCH.lastName for objectPCH in items.personInCharge' name="personInCharge" required><option value=""></option></select>
 			    
                 </span>
                 
            </span>
-           <span class="formMainSpan" data-ng-show="items.beneficiaryToShow">
+           <span class="formMainSpan" ng-show="items.beneficiaryToShow">
 			    
                 <span class="subFormSpanLeft">Beneficiary: </span>
                 <span class="subFormSpanRight">
                      <select 
-                       data-ng-model="items.objectBEN" data-ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'  name="beneficiary" required><option value=""></option></select>
+                       ng-model="items.objectBEN" ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'  name="beneficiary" required><option value=""></option></select>
                 </span>
                 
             </span>
-            <span class="formMainSpan" data-ng-hide="items.beneficiaryToShow">
+            <span class="formMainSpan" ng-hide="items.beneficiaryToShow">
 			    
                 <span class="subFormSpanLeft">Attending people: </span>
                 <span class="subFormSpanRight">
-                     <input type="number" data-ng-model="items.activity.attendingPeople" />                       
+                     <input type="number" ng-model="items.activity.attendingPeople" />                       
                 </span>
                 
             </span>
@@ -71,28 +77,28 @@
          
          <div>   			
               <span class="formMainSpan">
-                 <div>
+                 
                  <span class="subFormSpanLeft">Date: </span>
-                 <span class="subFormSpanRight" data-ng-controller="DatepickerDemoCtrl">
+                 <span class="subFormSpanRight" ng-controller="DatepickerDemoCtrl">
                     <div>
                        <span>
-                         <input type="text"  datepicker-popup="{{format}}" data-ng-model="items.date" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" name="activityDate" required>
+                         <input type="text"  datepicker-popup="{{format}}" ng-model="items.date" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" name="activityDate" required>
                        </span>
                          <button  vtype="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div> 	      
                  </span>
-                 </div>                 
+                          
              </span>         
-			 <span class="formMainSpan" >
-                 <div data-ng-show="items.beneficiaryToShow">
-                 <span class="subFormSpanLeft" data-data-ng-hide="items.isCPPD">Intervention:  </span>
-                 <span class="subFormSpanLeft" data-data-ng-show="items.applianceToShow">Appliance/kits:  </span>				
+			 <span class="formMainSpan" ng-show="items.beneficiaryToShow" >
+                 
+                 <span class="subFormSpanLeft" data-ng-hide="items.isCPPD">Intervention:  </span>
+                 <span class="subFormSpanLeft" data-ng-show="items.applianceToShow">Appliance/kits:  </span>				
                  <span class="subFormSpanRight">
-                 	<select data-data-ng-hide="items.isCPPD" data-ng-model="items.activity.intervention" data-ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
-                    <select data-data-ng-show="items.applianceToShow" data-ng-model="items.activity.intervention" data-ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
+                 	<select data-ng-hide="items.isCPPD" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
+                    <select data-ng-show="items.applianceToShow" ng-model="items.activity.intervention" ng-options=" opt for opt in items.interventionTypeList"><option value=""></option></select>
 
                 </span>
-                </div>
+                
              </span>            
 
          </div>
@@ -101,23 +107,23 @@
 				 /><br /></div>
 
          <div> 
-          <span class="formMainSpan" data-ng-show="items.isCPPD">
-                 <div data-ng-show="items.beneficiaryToShow">
+          <span class="formMainSpan" ng-show="items.isCPPD && items.beneficiaryToShow">
+                 
                  <span class="subFormSpanLeft">Level change:  </span>		
                  <span class="subFormSpanRight">
-                 	<select data-ng-model="items.levelChange" data-ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
+                 	<select ng-model="items.levelChange" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
 
                 </span>
-                </div>
+                
           </span> 
-           <span class="formMainSpan" data-ng-show="items.isCPPD">
-                 <div data-ng-show="items.beneficiaryToShow">
+           <span class="formMainSpan" ng-show="items.isCPPD && items.beneficiaryToShow">
+                
                  <span class="subFormSpanLeft">Level of improvement:  </span>		
                  <span class="subFormSpanRight">
-                 	<select data-ng-model="items.activity.levelOfImprovement" data-ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
+                 	<select ng-model="items.activity.levelOfImprovement" ng-options=" opt for opt in items.personStateNames"><option value=""></option></select>
 
                 </span>
-                </div>
+                
           </span>   
          </div>
 
@@ -130,10 +136,10 @@
 	  
         </div>
         <div class="modal-footer">	
-            <button class="btn btn-primary" data-ng-show="items.beneficiaryToShow"  ng-disabled="form.$pristine || (form.personInCharge.$error.required || form.beneficiary.$error.required ||
+            <button class="btn btn-primary" ng-show="items.beneficiaryToShow"  ng-disabled="form.$pristine || (form.personInCharge.$error.required || form.beneficiary.$error.required ||
                                                                              form.activityType.$error.required || form.activityDate.$error.required)"
                                                                             ng-click="ok()">OK</button>
-            <button class="btn btn-primary" data-ng-hide="items.beneficiaryToShow"  ng-disabled="form.$pristine || (form.personInCharge.$error.required  ||
+            <button class="btn btn-primary" ng-hide="items.beneficiaryToShow"  ng-disabled="form.$pristine || (form.personInCharge.$error.required  ||
                                                                              form.activityType.$error.required || form.activityDate.$error.required)"
                                                                             ng-click="ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>

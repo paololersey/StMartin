@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
+import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,9 +70,9 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		   String sqlNatureOfCaseStatusCondition="";
 		   
 		   if(personIdBeneficiary!=null){			                                    
-			   sqlBeneficiaryFromCondition ="  JOIN PERSON" +
-			    " ON NATURE_OF_CASE_PERSON.PERSON_ID=PERSON.PERSON_ID ";		   
-			   sqlBeneficiaryWhereCondition = "AND PERSON.PERSON_ID=:personIdBeneficiary ";		   
+			   sqlBeneficiaryFromCondition ="  JOIN person" +
+			    " ON nature_of_case_person.PERSON_ID=person.PERSON_ID ";		   
+			   sqlBeneficiaryWhereCondition = "AND person.PERSON_ID=:personIdBeneficiary ";		   
 		   }	   
 		   
 		   if (dateStart != null) {
@@ -89,12 +90,12 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		   if (natureOfCaseStatus != null) {
 			   sqlNatureOfCaseStatusCondition = "AND STATUS =:natureOfCaseStatus ";
 		   };
-		   String sqlProjectCode="AND NATURE_OF_CASE_PERSON.PROJECT_CODE =:projectCode ";
+		   String sqlProjectCode="AND nature_of_case_person.PROJECT_CODE =:projectCode ";
 		   if(projectCode!=null && projectCode.equals("DIRE")){
 				 sqlProjectCode="";
 	       }
 
-		String sql="SELECT NATURE_OF_CASE_PERSON.* FROM NATURE_OF_CASE_PERSON "
+		String sql="SELECT nature_of_case_person.* FROM nature_of_case_person "
 		        + sqlBeneficiaryFromCondition
 		        + "WHERE 1=1 "
 		        + sqlBeneficiaryWhereCondition
@@ -123,7 +124,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 		  if(projectCode!=null && projectCode.equals("DIRE")){
 			 sqlProjectCode="";
         }
-		String sql="SELECT NATURE_OF_CASE FROM NATURE_OF_CASE WHERE 1=1 "
+		String sql="SELECT NATURE_OF_CASE FROM nature_of_case WHERE 1=1 "
 				+ sqlProjectCode;
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
@@ -132,7 +133,7 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 
 	@Override
 	public List<NatureOfCasePerson> findById(Integer natureOfCasePersonId) {
-		String sql = "SELECT * FROM NATURE_OF_CASE_PERSON WHERE NATURE_OF_CASE_PERSON_ID=:idString";
+		String sql = "SELECT * FROM nature_of_case_person WHERE NATURE_OF_CASE_PERSON_ID=:idString";
 		SQLQuery query = instantiateQuery(sql);
 		query.setParameter("idString", natureOfCasePersonId);
 		return query.list();
@@ -141,16 +142,18 @@ public class NatureOfCasePersonDaoImpl implements NatureOfCasePersonDao {
 	@Override
 	public List<String> getNatureOfCaseStatus(String projectCode) {
 		String sqlProjectCode="AND PROJECT_CODE=:projectCode OR PROJECT_CODE is null ";
-		  if(projectCode!=null && projectCode.equals("DIRE")){
-			 sqlProjectCode="";
-      }
-		String sql="SELECT NATURE_OF_CASE_STATUS FROM NATURE_OF_CASE_STATUS WHERE 1=1"
+		if(projectCode!=null && projectCode.equals("DIRE")){
+		  sqlProjectCode="";
+		}
+	
+		String sql="SELECT nature_of_case_status FROM nature_of_case_status WHERE 1=1 "
 				+ sqlProjectCode;
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if(projectCode!=null && !projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	}
 
+	
 
 	
 }
