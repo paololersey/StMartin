@@ -1,0 +1,17 @@
+
+<div data-ng-include="'view/backButton.html'"></div> 
+<div style="float:left; width: 74%">
+	 <tabset>		 
+	    <!--  volunteers -->
+	 <tab heading="Volunteers"  style="cursor:pointer" select="volunteersSelected()"></tab>		  
+	  <!-- beneficiaries -->
+	 <tab data-ng-show="!isCPHA" style="cursor:pointer" heading="Beneficiaries" select="beneficiariesSelected()"></tab>		  
+	 <tab data-ng-show="isCPHA" style="cursor:pointer" heading="Orphans" select="orphansSelected()"></tab>
+	 <tab data-ng-show="isCPHA" style="cursor:pointer" heading="People living HIV" select="peopleLivingHIVSelected()"></tab>
+	    <tab data-ng-show="isCPHA" style="cursor:pointer" heading="Recoverees" select="recovereesSelected()"></tab>
+	    <!--  others -->
+	    <tab heading="Staff Workers" style="cursor:pointer" select="socialWorkersSelected()"></tab>
+	 <tab data-ng-show="isCPPD"  style="cursor:pointer" heading="Therapists"  select="physioterapistsSelected()"></tab>
+	 <tab data-ng-show="isCPCN" style="cursor:pointer" heading="Center managers"  select="centerManagersSelected()"></tab>
+	 </tabset>
+</div>

@@ -1,0 +1,71 @@
+
+<div class="modal-header">
+	<h3 class="modal-title">Insert/update nature of case</h3>
+</div>
+<div class="modal-body">
+
+	<form name="form" id="insertForm" novalidate>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Beneficiary:
+			</span> <span class="subFormSpanRight"> <select
+					ng-model="items.objectBEN"
+					ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'
+					name="beneficiary" required><option value=""></option></select></select>
+			</span>
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Nature
+					of Case: </span> <span class="subFormSpanRight"> <select
+					ng-model="items.natureOfCasePerson.natureOfCase"
+					ng-options='obj for obj in items.natureOfCasesList'
+					name="natureOfCase" required><option value=""></option></select></select>
+
+			</span>
+			</span>
+		</div>
+		<div style="height: 20%;">
+			<input id="activityId" type="text" hidden="true"
+				ng-model="items.natureOfCasePerson.natureOfCasePersonId" /><br />
+		</div>
+		<div>
+			<span class="formMainSpan" ng-show="items.isCPPR"> <span
+				class="subFormSpanLeft">Status: </span> <span
+				class="subFormSpanRight"> <select
+					ng-model="items.natureOfCasePerson.status"
+					ng-options='natureOfCaseStatus for natureOfCaseStatus in items.natureOfCasesStatusList'
+					name="natureOfCaseStatus" required><option value=""></option></select></select>
+			</span>
+			</span> <span class="formMainSpan" ng-hide="items.isCPPR"> <span
+				class="subFormSpanLeft">Date: </span> <span class="subFormSpanRight"
+				ng-controller="DatepickerDemoCtrl">
+					<div>
+						<span> <input type="text" datepicker-popup="{{format}}"
+							ng-model="items.date" is-open="opened" min-date="minDate"
+							datepicker-options="dateOptions"
+							date-disabled="disabled(date, mode)" ng-required="true"
+							close-text="Close" name="natureOfCaseDate" required>
+						</span>
+						<button vtype="button" class="btn btn-default"
+							ng-click="open($event)">
+							<i class="glyphicon glyphicon-calendar"></i>
+						</button>
+						<span> </span>
+			</span>
+			</span> </span>
+		</div>
+
+
+
+
+
+
+
+	</form>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary"
+		ng-disabled="form.$pristine || form.natureOfCase.$error.required ||
+                                                         form.beneficiary.$error.required "
+		ng-click="ok()">OK</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

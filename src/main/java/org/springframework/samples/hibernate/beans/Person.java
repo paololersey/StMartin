@@ -87,7 +87,7 @@ public class Person {
 	
 	private Date recommitmentDate;
 	
-    private String nhifMemberShipNumber;
+    private String nhifMembershipNumber;
 	
 	private String supportGroup;
 	
@@ -391,12 +391,12 @@ public class Person {
 	}
 
 	@Column(name = "NHIF_MEMBERSHIP_NUMBER")
-	public String getNhifMemberShipNumber() {
-		return nhifMemberShipNumber;
+	public String getNhifMembershipNumber() {
+		return nhifMembershipNumber;
 	}
 
-	public void setNhifMemberShipNumber(String nhifMemberShipNumber) {
-		this.nhifMemberShipNumber = nhifMemberShipNumber;
+	public void setNhifMembershipNumber(String nhifMembershipNumber) {
+		this.nhifMembershipNumber = nhifMembershipNumber;
 	}
 
 	@Column(name = "SUPPORT_GROUP")
