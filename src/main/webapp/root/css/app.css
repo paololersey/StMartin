@@ -1,13 +1,25 @@
 /* app css stylesheet */
 
+html {
+	
+}
 body {
   padding: 10px;
   margin: 5px;
+  height: 100%;
+  
+  background: #3276b1; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, white,#3276b1); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, white, #3276b1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, white, #3276b1);  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,  white, #3276b1); /* Standard syntax */
+  
 }
 
 /*style.css*/
 .gridStyle {
-    border: 2px solid rgb(212,212,212);
+    border: 2px solid #3276b1;
+    border-radius:5px;
     width: 80%; 
     height: 270px;
     float:left;
@@ -127,6 +139,44 @@ body {
 }
 
 .panel-primary {
-  border-color: #E9CF5F;
+ /* border-color: #E9CF5F;*/
   background-color: #E1F0FC;
+  border: 2px solid #3276b1;
+}
+
+.loginDiv{
+	width: 33%; 
+	height: 300px; 
+	float: left;
+	border-radius: 20px;
+
+}
+
+.gradient {
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #3276b1 , #C9DDE1); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #3276b1, #C9DDE1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #3276b1, #C9DDE1); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #3276b1 , #C9DDE1); /* Standard syntax */
+}
+
+.nav-tabs{
+	border-bottom: 0px ; 
+}
+
+/*css for wait panel*/
+div.overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2000;
+}
+
+.verticalAlignMiddle{
+	vertical-align: middle;
+}
+div.input,div.select,div.textarea{
+	text-transform:uppercase;
 }

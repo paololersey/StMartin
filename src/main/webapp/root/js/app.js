@@ -1,5 +1,20 @@
 define(['angularAMD', 'angular-route','ui-bootstrap', 'ng-grid', 'datePicker'  ], function (angularAMD) {
     var app = angular.module("StMartinModule", ['ngRoute','ngGrid','ui.bootstrap']);
+    app.service("loadingIconManager",['$timeout',function($timeout) {
+		var counter=0;
+		var loadingIconCounter=0;
+		var loadingIconRequests=[];
+		var configIdGenerator=0;
+		
+		return {		
+			isLoading: function() {
+				return counter!=0;
+			},
+			showLoadingIcon: function() {
+				return loadingIconCounter!=0;
+			}
+		};	
+	}]);
     app.config(function ($routeProvider) {
         $routeProvider.when(
         	"/loginPage", angularAMD.route({
@@ -27,7 +42,7 @@ define(['angularAMD', 'angular-route','ui-bootstrap', 'ng-grid', 'datePicker'  ]
 			peopleData : null
 		};
    }]);
-   app.factory('commonMethodFactory', function(){
+   app.factory('commonMethodFactory',['$http', function($http){
     	return {
 	    	openDialogMessage: function(message, callbackFunction) {
 				var modalInstance = $modal.open({
@@ -46,9 +61,19 @@ define(['angularAMD', 'angular-route','ui-bootstrap', 'ng-grid', 'datePicker'  ]
 				        callbackFunction();
 				    }
 				});
+			},
+			getPeopleList: function(projectPerson) {
+				return $http.post('../views/listaBen', projectPerson);
+			},
+			getActivityList: function(filterActivity){
+				return $http.post('../views/activityList', filterActivity);
 			}
     	};
-    });
+    }]);
+
+
+   
+   
    app.controller('messageDialogController', ['$scope', '$modalInstance','message', function($scope, $modalInstance, message) {
 		$scope.testo=message;
 		$scope.ok = function () {

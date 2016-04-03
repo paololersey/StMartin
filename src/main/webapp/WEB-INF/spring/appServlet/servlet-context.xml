@@ -92,6 +92,10 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.NatureOfCasePerson
 				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Sibling
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.SupportGroup
+				</beans:value>
 				
 			</beans:list>
 		</beans:property>

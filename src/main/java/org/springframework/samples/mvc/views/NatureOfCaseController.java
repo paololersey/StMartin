@@ -38,7 +38,7 @@ public class NatureOfCaseController {
 		List<NatureOfCasePerson> natureOfCasePersonList = natureOfCasePersonDao.findByFilter(filter);
 		PersonDao personDao = (PersonDao) appContext.getBean("personDao");
 		// NatureOfCasePersonMapBean is the bean to be sent client side;
-		ArrayList<NatureOfCasePersonMapBean> natureOfCasePersonMapBeanList=new ArrayList<>();
+		ArrayList<NatureOfCasePersonMapBean> natureOfCasePersonMapBeanList=new ArrayList<NatureOfCasePersonMapBean>();
 		for (NatureOfCasePerson natureOfCasePerson:natureOfCasePersonList){
 			List<Person> beneficiary = (List<Person>)personDao.findById(natureOfCasePerson.getPersonId());		
 			// mapping: it can be done also creating a NatureOfCasePersonMapper between both

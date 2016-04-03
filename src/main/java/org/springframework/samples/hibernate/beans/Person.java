@@ -74,14 +74,23 @@ public class Person {
 	private String mother;
 	
 	private String deadAliveMother;
-	
-
-	
+		
 	private String school;
 	
 	private Set<ProjectPerson> projectPersons=new HashSet<ProjectPerson>();
 	
-
+	private Set<Sibling> siblingList=new HashSet<Sibling>();
+	
+	private Date endDate;
+	
+	private Date joiningDate;
+	
+	private Date recommitmentDate;
+	
+    private String nhifMemberShipNumber;
+	
+	private String supportGroup;
+	
 	@NotNull
 	@Id
 	@GeneratedValue
@@ -131,6 +140,7 @@ public class Person {
 	public void setVillage(String village) {
 		this.village = village;
 	}
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="PERSON_ID",nullable=false)
 	public Set<ProjectPerson> getProjectPersons() {
@@ -343,8 +353,60 @@ public class Person {
 		this.deadAliveMother = deadAliveMother;
 	}
 	
-	//@Column(name = "MEDICAL_STATUS")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="PERSON_ID",nullable=false)
+	public Set<Sibling> getSiblingList() {
+		return siblingList;
+	}
+
+	public void setSiblingList(Set<Sibling> siblingList) {
+		this.siblingList = siblingList;
+	}
+
+	@Column(name = "END_DATE")
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
+	@Column(name = "JOINING_DATE")
+	public Date getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
+	}
 		
+	@Column(name = "RECOMMITMENT_DATE")
+	public Date getRecommitmentDate() {
+		return recommitmentDate;
+	}
+
+	public void setRecommitmentDate(Date recommitmentDate) {
+		this.recommitmentDate = recommitmentDate;
+	}
+
+	@Column(name = "NHIF_MEMBERSHIP_NUMBER")
+	public String getNhifMemberShipNumber() {
+		return nhifMemberShipNumber;
+	}
+
+	public void setNhifMemberShipNumber(String nhifMemberShipNumber) {
+		this.nhifMemberShipNumber = nhifMemberShipNumber;
+	}
+
+	@Column(name = "SUPPORT_GROUP")
+	public String getSupportGroup() {
+		return supportGroup;
+	}
+
+	public void setSupportGroup(String supportGroup) {
+		this.supportGroup = supportGroup;
+	}
 	
 	
 }

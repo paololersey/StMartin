@@ -7,6 +7,8 @@ public class GlobalPerson {
 	private ProjectPerson projectPerson;
 	
 	private NatureOfCasePerson natureOfCasePerson;
+	
+	private Sibling sibling;
 
 	public ProjectPerson getProjectPerson() {
 		return projectPerson;
@@ -30,6 +32,14 @@ public class GlobalPerson {
 
 	public void setNatureOfCasePerson(NatureOfCasePerson natureOfCasePerson) {
 		this.natureOfCasePerson = natureOfCasePerson;
+	}
+
+	public Sibling getSibling() {
+		return sibling;
+	}
+
+	public void setSibling(Sibling sibling) {
+		this.sibling = sibling;
 	}
 
 	

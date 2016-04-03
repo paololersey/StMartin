@@ -9,6 +9,7 @@ import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
+import org.springframework.samples.hibernate.beans.SupportGroup;
 import org.springframework.samples.hibernate.beans.Zone;
 
 public interface PersonDao {
@@ -52,5 +53,7 @@ public interface PersonDao {
 	List<String> getVolunteerTypeList(String projectCode);
 
 	List<String> getNatureOfCaseByPersonId(Person person);
+
+	List<SupportGroup> getSupportGroupList(String projectCode);
 
 }

@@ -7,13 +7,15 @@ require.config({
         'ui-bootstrap': 'vendors/ang-ui-bootstrap/ui-bootstrap-tpls-0.11.0.min',
         'jquery': 'vendors/jquery/1.8/jquery',       
         'ng-grid': 'vendors/ng-grid/2.0.11/ng-grid-2.0.11.debug',
-        'datePicker':'controllers/datePicker'
+        'datePicker':'controllers/datePicker',
+        'buttons':'controllers/buttons'
     },
     shim: { 'angularAMD': ['angular'], 
     	'angular-route': ['angular'],
     	'ui-bootstrap': ['angular'],
     	'jquery':['angular'],
     	'ng-grid': ['angular','jquery'],
-    	 'datePicker':['angular']},
+    	 'datePicker':['angular'],
+    	 'buttons':['angular']},
     deps: ['app']
 });

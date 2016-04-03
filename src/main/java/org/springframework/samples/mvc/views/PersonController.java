@@ -14,6 +14,8 @@ import org.springframework.samples.hibernate.beans.Login;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonActivity;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
+import org.springframework.samples.hibernate.beans.Sibling;
+import org.springframework.samples.hibernate.beans.SupportGroup;
 import org.springframework.samples.hibernate.beans.Zone;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +56,9 @@ public class PersonController {
 	public @ResponseBody
 	String deletePerson(@RequestBody Person person) {
 		PersonDao personDao = (PersonDao) appContext.getBean("personDao");
-		personDao.delete(person);
+		person.setEndDate(new Date());
+		//personDao.delete(person);
+		personDao.merge(person);
 		return "OK";
 	}
 	
@@ -88,6 +92,11 @@ public class PersonController {
 			//sono in update
 			List<Person> beneficiarioPresente = personDao.findById(globalPerson.getPerson().getPersonId());
 			if(beneficiarioPresente.size()>0){
+				Set<Sibling> siblingSet=new HashSet<Sibling>();
+				if(globalPerson.getSibling()!=null){
+					siblingSet.add(globalPerson.getSibling());
+					person.setSiblingList(siblingSet);
+				}
 				personDao.merge(person);
 			}
 		}
@@ -127,6 +136,12 @@ public class PersonController {
 			person.setProjectPersons(prSet);
 			person.setPersonId(100);
 			person.setInsertDate(new Date());
+			Set<Sibling> siblingSet=new HashSet<Sibling>();
+			if(globalPerson.getSibling()!=null){
+				siblingSet.add(globalPerson.getSibling());
+				person.setSiblingList(siblingSet);
+			}
+			
 			personDao.save(person);	
 		}
 
@@ -169,6 +184,13 @@ public class PersonController {
 	    {
 		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
 	    	return personDao.getVolunteerTypeList(projectCode);
+	    }
+	 
+	 @RequestMapping(value="supportGroupList",method=RequestMethod.POST, produces="application/json")
+	    public @ResponseBody List<SupportGroup>  supportGroupList(@RequestBody String projectCode)
+	    {
+		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+	    	return personDao.getSupportGroupList(projectCode);
 	    }
 	 
 	 @RequestMapping(value="submitCredentials",method=RequestMethod.POST, produces="application/json")

@@ -1,0 +1,121 @@
+<div>
+		<div data-ng-if="items.isCPHAOrphan && items.isBeneficiary">
+				<hr></hr>
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Father: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.father" name="father" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'D'"
+						name="deadAliveFather">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveFather" btn-radio="'A'"
+						name="deadAliveFather">Alive</label>
+				</span>
+
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Mother: </span> <span
+					class="subFormSpanRight"> <input type="text"
+						data-ng-model="items.people.mother" name="mothser" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Status: </span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'D'"
+						name="deadAliveMother">Dead</label> <label class="btn btn-primary"
+						data-ng-model="items.people.deadAliveMother" btn-radio="'A'"
+						name="deadAliveMother">Alive</label>
+				</span>
+				</span>
+
+			</div>
+			<div data-ng-if="items.isCPHAOrphan && items.isBeneficiary">
+				<span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.parentGuardian" name="parentGuardian" />
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft verticalAlignMiddle">Guard. gender:</span> <span
+					class="subFormSpanRight"> <label class="btn btn-primary"
+						data-ng-model="items.people.parentGuardianGender" btn-radio="'M'"
+						name="parentGuardianGender">Male</label> <label
+						class="btn btn-primary"
+						data-ng-model="items.people.parentGuardianGender" btn-radio="'F'"
+						name="parentGuardianGender">Female</label>
+				</span>
+				</span> <span class="formOneFourthSpan"> <span
+					class="subFormSpanLeft">Guardian telephone:</span> <span
+					class="subFormSpanLeft"> <input type="text"
+						data-ng-model="items.people.parentGuardianTel" integer data-ng-minlength="10"
+						data-ng-pattern="/^[0-9/]+$/" name="parentGuardianTel" />
+				</span>
+				</span>
+			</div>
+			
+			<div data-ng-if="items.isCPHAOrphan && items.isBeneficiary">
+				<hr></hr>
+				<div>
+					<span
+						class="subFormSpanLeft">Sibling Number:</span> <span
+						class="subFormSpanLeft"> <input type="text" style="width:50%" data-ng-change="fillCountSiblings(items.siblingSelectedNumber)"
+							data-ng-model="items.siblingSelectedNumber" data-ng-pattern="/[0-9]/" maxlength="1" name="siblingSelectedNumber" />
+					</span>
+				</div>
+				<div>&nbsp;</div>
+				<div data-ng-if="items.siblingSelectedNumber>0 && items.siblingSelectedNumber<10" data-ng-repeat="numSibling in items.countSiblings">
+					<div>
+						<span class="formOneFourthSpan"> <span
+							class="subFormSpanLeft">Sibling {{numSibling}}:</span> <span
+							class="subFormSpanRight"> <input type="text"
+								data-ng-model="items.sibling.siblingName" name="siblingName" />
+						</span>
+						</span> <span class="formOneFourthSpan"> <span
+							class="subFormSpanLeft verticalAlignMiddle">Sibling gender {{numSibling}}:</span> <span
+							class="subFormSpanRight"> <label class="btn btn-primary"
+								data-ng-model="items.sibling.siblingGender" btn-radio="'M'"
+								name="siblingGender">Male</label> <label
+								class="btn btn-primary"
+								data-ng-model="items.sibling.siblingGender" btn-radio="'F'"
+								name="siblingGender">Female</label>
+						</span>
+						</span> <span class="formOneThirdSpan"> <span
+							class="subFormSpanLeft verticalAlignMiddle" >Sibling date of birth:</span> <span class="subFormSpanRight"
+							data-ng-controller="DatepickerDemoCtrl"> <span> <input
+							id="siblingDateOfBirth" type="text" datepicker-popup="{{format}}"
+							data-ng-model="items.sibling.siblingDateOfBirth" is-open="opened" min-date="minDate"
+							datepicker-options="dateOptions"
+							date-disabled="disabled(date, mode)" 
+							close-text="Close" name="siblingBirthDate" />
+							<button vtype="button" class="btn btn-default"
+								data-ng-click="open($event)">
+								<i class="glyphicon glyphicon-calendar"></i>
+							</button><span> </span>
+						</span>
+						</span>
+					</div>
+					<div>&nbsp;</div>
+				</div>
+			</div>
+			
+			<div data-ng-if="items.isCPHAPlwhiv && items.isBeneficiary">
+				<span class="formMainSpan" >
+		            <span class="subFormSpanLeft">NHIF memb. number: </span> 
+		            <span
+						class="subFormSpanRight"> <input type="text"
+							data-ng-model="items.people.nhifMembershipNumber" />
+					</span>
+				</span> 
+				<span class="formMainSpan"> 
+				<span class="subFormSpanLeft">Support group:</span> 
+					<span class="subFormSpanRight"> <select style="width: 45%"
+							data-ng-model="items.people.supportGroup" name="supportGroup"
+							data-ng-options=" opt for opt in items.supportGroups" required>
+								<option value=""></option>
+						</select>
+					</span>
+				</span>
+			</div>
+		</div>

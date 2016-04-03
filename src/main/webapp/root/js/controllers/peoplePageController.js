@@ -3,10 +3,23 @@
 /* Controllers */
 var type;
 define(['app'], function (app) {
-app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location', 'commonFactory', function($scope, $http, $modal, $log, $location, commonFactory) {
+app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location', 'commonFactory','commonMethodFactory', function($scope, $http, $modal, $log, $location, commonFactory,commonMethodFactory) {
 	
+		   
 	       var personType="BE";	
+	       // store department code
            var projectCode = commonFactory.selectedDepartment;
+           //navigation check: if I refresh the page the code won't be available, so I send to to the login page
+           if(!commonFactory.selectedDepartment){
+        	   $location.path("/loginPage");
+        	   return;
+           }
+
+           if(projectCode=='CPHA') {
+        	   personType="OR";	
+           }
+           
+           
 
 /**********************************************************************************************************************************************/
 // These functions regards the tab selection 
@@ -79,6 +92,14 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
   	          $scope.majorTrainingList=data;
         	});
         	
+        	$http.post('../views/supportGroupList', projectCode).success(function(data) {          				
+  				var supportGroups=[];
+  				for (var i=0;i<data.length;i++ ){					
+  					supportGroups.push(data[i].supportGroupName);
+  				}
+  				$scope.supportGroups=supportGroups;
+          	});
+        	
         	
 			
 
@@ -146,42 +167,45 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 		
 			$scope.projectPerson = {
 			    "projectCode" : projectCode,
-				"personCode" : "BE"
+				"personCode" : personType
 			};
 
 			/** FUNZIONE PER FARE LA PERSISTENZA SUL BACKEND */
 			function update($newScope) {
-				$scope.personData = $newScope;
+				$scope.personData = $newScope.people;
 				// sono in delete
-				if(!$newScope.firstName && $newScope.personId){
+				if($newScope.people.endDate && $newScope.people.personId){
 					$http({
 						url : '../views/deletePerson',
 						method : 'POST',
 						data : $scope.personData
 					}).success(function(data) {										
-						alert("cancelled!");
-						$scope.personData = commonFactory.peopleData;
+						alert("cancelled!");						
 					});
 				}
 				else{
-				var arrayData = {
-					person : $scope.personData,
-					projectPerson : $scope.projectPerson
-				};
-
-				$http({
-					url : '../views/inserisciBen',
-					method : 'POST',
-					data : arrayData
-				}).success(function(data) {
-					if(data!=null && data!=""){
-					   openMessageDialog(data);
-					   }
-					else{
-						alert("Insert/update succeeded");
-						$scope.personData = commonFactory.peopleData;
-					}
-				});
+					var arrayData = {
+						person : $scope.personData,
+						projectPerson : $scope.projectPerson,
+						sibling: $newScope.sibling
+					};
+	
+					$http({
+						url : '../views/inserisciBen',
+						method : 'POST',
+						data : arrayData
+					}).success(function(data) {
+						if(data!=null && data!=""){
+						   openMessageDialog(data);
+						}
+						else{
+							alert("Insert/update succeeded");			
+						}
+						commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
+			    			$scope.personData = object.data;
+			    			commonFactory.peopleData=$scope.personData;
+			    		});
+					});
 			  }
 			};
 
@@ -281,10 +305,10 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 	    			    "projectCode" : projectCode,
 	    				"personCode"  : personTypeParameter
 	    			};
-	    		$http.post('../views/listaBen', $scope.projectPerson).success(
-	    				function(data) {
-	    					$scope.personData = data;      
-	    				});	    		
+	    		commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
+	    			$scope.personData = object.data;
+	    			commonFactory.peopleData=$scope.personData;
+	    		});		
 	    	}
 	    	                   
 	    	
@@ -297,10 +321,10 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 	    			    "projectCode" : projectCode,
 	    				"personCode"  : personTypeSelected
 	    			};
-	    		$http.post('../views/listaBen', $scope.projectPerson).success(
-	    				function(data) {
-	    					$scope.personInCharge = data;      
-	    				});
+	    		commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
+	    			$scope.personInCharge = object.data;
+	    			
+	    		});	
 	    	};
 	    	
 /**********************************************************************************************************************************************/	    	
@@ -344,7 +368,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 					    if(type == "delete"){
 					    	modalContent= 'myModalContentDelete.html';
 					    }
-						$modal.open({
+						var modalOpen= $modal.open({
 					        templateUrl: modalContent,
 					        controller: peopleDialogController,
 					        windowClass: 'app-modal-window',
@@ -372,24 +396,32 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 								            peopleData=$scope.mySelections[0];
 								            dateOfBirthPerson=$scope.mySelections[0].dateOfBirth;
 					        		  }		  				 
-					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "personState": $scope.personStateNames,
+					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "supportGroups":$scope.supportGroups, "personState": $scope.personStateNames,
 					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
-					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA};
+					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv};
 					  				  return array;
 					  				
 					        	  }
 					        	  else{
-					        		  $scope.mySelections[0].firstName=null;
+					        		  $scope.mySelections[0].endDate=new Date();
 					        		  $("#personId").attr("value",$scope.mySelections[0].personId);
 					        		  return {"people": $scope.mySelections[0]};					        		  
-					        	  }
-					        	 
-					        	  
-								 
+					        	  }	 
 					          }
 					        }
 					      });
+						
+
+						modalOpen.result.then(function (selectedItem) {
+						      $scope.selected = selectedItem;
+						    }, function () {
+						    //  $log.info('Modal dismissed at: ' + new Date());
+						    	commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
+					    			$scope.personData = object.data;
+					    			commonFactory.peopleData=$scope.personData;
+					    		});
+						});
 						
 						
 
@@ -401,19 +433,38 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			var peopleDialogController = function ($scope, $modalInstance, items) {
 	  
 					  $scope.items = items;
+					// number sibling
+					  if(items.people!=null && items.people.siblingList.length>0){
+						  	$scope.items.countSiblings=[];
+				        	  for (var i=0;i<items.people.siblingList.length;i++){
+						   		    $scope.items.countSiblings.push(i);
+						   		    $scope.items.siblingSelectedNumber= items.people.siblingList.length;
+						   		    $scope.items.sibling=items.people.siblingList[i];
+						   	}
+						   	 
+						  }
+					  
+			          $scope.fillCountSiblings = function(selNumber){
+			        	  $scope.items.countSiblings=[];
+			        	  for (var i=0;i<selNumber;i++){
+					   		    $scope.items.countSiblings.push(i);
+					   		  }  
+			          };
+			   		  
 					  $scope.ok = function () {
 						$scope.$$childTail.items.people.dateOfBirth = $scope.$$childTail.items.date;
-						update($scope.$$childTail.items.people);
+						update($scope.$$childTail.items);
 						$modalInstance.dismiss('cancel');
 					    
 					  };
 
-					  $scope.cancel = function () {
-						$scope.personData = commonFactory.peopleData;
+					  $scope.cancel = function () {						
 					    $modalInstance.dismiss('cancel');					   	
 					  };
 					 
 			};
+			
+
 			
 /**********************************************************************************************************************************************/
 // Open message dialog	
@@ -480,6 +531,8 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			$scope.isCPPD=false;
 			$scope.isCPCN=false;
 			$scope.isCPHA=false;
+			$scope.isCPHAOrphan=false;
+			$scope.isCPHAPlwhiv=false;
 			
 			  if(personType=="BE" && projectCode=="CPPR") {
 				  $scope.isCPPRBeneficiary=true;
@@ -495,6 +548,12 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			  }
 			  if(projectCode=="CPHA") {
 				  $scope.isCPHA=true;
+			  }
+			  if(projectCode=="CPHA" && personType=="OR") {
+				  $scope.isCPHAOrphan=true;
+			  }
+			  if(projectCode=="CPHA" && personType=="LH") {
+				  $scope.isCPHAPlwhiv=true;
 			  }
 			  if(personType=="BE" || personType=="OR" || personType=="LH" || personType=="RE") {
 				  $scope.isBeneficiary=true;

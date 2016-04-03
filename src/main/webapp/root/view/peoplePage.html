@@ -7,30 +7,8 @@
 
 </head>
 <body>
-  <div align="center">
-     <span style="display: inline-block; width: 20%"></span>
-      <span style="display: inline-block; width: 60%">
-		  <tabset>
-		  <!-- beneficiaries -->
-		  <tab data-ng-if="!isCPHA" heading="Beneficiaries" select="beneficiariesSelected()"></tab>		  
-		  <tab data-ng-if="isCPHA" heading="Orphans" select="orphansSelected()"></tab>
-		  <tab data-ng-if="isCPHA" heading="People living HIV" select="peopleLivingHIVSelected()"></tab>
-	      <tab data-ng-if="isCPHA" heading="Recoverees" select="recovereesSelected()"></tab>
-	      <!--  -->
-		  <tab heading="Volunteers" select="volunteersSelected()"></tab>
-		  <tab heading="Staff Workers" select="socialWorkersSelected()"></tab>
-		  <tab data-ng-if="isCPPD" heading="Therapists"  select="physioterapistsSelected()"></tab>
-		  <tab data-ng-if="isCPCN" heading="Center managers"  select="centerManagersSelected()"></tab>
-		  
-		  
-		  </tabset>
-	  </span>
-	 
-  </div>
+    <div style="margin-bottom:3%" data-ng-include="'view/backButtonWithTabsetPeople.html'"></div>
 
-	
-    
-	
 	<div style="width: 99%; height: 30px"></div>
 	
 	<div style="width: 99%;">
@@ -165,7 +143,7 @@
 			</div>	
 				
 		 </div>
-		 
+		 <div style="display: inline-block; width: 2%;height:230px; float:left;">&nbsp;</div>
 		
 		 <div class="panel panel-primary box-shadow"
 			style="display: inline-block; width: 38%;height:230px; float:left; ">
@@ -174,30 +152,29 @@
 			</div>
 
 			<div class="panel-body-crud" >
-			            <div>
-			            <span class="panelBodyCrudSpan">                 		  		  	  
-                      	     <button data-ng-click="insertRowButton('')" class="btn btn-primary crudButtons">
-									  <span class="glyphicon glyphicon-plus"></span></button>  
-				     	</span> 
-				        <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	      <button data-ng-click="deleteRowButton('')" class="btn btn-primary crudButtons">
-						<span  class="glyphicon glyphicon-minus"></span></button>
-				     	</span> 
-				     	</div>
-				     	
-				     	<div style="width: 99%; height: 10px"></div>	
-				     		     	
-				     	 <div>
-				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	     <button data-ng-click="selectRowButton('')" class="btn btn-primary crudButtons" >
-					        	<span class="glyphicon glyphicon-pencil"></span></button>  
-				     	</span> 
-				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	     <button data-ng-click="report()" class="btn btn-primary crudButtons" >
-						     <span class="glyphicon glyphicon-print"></span></button>
-				     	</span> 
-				     	</div>                    
-					
+	            <div>
+		            <span class="panelBodyCrudSpan">                 		  		  	  
+	                    	     <button data-ng-click="insertRowButton('')" class="btn btn-primary crudButtons">
+								  <span class="glyphicon glyphicon-plus"></span></button>  
+			     	</span> 
+			        <span class="panelBodyCrudSpan" >                 		  		  	  
+	                    	      <button data-ng-click="deleteRowButton('')" class="btn btn-primary crudButtons">
+					<span  class="glyphicon glyphicon-minus"></span></button>
+			     	</span> 
+			     	</div>
+			     	
+			     	<div style="width: 99%; height: 10px"></div>	
+			     		     	
+			     	 <div>
+			     	 <span class="panelBodyCrudSpan" >                 		  		  	  
+	                    	     <button data-ng-click="selectRowButton('')" class="btn btn-primary crudButtons" >
+				        	<span class="glyphicon glyphicon-pencil"></span></button>  
+			     	</span> 
+			     	 <span class="panelBodyCrudSpan" >                 		  		  	  
+	                    	     <button data-ng-click="report()" class="btn btn-primary crudButtons" >
+					     <span class="glyphicon glyphicon-print"></span></button>
+			     	</span> 
+		     	</div>                    					
 			</div>	
 	 </div>
 		 
@@ -207,16 +184,9 @@
 
 	
 
-	<div style="width: 99%" class="gridStyle  box-shadow" ng-grid="gridOptions"></div>
-    <div style="width: 99%;height:10px;"></div>
-    <div>
-     <span style="display: inline-block; width: 30% ;">
-     	 <button data-ng-click="backButton('')" style="width:20%;" class="btn btn-primary box-shadow">
-			<span >Back</span>
-		 </button>
-      </span> 
-    </div>
-
+	<div style="width: 99%" class="gridStyle  box-shadow" data-ng-grid="gridOptions"></div>
+    <div style="width: 99%; height: 600px;"></div>
+    
     <script type="text/ng-template" id="messageDialog.html">
       <div class="modal-header">
             <h3 class="modal-title">Message</h3>

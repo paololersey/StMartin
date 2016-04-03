@@ -13,6 +13,7 @@ import org.springframework.samples.hibernate.beans.Login;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
+import org.springframework.samples.hibernate.beans.SupportGroup;
 import org.springframework.samples.hibernate.beans.Zone;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,7 +139,14 @@ public class PersonDaoImpl implements PersonDao {
 		return query.list();
 	}
 	
-
+	@Override
+	public List<SupportGroup> getSupportGroupList(String projectCode) {	
+		String sql="SELECT * FROM support_group WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL";
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		query.setParameter("projectCode", projectCode);
+		query.addEntity(SupportGroup.class);
+		return query.list();
+	}
 	
 
 
@@ -242,6 +250,7 @@ public class PersonDaoImpl implements PersonDao {
 				  + "AND   project_person.PERSON_CODE = 'BE' "
 			  
 				  + "AND   project_person.PROJECT_CODE=:projectCode "
+				  + "AND   BEN.END_DATE is null "
 				  + sqlActivityWhereCondition
 				  + sqlActivePersonCondition
 				  + sqlPersonInChargeWhereCondition
