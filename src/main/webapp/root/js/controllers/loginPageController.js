@@ -1,12 +1,11 @@
 define(['app'], function (app) {
 
-   app.controller('loginPageCtrl', function ($scope, $http,$location,commonFactory) {
+   app.controller('loginPageCtrl',['$scope', '$http','$location','authenticationSvc','commonFactory', function ($scope, $http,$location,authenticationSvc,commonFactory) {
     	$scope.submitOk = function() {
         	$scope.submitCredentials = {"username": $scope.username, "password": $scope.password};
-        	$http.post("../views/submitCredentials",$scope.submitCredentials).success(function(department){
-        		if(department != null && department!=""){    			
-        				//location.assign("../resources/selectPeopleCasesActivities.html?projectCode='"+department+"'");
-        			commonFactory.selectedDepartment=department;
+        	authenticationSvc.login($scope.submitCredentials).then(function(data){
+        		if(data != null && data!=""){    			
+        			commonFactory.selectedDepartment=data.department;
         			$location.path("/homePage");
         		}
         		else{
@@ -14,11 +13,12 @@ define(['app'], function (app) {
         		}
     			
         	});
+        	
         };
         
         $scope.submitCancel = function() {
         	$scope.password=null;
         	$scope.username=null;
         };
-    });
+    }]);
 }); 

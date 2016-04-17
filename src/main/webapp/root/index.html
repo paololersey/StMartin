@@ -8,7 +8,8 @@
 
 
  <!-- CSS -->
-
+ <link rel="stylesheet" type="text/css"
+	href="css/user.css" />
 <link rel="stylesheet" type="text/css" href="css/ng-grid.css" />
 <link rel="stylesheet" type="text/css"
 	href="css/bootstrap.css" />
@@ -18,8 +19,10 @@
 
 <script data-main="js/mainIndex.js" src="js/vendors/requirejs/require.js"></script>
 
+
 </head>
 <body>
+     <div id="userBar" data-ng-include="'js/user/view/authentication.html'"></div> 
     <div class="container" data-ng-view></div>
     <div class="overlay" ng-cloak ng-show="loadingIconManager.isLoading()">
       <div style="position: fixed; top: 50%; left: 50%;">

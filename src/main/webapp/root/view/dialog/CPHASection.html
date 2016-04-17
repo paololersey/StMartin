@@ -70,25 +70,25 @@
 						<span class="formOneFourthSpan"> <span
 							class="subFormSpanLeft">Sibling {{numSibling}}:</span> <span
 							class="subFormSpanRight"> <input type="text"
-								data-ng-model="items.sibling.siblingName" name="siblingName" />
+								data-ng-model="items.siblingList[numSibling].siblingName" name="siblingName" data-ng-required="true" />
 						</span>
 						</span> <span class="formOneFourthSpan"> <span
 							class="subFormSpanLeft verticalAlignMiddle">Sibling gender {{numSibling}}:</span> <span
 							class="subFormSpanRight"> <label class="btn btn-primary"
-								data-ng-model="items.sibling.siblingGender" btn-radio="'M'"
+								data-ng-model="items.siblingList[numSibling].siblingGender" btn-radio="'M'"
 								name="siblingGender">Male</label> <label
 								class="btn btn-primary"
-								data-ng-model="items.sibling.siblingGender" btn-radio="'F'"
+								data-ng-model="items.siblingList[numSibling].siblingGender" btn-radio="'F'"
 								name="siblingGender">Female</label>
 						</span>
 						</span> <span class="formOneThirdSpan"> <span
 							class="subFormSpanLeft verticalAlignMiddle" >Sibling date of birth:</span> <span class="subFormSpanRight"
 							data-ng-controller="DatepickerDemoCtrl"> <span> <input
 							id="siblingDateOfBirth" type="text" datepicker-popup="{{format}}"
-							data-ng-model="items.sibling.siblingDateOfBirth" is-open="opened" min-date="minDate"
+							data-ng-model="items.siblingList[numSibling].siblingDateOfBirth" is-open="opened" min-date="minDate"
 							datepicker-options="dateOptions"
 							date-disabled="disabled(date, mode)" 
-							close-text="Close" name="siblingBirthDate" />
+							close-text="Close" name="siblingBirthDate"/>
 							<button vtype="button" class="btn btn-default"
 								data-ng-click="open($event)">
 								<i class="glyphicon glyphicon-calendar"></i>

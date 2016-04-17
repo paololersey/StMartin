@@ -1,3 +1,16 @@
+body {
+  padding: 10px;
+  margin: 5px;
+  height: 100%;
+  
+  background: white; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, white,#E8332A); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, white, #E8332A); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, white, #E8332A);  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,  white, #E8332A); /* Standard syntax */
+  
+}
+
 .gridStyle {
 	border-radius:5px ;
     border: 2px solid #E8332A;
@@ -30,9 +43,16 @@
   background-color: #FADFC4;
 }
 
-.ngRow.selected {
+.ngRow.even:hover {
+  background-color: #CAA99A	;
+}
+.ngRow.odd:hover {
   background-color: #CAA99A;
 }
+
+.ngRow.selected {
+  background-color: #CAA99A;
+}	
 .panel-primary {
   border-color: #E8332A;
   background-color: #FADFC4;

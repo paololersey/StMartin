@@ -214,7 +214,7 @@
 			<span class="formMainSpan"
 				data-ng-if="items.isVolunteerNotCPPR"> <span
 				class="subFormSpanLeft">Major training: </span> <span
-				class="subFormSpanRight"> <select
+				class="subFormSpanRight"> <select style="width:75%"
 					data-ng-model="items.people.majorTraining"
 					data-ng-options=" majorTraining for majorTraining in items.majorTrainingList"></select>
 
@@ -246,7 +246,7 @@
 		</div>
 
 		<div>
-			<span class="formMainSpan" data-ng-if="items.isBeneficiary">
+			<span class="formMainSpan" data-ng-if="((items.isBeneficiary && !items.isCPHA) || (items.isCPHAOrphan && items.isCPHA))">
 
 				<span class="subFormSpanLeft">School: </span> <span
 				class="subFormSpanRight"> <input type="text"

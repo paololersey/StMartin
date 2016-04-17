@@ -11,6 +11,7 @@ import org.springframework.samples.hibernate.PersonDao;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
+import org.springframework.samples.hibernate.beans.LoginBean;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonActivity;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
@@ -92,11 +93,7 @@ public class PersonController {
 			//sono in update
 			List<Person> beneficiarioPresente = personDao.findById(globalPerson.getPerson().getPersonId());
 			if(beneficiarioPresente.size()>0){
-				Set<Sibling> siblingSet=new HashSet<Sibling>();
-				if(globalPerson.getSibling()!=null){
-					siblingSet.add(globalPerson.getSibling());
-					person.setSiblingList(siblingSet);
-				}
+				addSibling(globalPerson, person);	
 				personDao.merge(person);
 			}
 		}
@@ -136,17 +133,24 @@ public class PersonController {
 			person.setProjectPersons(prSet);
 			person.setPersonId(100);
 			person.setInsertDate(new Date());
-			Set<Sibling> siblingSet=new HashSet<Sibling>();
-			if(globalPerson.getSibling()!=null){
-				siblingSet.add(globalPerson.getSibling());
-				person.setSiblingList(siblingSet);
-			}
-			
+
+			addSibling(globalPerson, person);			
 			personDao.save(person);	
 		}
 
 		return null;
 
+	}
+
+	private void addSibling(GlobalPerson globalPerson, Person person) {
+		Set<Sibling> siblingSet=new HashSet<Sibling>();
+		if(globalPerson.getSiblingList()!=null && globalPerson.getSiblingList().size()>0 ){
+			for(Sibling s:globalPerson.getSiblingList()){
+				siblingSet.add(s);	
+			}
+		
+			person.setSiblingList(siblingSet);
+		}
 	}
 	
 	 @RequestMapping(value="citiesList",method=RequestMethod.POST, produces="application/json")
@@ -194,9 +198,14 @@ public class PersonController {
 	    }
 	 
 	 @RequestMapping(value="submitCredentials",method=RequestMethod.POST, produces="application/json")
-	 public @ResponseBody String submitCredentials(@RequestBody Login login){
+	 public @ResponseBody LoginBean submitCredentials(@RequestBody Login login){
 		 PersonDao personDao = (PersonDao) appContext.getBean("personDao");
-		 return personDao.credentials(login);
+		 String department= personDao.credentials(login);
+		 LoginBean loginBean=new LoginBean();
+		 loginBean.setDepartment(department);
+		 loginBean.setUsername(login.getUsername());
+		 loginBean.setAccessToken("owjehfuowm893uhiuhnkasdbcfik");
+		 return loginBean;
 		 
 	 }
 }

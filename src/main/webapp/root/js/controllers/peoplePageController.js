@@ -3,9 +3,9 @@
 /* Controllers */
 var type;
 define(['app'], function (app) {
-app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location', 'commonFactory','commonMethodFactory', function($scope, $http, $modal, $log, $location, commonFactory,commonMethodFactory) {
+app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location', '$controller','commonFactory','commonMethodFactory', function($scope, $http, $modal, $log, $location, $controller, commonFactory,commonMethodFactory) {
 	
-		   
+	      // $.extend(this, $controller('ButtonsController', {$scope: $scope})); 
 	       var personType="BE";	
 	       // store department code
            var projectCode = commonFactory.selectedDepartment;
@@ -187,7 +187,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 					var arrayData = {
 						person : $scope.personData,
 						projectPerson : $scope.projectPerson,
-						sibling: $newScope.sibling
+						siblingList: $newScope.siblingList
 					};
 	
 					$http({
@@ -433,26 +433,32 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			var peopleDialogController = function ($scope, $modalInstance, items) {
 	  
 					  $scope.items = items;
-					// number sibling
+					  // sibling data when I enter into the update page
 					  if(items.people!=null && items.people.siblingList.length>0){
 						  	$scope.items.countSiblings=[];
 				        	  for (var i=0;i<items.people.siblingList.length;i++){
 						   		    $scope.items.countSiblings.push(i);
 						   		    $scope.items.siblingSelectedNumber= items.people.siblingList.length;
-						   		    $scope.items.sibling=items.people.siblingList[i];
+						   		    $scope.items.siblingList=items.people.siblingList;
 						   	}
-						   	 
-						  }
+					  }
 					  
+					  // function invoked at the click "Number of siblings"
 			          $scope.fillCountSiblings = function(selNumber){
-			        	  $scope.items.countSiblings=[];
+			        	  $scope.items.countSiblings=new Array();
+			        	  $scope.items.siblingList=new Array();
+			        	  $scope.items.siblingList.length=selNumber;
 			        	  for (var i=0;i<selNumber;i++){
 					   		    $scope.items.countSiblings.push(i);
+					   		    $scope.items.siblingList[i]={};
 					   		  }  
 			          };
 			   		  
 					  $scope.ok = function () {
 						$scope.$$childTail.items.people.dateOfBirth = $scope.$$childTail.items.date;
+//						for (var i=0;i<$scope.$$childTail.items.siblingList.length;i++){
+//							$scope.items.siblingList.push(items.people.siblingList[i]);
+//				     	}
 						update($scope.$$childTail.items);
 						$modalInstance.dismiss('cancel');
 					    

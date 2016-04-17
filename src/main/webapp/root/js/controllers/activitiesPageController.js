@@ -506,7 +506,7 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
 								fillActivitiesNotes($scope.activities);						
 							});
 						});
-					  openModal($scope.notes.activityId);
+					  
 				  };
 				  
 
@@ -541,7 +541,12 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
 	    						function(data) {
 	    							$scope.notes = data;
 	    						});
- 					$modalInstance.dismiss('cancel');				    
+ 					$modalInstance.dismiss('cancel');
+ 					commonMethodFactory.getActivityList(filterActivity).then(function(object){						
+						$scope.activities = object.data;						
+						commonFactory.activitiesData = object.data;
+						fillActivitiesNotes($scope.activities);						
+					});
  				  };
 
  				  $scope.cancel = function () {

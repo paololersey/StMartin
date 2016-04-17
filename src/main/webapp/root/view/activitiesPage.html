@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="css/activities.css">
 <body>
 
-    <div style="margin-bottom:3%" data-ng-include="'view/backButtonWithTabsetActivity.html'"></div>
+    <div style="margin-top:3%;margin-bottom:5%" data-ng-include="'view/backButtonWithTabsetActivity.html'"></div>
 
-    <div style="width: 99%; height: 30px"></div>
+    <div style="width: 99%; height: 40px"></div>
 	
 	<div style="width: 99%;">
 	  
@@ -21,7 +21,7 @@
 				             <span class="subFilterSpanLeft">Start</span>
 	                         <span class="subFilterSpanRight">
 				   			 	 <span>
-	                		 	  <input style="width:45%;" type="text" data-ng-change="selectActivityfiltered('','',dateStart,'','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+	                		 	  <input type="text" data-ng-change="selectActivityfiltered('','',dateStart,'','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
 	             		    	 </span>
 	             				 <button  vtype="button" data-ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
 	             	         </span>
@@ -30,7 +30,7 @@
 	                        <span class="subFilterSpanLeft">End</span>
 				  		    <span class="subFilterSpanRight">
 				  		  	  <span>
-	                      	     <input style="width:45%;"  type="text" data-ng-change="selectActivityfiltered('','','',dateEnd,'')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+	                      	     <input   type="text" data-ng-change="selectActivityfiltered('','','',dateEnd,'')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
 	                      	  </span>
 	                      	  <button  vtype="button" data-ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
 	                        </span>                
@@ -58,14 +58,14 @@
 			    <span class="formMainSpan" >
                         <span class="subFilterSpanLeft">Activity Type</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
-                      	    <select style="width:90%;" data-ng-change="selectActivityfiltered('','','','',objectActType,'','')" data-ng-model="objectActType" data-ng-options='objectActType for objectActType in activityType'><option value=""></option></select>
+                      	    <select  data-ng-change="selectActivityfiltered('','','','',objectActType,'','')" data-ng-model="objectActType" data-ng-options='objectActType for objectActType in activityType'><option value=""></option></select>
                         </span> 
                 </span>	        
                 <span class="formMainSpan" >
                         <span class="subFilterSpanLeft" data-ng-hide="isCPPD">Intervention</span>
                         <span class="subFilterSpanLeft" data-ng-show="isCPPD">Appliance/kits</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
-                      	    <select  style="width:90%;" data-ng-change="selectActivityfiltered('','','','','','',objectIntervention)" data-ng-model="objectIntervention" data-ng-options='obj for obj in interventionType'><option value=""></option></select>
+                      	    <select   data-ng-change="selectActivityfiltered('','','','','','',objectIntervention)" data-ng-model="objectIntervention" data-ng-options='obj for obj in interventionType'><option value=""></option></select>
 			            </span>                
                 </span>	   
 			    </div>

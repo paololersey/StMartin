@@ -51,13 +51,13 @@ body {
 
 
 .ng-dirty.ng-valid { 
-	 color:black;
-	 border-color: blue;	
+	/*  color:black;
+	 border-color: blue; */	
 	 
 	 }
-.ng-dirty.ng-invalid { 
+DIV.ng-dirty.ng-invalid,input.ng-dirty.ng-invalid,select.ng-dirty.ng-invalid { 
 	border-radius:20 ;
-	border-color:Red;
+	border: 2px solid Red;
 	 }
 	 
 .formMainSpan {
@@ -82,7 +82,7 @@ body {
 	
 }
 .formMainSpan select, input{
-	min-width: 65%;
+	min-width: 75%;
     height: 25px;
     border-radius: 5px;
     border-color: #3276b1;

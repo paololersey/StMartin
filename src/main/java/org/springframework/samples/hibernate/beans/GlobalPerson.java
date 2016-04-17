@@ -1,5 +1,7 @@
 package org.springframework.samples.hibernate.beans;
 
+import java.util.ArrayList;
+
 public class GlobalPerson {
 
 	private Person person;
@@ -8,7 +10,7 @@ public class GlobalPerson {
 	
 	private NatureOfCasePerson natureOfCasePerson;
 	
-	private Sibling sibling;
+	private ArrayList<Sibling> siblingList;
 
 	public ProjectPerson getProjectPerson() {
 		return projectPerson;
@@ -34,13 +36,15 @@ public class GlobalPerson {
 		this.natureOfCasePerson = natureOfCasePerson;
 	}
 
-	public Sibling getSibling() {
-		return sibling;
+	public ArrayList<Sibling> getSiblingList() {
+		return siblingList;
 	}
 
-	public void setSibling(Sibling sibling) {
-		this.sibling = sibling;
+	public void setSiblingList(ArrayList<Sibling> siblingList) {
+		this.siblingList = siblingList;
 	}
+
+	
 
 	
 

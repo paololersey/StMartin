@@ -6,9 +6,8 @@
 
 </head>
 <body>
-    
-    <div style="width: 99%; height: 10px"></div>
-    <div style="width: 99%; height: 30px"></div>
+    <div style="margin-top:3%;margin-bottom:3%"  data-ng-include="'view/backButton.html'">&nbsp;</div> 
+    <div style="width: 99%; height: 40px"></div>
 	
 	<div style="width: 99%;">
 	  
@@ -118,95 +117,15 @@
 	 </span>
 		 
     </div>	 
-	 </div> 
-    
-   <!-- <div style="width: 99%;">
-		<span class="panel panel-primary box-shadow"
-			style="display: inline-block;width:100%;">
-			<div class="panel-heading">
-				<a class="panel-title">Filter by:</a>
-			</div>
-			
-			<div class="panel-body">
-			    Beneficiary <select  ng-change="selectFilter(objectBEN,'','','','')" ng-model="objectBEN" ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in beneficiaries'><option value=""></option></select></select>
-			    Period - start date:
-			    <span ng-controller="DatepickerDemoCtrl">
-                    
-			   			 <span>
-                		   <input style="width:8%;" type="text" ng-change="selectFilter('',dateStart,'','','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
-             		     </span>
-             			 <button  vtype="button" ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
-             		
-             	 </span>
-             	  &nbsp&nbsp end date:
-             	 <span ng-controller="DatepickerDemoCtrl">                   
-			  		    <span>
-                          <input  style="width:8%;" type="text" ng-change="selectFilter(null,'',dateEnd,'','')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
-                        </span>
-                        <button  vtype="button" ng-click="open($event)" class="btn btn-default" "><i class="glyphicon glyphicon-calendar"></i></button>                  
-                 </span>
-                 &nbsp Nature of case:<select ng-change="selectFilter('','','', natureOfCase,'')" ng-model="natureOfCase" ng-options='natureOfCase for natureOfCase in natureOfCasesLista'><option value=""></option></select></select>
-			     <span data-ng-show="isCPPR">Status:</span> <select data-ng-show="isCPPR" data-ng-change="selectFilter('','','','',status)" ng-model="status" ng-options='status for status in natureOfCasesStatusList'><option value=""></option></select>
-			
-			</div>	
-		</span> 
-    </div>	 
 	
-	<div style="width: 99%;">
-		<span class="panel panel-primary box-shadow"
-			style="display: inline-block; width: 32%; margin-left:0.5%; ">
-			<div class="panel-heading">
-				<a class="panel-title">Look for nature of case</a>
-			</div>
+	
+    
 
-			<div class="panel-body">
-				  <span style="display: inline-block"><input type="text"
-					ng-model="filterOptions.filterText" /></span>
-					
-			</div>	
-		</span> 
-		<span  class="panel panel-primary box-shadow"
-			style="display: inline-block; width: 32%; float:left; ">
-		     <div class="panel-heading">
-				<a class="panel-title">Print list</a>
-			</div>
-			<div class="panel-body-crud">
-				 <button ng-click="" class="btn btn-primary " style="width:20%">
-						<span class="glyphicon glyphicon-print"></span>
-				 </button>	
-			</div>	
-		</span>
-		<span class="panel panel-primary box-shadow"
-			style="display: inline-block; width: 35%;float:right">
-			<div class="panel-heading" >
-				<a class="panel-title">Perform operations</a>
-			</div>
-			<div class="panel-body-crud">
-				 <span style="display: inline-block">
-				    
-					<button ng-click="insertRowButton('')" class="btn btn-primary box-shadow">
-						  <span 
-							class="glyphicon glyphicon-plus"></span>
-					</button>
-					 <button ng-click="deleteRowButton('')" class="btn btn-primary box-shadow">
-						<span 
-							class="glyphicon glyphicon-minus"></span>
-					</button>				
-					
-					</span> 
-			</div>
-		</span>
-	</div>-->
 
 <!-- secondGridStyle  ngTopprimaryPanel -->
-	<div style="width: 99%" class="gridStyle  box-shadow-primary" data-ng-grid="gridOptions"></div>
-    <div>
-     <span style="display: inline-block; width: 30% ;">
-     	 <button data-ng-click="backButton('')" style="width:20%;" class="btn btn-primary box-shadow">
-			<span >Back</span>
-		 </button>
-      </span> 
-    </div>
+	<div style="width: 99%" class="gridStyle  box-shadow-primary" data-ng-grid="gridOptions"></div> 
+    <div style="width: 99%; height: 600px;"></div>	 
+    
     <script type="text/ng-template" id="myModalContentDelete.html">
       <div class="modal-header">
             <h3 class="modal-title">Delete nature of case</h3>
