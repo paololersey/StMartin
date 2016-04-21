@@ -203,26 +203,58 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 						}
 						commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
 			    			$scope.personData = object.data;
-			    			commonFactory.peopleData=$scope.personData;
+			    			commonFactory.peopleData=$scope.personData;	
 			    		});
 					});
 			  }
 			};
 
 
-
+/*********************************************************************************************************************************************/
 			// NG-GRID conf. options
 
 			$scope.mySelections = [];
+		
+			$scope.personData={};
 
-			$scope.filterOptions = {
-				filterText : ''
-			};
+			$scope.totalServerItems = 0;
+			$scope.pagingOptions = {
+				        pageSizes: [10, 50, 100, 200],
+				        pageSize: 10,
+				        currentPage: 1
+			};	
 
+			 
+			$scope.setPagingData = function(data, page, pageSize) {	
+			        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+			        $scope.personData = pagedData;
+			        $scope.totalServerItems = data.length;
+			        if (!$scope.$$phase) {
+			            $scope.$apply(); 
+			        }
+			    };
+			
+		    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {	
+		        	$scope.setPagingData(commonFactory.peopleData,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);        
+		        }
+		    }, true);
+			    
+			$scope.$watch('filterOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal) {
+		        	 var data = commonFactory.peopleData.filter(function(item) {
+		                 return JSON.stringify(item).toLowerCase().indexOf($scope.filterOptions.filterText.toLowerCase()) != -1;
+		             });
+		        	$scope.setPagingData(data,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+		        }
+			}, true);
+			
 			$scope.gridOptions = {
 				data : 'personData',
 				enableCellEdit : false,
 				enableRowSelection : true,
+				enablePaging : true,
+				totalServerItems:'totalServerItems',
 				multiSelect : false,
 				showColumnMenu : true,
 				showFilter : true,
@@ -277,25 +309,11 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 					field : 'state',
 					displayName : 'Status'
 				}],
-				enablePaging : true,
+				
 				showFooter : true
 			};
 			// $scope.reset();
-
-			$scope.pagingOptions = {
-				pageSizes : [ 250, 500, 1000 ],
-				pageSize : 250,
-				currentPage : 1
-			};
-			$scope.setPagingData = function(data, page, pageSize) {
-				var pagedData = data.slice((page - 1) * pageSize, page
-						* pageSize);
-				$scope.myData = pagedData;
-				$scope.totalServerItems = data.length;
-				if (!$scope.$$phase) {
-					$scope.$apply();
-				}
-			};
+			
 		
 /**********************************************************************************************************************************************/		
 /**********************************************************************************************************************************************/

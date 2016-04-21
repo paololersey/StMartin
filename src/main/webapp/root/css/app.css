@@ -21,7 +21,7 @@ body {
     border: 2px solid #3276b1;
     border-radius:5px;
     width: 80%; 
-    height: 270px;
+    height: 400px;
     float:left;
 }
 
@@ -81,13 +81,16 @@ DIV.ng-dirty.ng-invalid,input.ng-dirty.ng-invalid,select.ng-dirty.ng-invalid {
 	display:inline-block;
 	
 }
-.formMainSpan select, input{
-	min-width: 75%;
+.formMainSpan select,
+.formMainSpan input{
+	min-width: 80%;
     height: 25px;
-    border-radius: 5px;
-    border-color: #3276b1;
-    border-width: 1px;
+    /* border-radius: 5px;
+    border-color: #E6EEF6;
+    border-width: 1px; */
+    border: 2px SOLID #E6EEF6;
 }
+
 
 
 .subFormSpanLeft {
@@ -100,11 +103,11 @@ DIV.ng-dirty.ng-invalid,input.ng-dirty.ng-invalid,select.ng-dirty.ng-invalid {
 }
 
 .subFilterSpanLeft {
-	width: 26%;
+	width: 30%;
 	display:inline-block;
 }
 .subFilterSpanRight {
-	width: 72%;
+	width: 100%;
 	display:inline-block;
 }
 
@@ -127,17 +130,29 @@ DIV.ng-dirty.ng-invalid,input.ng-dirty.ng-invalid,select.ng-dirty.ng-invalid {
 }
 
 .btn-second {
-  color: #D2322D;
-  background-color: #FADFC4;
+  color: white;
+  background-color: #E93C33;
+  border-color: #E93C33;
+}
+.btn-second:hover,
+.btn-second.active {	
+  background-color: #D2322D;
   border-color: #D2322D;
+  color:white;
 }
 
 .btn-third {
-  color: #E9CF5F;
+  color: white;
   background-color: #F7EEA5;
-  border-color: #E9CF5F;
+  border-color: #F7EEA5;
 }
 
+.btn-third:hover,
+.btn-third.active {	
+  background-color: #E9CF5F;
+  border-color: #E9CF5F;
+  color:white;
+}
 .panel-primary {
  /* border-color: #E9CF5F;*/
   background-color: #E1F0FC;
@@ -179,4 +194,17 @@ div.overlay {
 }
 div.input,div.select,div.textarea{
 	text-transform:uppercase;
+}
+
+div.upperPageDiv{
+	display: inline-block; 
+	height:280px;
+    float:left; 
+}
+
+div.performOperations{
+	width:38%;
+}
+div.filterDiv{
+	width:60%;
 }

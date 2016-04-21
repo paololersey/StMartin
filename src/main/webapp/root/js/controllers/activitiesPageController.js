@@ -145,13 +145,46 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
 		
 			$scope.mySelections = [];
 
-			$scope.filterOptions = {
-				filterText : ''
-			};
+			$scope.activitiesNotes={};
+
+			$scope.totalServerItems = 0;
+			$scope.pagingOptions = {
+				        pageSizes: [10, 50, 100, 200],
+				        pageSize: 10,
+				        currentPage: 1
+			};	
+
+			 
+			$scope.setPagingData = function(data, page, pageSize) {	
+			        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+			        fillActivitiesNotes(pagedData);
+			        //$scope.activitiesNotes = pagedData;
+			        $scope.totalServerItems = data.length;
+			        if (!$scope.$$phase) {
+			            $scope.$apply(); 
+			        }
+			    };
+			
+		    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {	
+		        	$scope.setPagingData(commonFactory.activitiesData,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);        
+		        }
+		    }, true);
+		    
+		    $scope.$watch('filterOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal) {
+		        	 var data = commonFactory.activitiesNotes.filter(function(item) {
+		                 return JSON.stringify(item).toLowerCase().indexOf($scope.filterOptions.filterText.toLowerCase()) != -1;
+		             });
+		        	$scope.setPagingData(data,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+		        }
+			}, true);
 
 			$scope.gridOptions = {
 				data : 'activitiesNotes',
 				enableCellEdit : false,
+				enablePaging : true,
+				totalServerItems:'totalServerItems',
 				enableRowSelection : true,
 				enableCellSelection: false,
 				multiSelect : false,
@@ -159,7 +192,8 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
 				showFilter : true,
 				selectedItems : $scope.mySelections,
 				pagingOptions : $scope.pagingOptions,
-				filterOptions : $scope.filterOptions,
+				filterOptions: $scope.filterOptions,
+				enableColumnResize :true,
 				columnDefs : [ {
 					field : 'activity.activityType',
 					displayName : 'Activity Type'
@@ -183,24 +217,9 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
 					enableCellEditOnFocus: true,
 					cellTemplate: '<div><button class="glyphicon glyphicon-pencil" ng-click="openModalNote(row)"></button></div>'
 				}],
-				enablePaging : true,
 				showFooter : true
 			};
-			
-			$scope.pagingOptions = {
-				pageSizes : [ 250, 500, 1000 ],
-				pageSize : 250,
-				currentPage : 1
-			};
-			$scope.setPagingData = function(data, page, pageSize) {
-				var pagedData = data.slice((page - 1) * pageSize, page
-						* pageSize);
-				$scope.myData = pagedData;
-				$scope.totalServerItems = data.length;
-				if (!$scope.$$phase) {
-					$scope.$apply();
-				}
-			};	
+		
 
 /**********************************************************************************************************************************************/		
 /**********************************************************************************************************************************************/

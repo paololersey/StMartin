@@ -4,10 +4,10 @@ body {
   height: 100%;
   
   background: white; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left top, white,#E9CF5F); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(bottom right, white, #E9CF5F); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(bottom right, white, #E9CF5F);  /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right,  white, #E9CF5F); /* Standard syntax */
+  background: -webkit-linear-gradient(left top, rgb(252, 244, 181),#E9CF5F); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, rgb(252, 244, 181), #E9CF5F); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, rgb(252, 244, 181), #E9CF5F);  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,  rgb(252, 244, 181), #E9CF5F); /* Standard syntax */
   
 }
 
@@ -62,3 +62,6 @@ body {
   border-color: #F7EEA5;
 }
 
+#userNavigationBar {
+  background-color: #E9CF5F;
+}

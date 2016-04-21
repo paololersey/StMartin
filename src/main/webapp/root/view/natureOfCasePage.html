@@ -11,30 +11,29 @@
 	
 	<div style="width: 99%;">
 	  
-		<span class="panel panel-primary box-shadow"
-			style="display: inline-block; width: 60%;height:230px;" >
+		<div class="panel panel-primary box-shadow upperPageDiv filterDiv">
 			<div class="panel-heading"  style="height:35px;">
 				<a class="panel-title">Filter by </a>				
 			</div>
 			 
 			<div class="panel-body" >
 			     <div>
-			     <span class="formMainSpan" ng-controller="DatepickerDemoCtrl">
+			     <span class="formMainSpan" data-ng-controller="DatepickerDemoCtrl">
 			             <span class="subFilterSpanLeft">Start</span>
                          <span class="subFilterSpanRight">
 			   			 	 <span>
-                		 	   <input style="width:45%;" type="text" ng-change="selectFilter('',dateStart,'','','')" datepicker-popup="{{format}}" ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+                		 	   <input style="width:45%;" type="text" ng-change="selectFilter('',dateStart,'','','')" datepicker-popup="{{format}}" data-ng-model="dateStart" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
              		    	 </span>
-             				 <button  vtype="button" ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
+             				 <button  vtype="button" data-ng-click="open($event)" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
              	         </span>
              	 </span> 	
-             	 <span class="formMainSpan" ng-controller="DatepickerDemoCtrl">
+             	 <span class="formMainSpan" data-ng-controller="DatepickerDemoCtrl">
                         <span class="subFilterSpanLeft">End</span>
 			  		    <span class="subFilterSpanRight">
 			  		  	  <span>
-                      	   <input  style="width:45%;" type="text" ng-change="selectFilter(null,'',dateEnd,'','')" datepicker-popup="{{format}}" ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
+                      	   <input  style="width:45%;" type="text" ng-change="selectFilter(null,'',dateEnd,'','')" datepicker-popup="{{format}}" data-ng-model="dateEnd" is-open="opened" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  close-text="Close" />
                       	  </span>
-                      	  <button  vtype="button" ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                      	  <button  vtype="button" data-ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>                
                  </span>
 		
@@ -44,13 +43,13 @@
 			   <span class="formMainSpan" >
                         <span class="subFilterSpanLeft">Beneficiary</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
-                      	    <select  data-ng-change="selectFilter(objectBEN,'','','','')" ng-model="objectBEN" ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in beneficiaries'><option value=""></option></select>
+                      	    <select  data-ng-change="selectFilter(objectBEN,'','','','')" data-ng-model="objectBEN" data-ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in beneficiaries'><option value=""></option></select>
                         </span> 
                 </span>	        
                 <span class="formMainSpan" >
                         <span class="subFilterSpanLeft">NatureOfCase</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
-                      	    <select data-ng-change="selectFilter('','','', natureOfCase,'')" ng-model="natureOfCase" ng-options='natureOfCase for natureOfCase in natureOfCasesLista'><option value=""></option></select>
+                      	    <select data-ng-change="selectFilter('','','', natureOfCase,'')" data-ng-model="natureOfCase" data-ng-options='natureOfCase for natureOfCase in natureOfCasesLista'><option value=""></option></select>
 			            </span>                
                 </span>	   
 			    </div>
@@ -62,14 +61,14 @@
                 <span class="formMainSpan" data-ng-show="isCPPR" >
                         <span class="subFilterSpanLeft">Status</span>
 			  		    <span class="subFilterSpanRight">			  		  	  
-                      	    <select data-ng-change="selectFilter('','','','',status)" ng-model="status" ng-options='status for status in natureOfCasesStatusList'><option value=""></option></select>
+                      	    <select data-ng-change="selectFilter('','','','',status)" data-ng-model="status" data-ng-options='status for status in natureOfCasesStatusList'><option value=""></option></select>
 			            </span>                
                 </span>	
                 <span class="formMainSpan" >
 			      <span class="subFilterSpanLeft"><i>Quicksearch</i></span>
 			      <span class="subFilterSpanRight">	
-				 	 <span style="display: inline-block"><input type="text"
-						ng-model="filterOptions.filterText" /></span>
+				 	 <input type="text"
+						data-ng-model="filterOptions.filterText" />
 				  </span>  
 				</span>	   
 			    </div>
@@ -80,10 +79,11 @@
 				
 			</div>		
 				
-		 </span>
+		 </div>
 		 
-		 <span class="panel panel-primary box-shadow"
-			style="display: inline-block; width: 38%;height:230px; float:right; ">
+		 <div style="display: inline-block; width: 2%;height:230px; float:left;">&nbsp;</div>
+		 
+		 <div class="panel panel-primary box-shadow upperPageDiv performOperations">
 			<div class="panel-heading" style="height:35px;">
 				<a class="panel-title">Perform operations</a>
 			</div>
@@ -91,11 +91,11 @@
 			<div class="panel-body-crud" >
 			            <div>
 			            <span class="panelBodyCrudSpan">                 		  		  	  
-                      	     <button data-ng-click="insertRowButton('')" class="btn btn-primary crudButtons">
+                      	     <button data-data-ng-click="insertRowButton('')" class="btn btn-primary crudButtons">
 									  <span class="glyphicon glyphicon-plus"></span></button>  
 				     	</span> 
 				        <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	      <button data-ng-click="deleteRowButton('')" class="btn btn-primary crudButtons">
+                      	      <button data-data-ng-click="deleteRowButton('')" class="btn btn-primary crudButtons">
 						<span  class="glyphicon glyphicon-minus"></span></button>
 				     	</span> 
 				     	</div>
@@ -104,17 +104,17 @@
 				     		     	
 				     	 <div>
 				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	     <button data-ng-click="selectRowButton('')" class="btn btn-primary crudButtons" >
+                      	     <button data-data-ng-click="selectRowButton('')" class="btn btn-primary crudButtons" >
 					        	<span class="glyphicon glyphicon-pencil"></span></button>  
 				     	</span> 
 				     	 <span class="panelBodyCrudSpan" >                 		  		  	  
-                      	     <button data-ng-click="report()" class="btn btn-primary crudButtons" >
+                      	     <button data-data-ng-click="report()" class="btn btn-primary crudButtons" >
 						     <span class="glyphicon glyphicon-print"></span></button>
 				     	</span> 
 				     	</div>                    
 					
 			</div>	
-	 </span>
+	 </div>
 		 
     </div>	 
 	
@@ -133,11 +133,11 @@
       <div class="modal-body"> 
       Do you really want to delete this case? 
       <input id="activityId" type="text" hidden="true"
-				ng-model="items.natureOfCasePerson.natureOfCasePersonId" name="natureOfCaseId"/>
+				data-ng-model="items.natureOfCasePerson.natureOfCasePersonId" name="natureOfCaseId"/>
       </div>
       <div class="modal-footer">	
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" data-ng-click="ok()">OK</button>
+            <button class="btn btn-primary" data-ng-click="cancel()">Cancel</button>
         </div>
     </script>
 

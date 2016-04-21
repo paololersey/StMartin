@@ -1,0 +1,17 @@
+
+<div id="userNavigationBar" data-ng-controller="authenticationController">
+  <div id="userHome">
+    <input type="button" data-ng-click="goToHomePage()" alt="Torna alla home" title="Torna alla home">
+  </div>
+   <div id="userNavigationBar">
+    <ul id="userOptions">
+      <li id="signIn" data-ng-if="isAuthenticated() == false">User should sign in
+      </li>
+      <li id="userDetail" data-ng-if="isAuthenticated() == true">
+        <span data-ng-bind="userAuth.department"></span>
+        <span data-ng-bind="'Sign out'" data-ng-click="logout(userAuth.accessToken)"></span>
+      </li>
+    </ul>
+  </div>
+
+</div>
