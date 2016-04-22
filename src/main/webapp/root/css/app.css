@@ -7,13 +7,9 @@ body {
   padding: 10px;
   margin: 5px;
   height: 100%;
-  
-  background: #3276b1; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left top, white,#3276b1); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(bottom right, white, #3276b1); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(bottom right, white, #3276b1);  /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right,  white, #3276b1); /* Standard syntax */
-  
+ position: relative;
+ min-height: 100%;
+
 }
 
 /*style.css*/
@@ -21,7 +17,7 @@ body {
     border: 2px solid #3276b1;
     border-radius:5px;
     width: 80%; 
-    height: 400px;
+    height: 420px;
     float:left;
 }
 
@@ -207,4 +203,20 @@ div.performOperations{
 }
 div.filterDiv{
 	width:60%;
+}
+.overlayHome{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background-color: rgba(0,0,0,0.5); /*dim the background*/
+  
+  background-image:url("../image/round_room.JPG"); 
+   background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+ background-size:cover;
+  
 }

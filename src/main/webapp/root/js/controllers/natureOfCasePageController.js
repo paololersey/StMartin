@@ -76,15 +76,48 @@ define(['app'], function (app) {
 		
 			$scope.mySelections = [];
 
-			$scope.filterOptions = {
-				filterText : ''
-			};
+			$scope.natureOfCasePersonList={};
+
+			$scope.totalServerItems = 0;
+			$scope.pagingOptions = {
+				        pageSizes: [10, 50, 100, 200],
+				        pageSize: 10,
+				        currentPage: 1
+			};	
+
+			 
+			$scope.setPagingData = function(data, page, pageSize) {	
+			        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+			        $scope.natureOfCasePersonList = pagedData;
+			        $scope.totalServerItems = data.length;
+			        if (!$scope.$$phase) {
+			            $scope.$apply(); 
+			        }
+			    };
+			
+		    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {	
+		        	$scope.setPagingData(commonFactory.natureOfCasePersonData,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);        
+		        }
+		    }, true);
+			    
+			$scope.$watch('filterOptions', function (newVal, oldVal) {
+		        if (newVal !== oldVal) {
+		        	 var data = commonFactory.natureOfCasePersonData.filter(function(item) {
+		                 return JSON.stringify(item).toLowerCase().indexOf($scope.filterOptions.filterText.toLowerCase()) != -1;
+		             });
+		        	$scope.setPagingData(data,$scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+		        }
+			}, true);
 
 			$scope.gridOptions = {
 				data : 'natureOfCasePersonList',
 				enableCellEdit : false,
 				enableRowSelection : true,
 				enableCellSelection: false,
+				enablePaging : true,
+				enableColumnResize :true,
+				totalServerItems: 'totalServerItems',
 				multiSelect : false,
 				showColumnMenu : true,
 				showFilter : true,
@@ -105,25 +138,9 @@ define(['app'], function (app) {
 					field : 'status',
 					displayName : 'Status'
 				}],
-				enablePaging : true,
+				
 				showFooter : true
 			};
-			
-			$scope.pagingOptions = {
-				pageSizes : [ 250, 500, 1000 ],
-				pageSize : 250,
-				currentPage : 1
-			};
-			$scope.setPagingData = function(data, page, pageSize) {
-				var pagedData = data.slice((page - 1) * pageSize, page
-						* pageSize);
-				$scope.myData = pagedData;
-				$scope.totalServerItems = data.length;
-				if (!$scope.$$phase) {
-					$scope.$apply();
-				}
-			};	
-
 /**********************************************************************************************************************************************/		
 /**********************************************************************************************************************************************/
 // These functions regards the grid row selection

@@ -15,7 +15,7 @@ body {
 	border-radius:5px ;
     border: 2px solid #E8332A;
     width: 80%; 
-    height: 300px;
+    height: 420px;
 }
 
 .gridNotesStyle {
@@ -40,34 +40,34 @@ body {
 }
 
 .ngRow.even {
-  background-color: #FADFC4;
+  background-color: #F9C8C6;
 }
 
 .ngRow.even:hover {
-  background-color: #CAA99A	;
+  background-color: #E8332A	;
 }
 .ngRow.odd:hover {
-  background-color: #CAA99A;
+  background-color: #E8332A;
 }
 
 .ngRow.selected {
-  background-color: #CAA99A;
+  background-color: #E8332A;
 }	
 .panel-primary {
   border-color: #E8332A;
-  background-color: #FADFC4;
+  background-color: #F9C8C6;
 }
 
 .panel-primary > .panel-heading {
   color: #fff;
   background-color: #E8332A;
-  border-color: #FADFC4;
+  border-color: #F9C8C6;
 }
 
 .btn-primary {
   color: #fff;
   background-color: #E8332A;
-  border-color: #FADFC4;
+  border-color: #F9C8C6;
 }
 a {
   color: #E8332A;
