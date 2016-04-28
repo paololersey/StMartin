@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-	angularAMD.factory('commonMethodFactory',['$http', function($http){
+	angularAMD.factory('commonMethodFactory',['$http','$modal', function($http,$modal){
     	return {
 	    	openDialogMessage: function(message, callbackFunction) {
 				var modalInstance = $modal.open({
@@ -27,4 +27,13 @@ define(['angularAMD'], function (angularAMD) {
 			}
     	};
     }]);
+angularAMD.controller('messageDialogController', ['$scope', '$modalInstance','message', function($scope, $modalInstance, message) {
+	$scope.testo=message;
+	$scope.ok = function () {
+		   $modalInstance.close("ok");
+		};
+		$scope.cancel = function () {
+		   $modalInstance.dismiss("cancel");
+		};
+}]);
 });

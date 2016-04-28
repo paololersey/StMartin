@@ -10,10 +10,10 @@ require.config({
         'ng-grid': 'vendors/ng-grid/2.0.11/ng-grid-2.0.11.debug',
         'datePicker':'controllers/datePicker',
         'buttons':'controllers/buttons',
-        'commonFactory':'app/commonFactory',
-        'commonMethodFactory':'app/commonMethodFactory',
+        'commonFactory':'factories/commonFactory',
+        'commonMethodFactory':'factories/commonMethodFactory',
        
-        // user module
+        // auth module
         //'userModule': 'user/userModule',
         'authenticationSvc':'user/factory/authenticationSvc',
         'authenticationController':'user/controllers/authenticationController',

@@ -12,8 +12,9 @@ angularAMD.controller('authenticationController',['$scope','authenticationSvc', 
 		var userInfoinSessionJson = sessionStorage.getItem('userInfo');
         var userInfoinSession = $.parseJSON(userInfoinSessionJson);
 		if($scope.userAuth==undefined || !userInfoinSession){
-			return false;
 			$location.path("/loginPage");
+			return false;
+			
 			
 		}
 		return true;
