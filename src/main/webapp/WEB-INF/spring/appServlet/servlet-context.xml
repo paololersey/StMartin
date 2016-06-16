@@ -96,6 +96,8 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.SupportGroup
 				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Login
+				</beans:value>
 				
 			</beans:list>
 		</beans:property>

@@ -61,6 +61,17 @@ public class PersonDaoImpl implements PersonDao {
 		this.sessionFactory.getCurrentSession().delete(person);
 	}
 
+	
+	//  login
+	public void saveLogin(Login login) {
+		this.sessionFactory.getCurrentSession().save(login);
+	}
+	
+	public void mergeLogin(Login login) {
+		this.sessionFactory.getCurrentSession().merge(login);
+	}
+
+
 
 	
 	@Override
@@ -292,25 +303,6 @@ public class PersonDaoImpl implements PersonDao {
 
 
 	@Override
-	public String credentials(Login login) {
-		String username= login.getUsername();
-		String password=login.getPassword();		
-		String sql="SELECT DEPARTMENT FROM login "
-				+"WHERE USERNAME=:username "
-				+"AND PASSWORD=:password ";			      
-		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setParameter("username", username);
-		query.setParameter("password", password);
-		return (String)query.uniqueResult();
-	}
-
-
-
-	
-
-
-
-	@Override
 	public List<String> getStatesList(String projectCode) {
 		String sql="SELECT PERSON_STATE FROM person_state WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL";
 		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
@@ -427,6 +419,21 @@ public class PersonDaoImpl implements PersonDao {
 
 
 
+
+	@Override
+	public List<Login> getLogin(Login login) {
+		String username= login.getUsername();
+		String password=login.getPassword();		
+		String sql="SELECT * FROM login "
+				+"WHERE USERNAME=:username "
+				+"AND PASSWORD=:password "
+				+"AND END_DATE is null ";			      
+		SQLQuery query =  this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		query.addEntity(Login.class);
+		query.setParameter("username", username);
+		query.setParameter("password", password);
+		return (List<Login>) query.list();
+	}
 
 
 

@@ -23,6 +23,8 @@ public class Login {
 	
 	private Date insertDate;
 
+	private Date endDate;
+	
 	@NotNull
 	@Id
 	@GeneratedValue
@@ -71,6 +73,16 @@ public class Login {
 	public void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 	}
+	
+	@Column(name = "END_DATE")
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 
 }
 

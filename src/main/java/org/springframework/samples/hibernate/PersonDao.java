@@ -38,8 +38,6 @@ public interface PersonDao {
 
 	List<String> getStatesList(String projectCode);
 
-	String credentials(Login login);
-
 	List<Zone> getZonesList(String projectCode);
 
 	List<String> getMajorTrainingList(String projectCode);
@@ -55,5 +53,11 @@ public interface PersonDao {
 	List<String> getNatureOfCaseByPersonId(Person person);
 
 	List<SupportGroup> getSupportGroupList(String projectCode);
+
+	void saveLogin(Login login);
+
+	void mergeLogin(Login login);
+
+	List<Login> getLogin(Login login);
 
 }

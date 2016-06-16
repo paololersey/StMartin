@@ -3,7 +3,7 @@
 
 define(['common'], function (angularAMD) {
   'use strict';
-    var app = angular.module("StMartinModule", ['ngRoute','ngGrid','ui.bootstrap']);
+    var app = angular.module("StMartinModule", ['ngRoute','ngGrid','ui.bootstrap','userModule']);
 
     app.service("loadingIconManager",['$timeout',function($timeout) {
 		var counter=0;

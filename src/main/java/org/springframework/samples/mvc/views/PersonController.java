@@ -200,12 +200,42 @@ public class PersonController {
 	 @RequestMapping(value="submitCredentials",method=RequestMethod.POST, produces="application/json")
 	 public @ResponseBody LoginBean submitCredentials(@RequestBody Login login){
 		 PersonDao personDao = (PersonDao) appContext.getBean("personDao");
-		 String department= personDao.credentials(login);
+		 List<Login> loginList= personDao.getLogin(login);
+		 String department = null;
+		 if(loginList.size()>0){
+			department = loginList.get(0).getDepartment();
+		 }
+		 
 		 LoginBean loginBean=new LoginBean();
 		 loginBean.setDepartment(department);
 		 loginBean.setUsername(login.getUsername());
 		 loginBean.setAccessToken("owjehfuowm893uhiuhnkasdbcfik");
 		 return loginBean;
+		 
+	 }
+	 
+	 @RequestMapping(value="changePassword",method=RequestMethod.POST, produces="application/json")
+	 public @ResponseBody Login changePassword(@RequestBody Login login){
+		 PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+		 login.setDepartment(login.getUsername().toUpperCase());
+		 login.setInsertDate(new Date());
+		 personDao.saveLogin(login);
+		 return login;
+		 
+	 }
+	 
+	 @RequestMapping(value="updateOldPassword",method=RequestMethod.POST, produces="application/json")
+	 public @ResponseBody Login updateOldPassword(@RequestBody Login login){
+		 PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+		 List<Login> loginList= personDao.getLogin(login);
+		 int loginId=0;
+		 if(loginList.size()>0){
+				loginId = loginList.get(0).getLoginId();
+		 }	 
+		 login.setLoginId(loginId);
+		 login.setEndDate(new Date());
+		 personDao.mergeLogin(login);
+		 return login;
 		 
 	 }
 }

@@ -1,11 +1,11 @@
 define(['angularAMD'], function (angularAMD) {
 	angularAMD.factory('commonMethodFactory',['$http','$modal', function($http,$modal){
     	return {
-	    	openDialogMessage: function(message, callbackFunction) {
+	    	openDialogMessage: function(message, callbackFunction, type) {
 				var modalInstance = $modal.open({
-				    templateUrl: 'view/dialog/errorDialog.html',
+				    templateUrl: 'view/dialog/'+type+'Dialog.html',
 				    controller: 'messageDialogController',
-				    windowClass: 'error-dialog',
+				    windowClass: "'"+type+"-dialog'",
 				    resolve: {
 				        message: function () {
 				            return message;

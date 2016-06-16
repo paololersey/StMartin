@@ -14,7 +14,7 @@ require.config({
         'commonMethodFactory':'factories/commonMethodFactory',
        
         // auth module
-        //'userModule': 'user/userModule',
+        'userModule': 'user/userModule',
         'authenticationSvc':'user/factory/authenticationSvc',
         'authenticationController':'user/controllers/authenticationController',
         

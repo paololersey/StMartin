@@ -55,11 +55,40 @@ define(['angularAMD'], function (angularAMD) {
  	   function getUserInfo() {
  	 	    return userInfo;
  	   }
- 	 
+
+ 	   
+ 	  function changePassword(credentials) {
+  	     var deferred = $q.defer();
+
+  	     $http.post("../views/changePassword",credentials).then(function(result) {
+  	       deferred.resolve(result);
+  	       return result;
+  	     }, function(error) {
+  	       deferred.reject(error);
+  	     });
+
+  	     return deferred.promise;
+  	   }
+ 	  
+ 	  function updateOldPassword(credentials) {
+  	     var deferred = $q.defer();
+
+  	     $http.post("../views/updateOldPassword",credentials).then(function(result) {
+  	       deferred.resolve(result);
+  	       return result;
+  	     }, function(error) {
+  	       deferred.reject(error);
+  	     });
+
+  	     return deferred.promise;
+  	   }
+  	   
  	   return {
  	     login: login,
  	     logout: logout,
- 	     getUserInfo: getUserInfo
+ 	     getUserInfo: getUserInfo,
+ 	     changePassword: changePassword,
+ 	     updateOldPassword: updateOldPassword
  	   };
  	 }]);
 });
