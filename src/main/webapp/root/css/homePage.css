@@ -1,0 +1,16 @@
+/* app css stylesheet */
+
+
+body {
+  padding: 10px;
+/*   margin: 5px; */
+  height: 100%;
+
+  background: #3276b1; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, white,#3276b1); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, white, #3276b1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, white, #3276b1);  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,  white, #3276b1); /* Standard syntax */
+  
+}
+

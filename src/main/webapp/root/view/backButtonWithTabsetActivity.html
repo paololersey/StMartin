@@ -1,0 +1,10 @@
+
+<div data-ng-include="'view/backButton.html'"></div> 
+<div style="float:left; width: 74%">
+	 <tabset>
+	 	 <tab heading="Person in charge: Volunteer" select="volunteerSelected()" class="redColor"></tab>
+	 	 <tab heading="Person in charge: Staff Worker" select="socialWorkerSelected()"></tab>
+	 	 <tab data-ng-show="isCPCN" heading="Person in charge: Center Manager"  select="centerManagerSelected()"></tab>
+	 	 <tab data-ng-show="isCPPD" heading="Person in charge: Therapyst"  select="physioterapistSelected()"></tab>
+	 </tabset>
+</div>
