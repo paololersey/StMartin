@@ -218,6 +218,12 @@ define(['app'], function (app) {
 					  
 					  $scope.ok = function () {		
 						$scope.$$childTail.items.natureOfCasePerson.insertDate = $scope.$$childTail.items.date;
+						var natureOfCaseOther=$scope.$$childTail.items.natureOfCasePerson.natureOfCaseOther;
+						if(natureOfCaseOther){
+							$scope.$$childTail.items.natureOfCasePerson.natureOfCase=$scope.$$childTail.items.natureOfCasePerson.natureOfCaseOther;
+							delete $scope.$$childTail.items.natureOfCasePerson.natureOfCaseOther;
+						}
+						
 						update($scope.$$childTail.items);
 						$modalInstance.dismiss('cancel');				    
 					  };

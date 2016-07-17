@@ -2,6 +2,7 @@ define(['angularAMD'], function (angularAMD) {
 	angularAMD.factory('commonFactory',['$http',function($http) {
 		return {
 			selectedDepartment : null,
+			personTypeSelectedFromTab : null,
 			codePage : null,
 			peopleData : null
 		};

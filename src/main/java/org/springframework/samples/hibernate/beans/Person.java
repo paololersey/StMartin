@@ -2,7 +2,6 @@ package org.springframework.samples.hibernate.beans;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,13 +11,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class Person {
 
 	private Integer personId;
@@ -26,70 +26,78 @@ public class Person {
 	private String firstName;
 
 	private String lastName;
-	
+
 	private String thirdName;
-	
+
 	private String gender;
-	
+
 	private String parentGuardian;
-	
+
 	private String parentGuardianGender;
-	
+
 	private String parentGuardianTel;
-	
+
 	private String fileNumber;
 
 	private String address;
 
 	private String village;
-	
+
 	private String telephone;
 
 	private String email;
-	
+
 	private String state;
-	
+
 	private Date dateOfBirth;
-	
+
 	private Date insertDate;
-	
+
 	private String zone;
-	
+
 	private String majorTraining;
-	
+
 	private String contactPerson;
-	
+
 	private String contactPersonRole;
-	
+
 	private String occupationRole;
-	
+
 	private String volunteerType;
-	
+
 	private String medicalStatus;
-	
+
 	private String father;
-	
+
 	private String deadAliveFather;
-	
+
 	private String mother;
-	
+
 	private String deadAliveMother;
-		
+
 	private String school;
-	
-	private Set<ProjectPerson> projectPersons=new HashSet<ProjectPerson>();
-	
-	private Set<Sibling> siblingList=new HashSet<Sibling>();
-	
+
+	private Set<ProjectPerson> projectPersons = new HashSet<ProjectPerson>();
+
+	private Set<Sibling> siblingList = new HashSet<Sibling>();
+
 	private Date endDate;
-	
+
 	private Date joiningDate;
-	
+
 	private Date recommitmentDate;
-	
-    private String nhifMembershipNumber;
-	
+
+	private String nhifMembershipNumber;
+
 	private String supportGroup;
+	
+	private String significantOthers;
+
+	private String commobio;
+	
+	private String drugOfChoice;
+
+	private String relationship;
 	
 	@NotNull
 	@Id
@@ -131,7 +139,7 @@ public class Person {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	@Column(name = "VILLAGE")
 	public String getVillage() {
 		return village;
@@ -140,9 +148,9 @@ public class Person {
 	public void setVillage(String village) {
 		this.village = village;
 	}
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="PERSON_ID",nullable=false)
+	@JoinColumn(name = "PERSON_ID", nullable = false)
 	public Set<ProjectPerson> getProjectPersons() {
 		return projectPersons;
 	}
@@ -150,7 +158,7 @@ public class Person {
 	public void setProjectPersons(Set<ProjectPerson> projectPersons) {
 		this.projectPersons = projectPersons;
 	}
-	
+
 	@Column(name = "TELEPHONE")
 	public String getTelephone() {
 		return telephone;
@@ -159,7 +167,7 @@ public class Person {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	
+
 	@Column(name = "EMAIL")
 	public String getEmail() {
 		return email;
@@ -168,7 +176,7 @@ public class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	@Column(name = "DATE_OF_BIRTH")
 	public Date getDateOfBirth() {
 		return dateOfBirth;
@@ -177,7 +185,7 @@ public class Person {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-    
+
 	@Column(name = "STATE")
 	public String getState() {
 		return state;
@@ -186,7 +194,7 @@ public class Person {
 	public void setState(String state) {
 		this.state = state;
 	}
-    
+
 	@Column(name = "ZONE")
 	public String getZone() {
 		return zone;
@@ -195,6 +203,7 @@ public class Person {
 	public void setZone(String zone) {
 		this.zone = zone;
 	}
+
 	@Column(name = "THIRDNAME")
 	public String getThirdName() {
 		return thirdName;
@@ -203,29 +212,30 @@ public class Person {
 	public void setThirdName(String thirdName) {
 		this.thirdName = thirdName;
 	}
+
 	@Column(name = "PARENT_GUARDIAN")
 	public String getParentGuardian() {
 		return parentGuardian;
 	}
-	
+
 	public void setParentGuardian(String parentGuardian) {
 		this.parentGuardian = parentGuardian;
 	}
-	
+
 	@Column(name = "PARENT_GUARDIAN_GENDER")
 	public String getParentGuardianGender() {
 		return parentGuardianGender;
 	}
-	
+
 	public void setParentGuardianGender(String parentGuardianGender) {
 		this.parentGuardianGender = parentGuardianGender;
 	}
-	
+
 	@Column(name = "PARENT_GUARDIAN_TEL")
 	public String getParentGuardianTel() {
 		return parentGuardianTel;
 	}
-	
+
 	public void setParentGuardianTel(String parentGuardianTel) {
 		this.parentGuardianTel = parentGuardianTel;
 	}
@@ -247,8 +257,8 @@ public class Person {
 	public void setmajorTraining(String majorTraining) {
 		this.majorTraining = majorTraining;
 	}
-	
-	@Column(name = "CONTACT_PERSON")	
+
+	@Column(name = "CONTACT_PERSON")
 	public String getContactPerson() {
 		return contactPerson;
 	}
@@ -282,15 +292,16 @@ public class Person {
 	public void setContactPersonRole(String contactPersonRole) {
 		this.contactPersonRole = contactPersonRole;
 	}
-	
+
 	@Column(name = "VOLUNTEER_TYPE")
 	public String getVolunteerType() {
 		return volunteerType;
 	}
-	
+
 	public void setVolunteerType(String volunteerType) {
 		this.volunteerType = volunteerType;
 	}
+
 	@Column(name = "MEDICAL_STATUS")
 	public String getMedicalStatus() {
 		return medicalStatus;
@@ -308,6 +319,7 @@ public class Person {
 	public void setSchool(String school) {
 		this.school = school;
 	}
+
 	@Column(name = "INSERT_DATE")
 	public Date getInsertDate() {
 		return insertDate;
@@ -352,9 +364,9 @@ public class Person {
 	public void setDeadAliveMother(String deadAliveMother) {
 		this.deadAliveMother = deadAliveMother;
 	}
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="PERSON_ID",nullable=false)
+	@JoinColumn(name = "PERSON_ID", nullable = false)
 	public Set<Sibling> getSiblingList() {
 		return siblingList;
 	}
@@ -371,7 +383,7 @@ public class Person {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	@Column(name = "JOINING_DATE")
 	public Date getJoiningDate() {
 		return joiningDate;
@@ -380,7 +392,7 @@ public class Person {
 	public void setJoiningDate(Date joiningDate) {
 		this.joiningDate = joiningDate;
 	}
-		
+
 	@Column(name = "RECOMMITMENT_DATE")
 	public Date getRecommitmentDate() {
 		return recommitmentDate;
@@ -407,6 +419,45 @@ public class Person {
 	public void setSupportGroup(String supportGroup) {
 		this.supportGroup = supportGroup;
 	}
+
 	
+
+	@Column(name = "SIGNIFICANT_OTHERS")
+	public String getSignificantOthers() {
+		return significantOthers;
+	}
+
+	public void setSignificantOthers(String significantOthers) {
+		this.significantOthers = significantOthers;
+	}
+
+
 	
+	@Column(name = "COMMOBIO")
+	public String getCommobio() {
+		return commobio;
+	}
+
+	public void setCommobio(String commobio) {
+		this.commobio = commobio;
+	}
+
+	@Column(name = "DRUG_OF_CHOICE")
+	public String getDrugOfChoice() {
+		return drugOfChoice;
+	}
+
+	public void setDrugOfChoice(String drugOfChoice) {
+		this.drugOfChoice = drugOfChoice;
+	}
+	
+	@Column(name = "RELATIONSHIP")
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
+
 }

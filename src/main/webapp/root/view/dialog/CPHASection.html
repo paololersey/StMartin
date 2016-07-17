@@ -1,4 +1,45 @@
 <div>
+		<!-- Recoveree -->
+		
+		<div data-ng-if="items.isCPHARecoveree && items.isBeneficiary">
+		<hr></hr>
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Significant Others:
+			</span> <span class="subFormSpanRight"> <input 
+					type="text" data-ng-model="items.people.significantOthers" 
+					name="significantOthers"
+					/>
+			</span>
+
+			</span>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Relationship:
+			</span> <span class="subFormSpanRight"> <input 
+					type="text" data-ng-model="items.people.relationship" 
+					name="relationship"
+					/>
+			</span>
+
+			</span> 
+		</div>
+		<div style="width: 99%; height: 10px"></div>	
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Drug Of Choice:
+			</span> <span class="subFormSpanRight"> <input 
+					type="text" data-ng-model="items.people.drugOfChoice" 
+					name="drugOfChoice"
+					/>
+			</span>
+
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">
+					Commobio(?): </span> <span class="subFormSpanRight"> <input 
+					data-ng-model="items.people.commobio" name="commobio" />
+			</span>
+
+			</span>
+		</div>
+		
+	</div>
+		
 		<div data-ng-if="items.isCPHAOrphan && items.isBeneficiary">
 				<hr></hr>
 				<span class="formOneFourthSpan"> <span

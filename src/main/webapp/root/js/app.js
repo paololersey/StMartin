@@ -39,6 +39,9 @@ define(['common'], function (angularAMD) {
             .when("/natureOfCasePage", angularAMD.route({
                 templateUrl: 'view/natureOfCasePage.html', controller: 'NatureOfCasePageCtrl',controllerUrl: 'controllers/natureOfCasePageController' 
             }))
+            .when("/paymentPage", angularAMD.route({
+                templateUrl: 'view/paymentPage.html', controller: 'PaymentPageCtrl',controllerUrl: 'controllers/paymentPageController' 
+            }))
             .otherwise({redirectTo: "/loginPage"});
     	});
 

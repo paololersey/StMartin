@@ -15,32 +15,37 @@
 	<div>
 		<div style="float: left; width: 100%; height: 300px;"></div>
 		<!-- Overlay for the image  -->
-	    <div class="overlayHome"></div>
+		<div class="overlayHome"></div>
 		<div style="float: left; width: 100%; height: 30%; opacity: 0.7">
 			<div class="float-left-w-100">
 				<div class="float-left-w-49">
 					<button data-ng-click="setSelection('PEO')"
 						class="btn-project btn btn-primary btn-people-animation">People</button>
 				</div>
-				<!-- <div class="float-left-w-24">&nbsp;</div>
-				<div class="float-left-w-24">&nbsp;</div> -->
 				<div class="float-left-w-49">
 					<button data-ng-click="setSelection('NOF')"
-						class="btn-project btn btn-third btn-natureOfCase-animation">Nature of case</button>
+						class="btn-project btn btn-natureOfCase btn-natureOfCase-animation">Nature
+						of case</button>
 				</div>
 			</div>
-			<div class="float-left-w-100" align="center">
-				
-				
-					<button data-ng-click="setSelection('ACT')" style="width:24%"
-						class="btn-project btn btn-second">Activities</button>
-				
-				
+			<div class="float-left-w-100" align="center" data-ng-if="!home.isCPHA">
+				<button data-ng-click="setSelection('ACT')"
+					class="btn-project btn btn-second btn-activities-animation">Activities</button>
+			</div>
+			<div class="float-left-w-100" data-ng-if="home.isCPHA">
+				<div class="float-left-w-49" >
+					<button data-ng-click="setSelection('ACT')" style="margin-left:40%"
+						class="btn-project btn-second btn-activities-animation">Activities</button>
+				</div>
+				<div class="float-left-w-49">
+					<button data-ng-click="setSelection('PAY')"
+						class="btn-project btn btn-payment btn-payment-animation">Payment</button>
+				</div>
 			</div>
 		</div>
 
 
 	</div>
-	<div style="width: 99%; height: 600px;">&nbsp;</div>
+	<div style="width: 99%; height: 1000px;">&nbsp;</div>
 </body>
 </html>

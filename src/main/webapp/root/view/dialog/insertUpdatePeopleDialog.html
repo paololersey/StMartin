@@ -130,7 +130,7 @@
 						date-disabled="disabled(date, mode)" data-ng-required="true"
 						close-text="Close" name="birthDate" required />
 				</span>
-					<button vtype="button" class="btn btn-default"
+					<button type="button" class="btn btn-default"
 						data-ng-click="open($event)">
 						<i class="glyphicon glyphicon-calendar"></i>
 					</button> <span> </span>
@@ -139,7 +139,9 @@
 
 			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary">
 
-				<span class="subFormSpanLeft">File number: </span> <span
+				<span data-ng-if="!items.isCPHA" class="subFormSpanLeft">File number: </span> 
+				<span data-ng-if="items.isCPHA" class="subFormSpanLeft">Client number: </span> 
+				<span
 				class="subFormSpanRight"> <input type="text"
 					data-ng-model="items.people.fileNumber" name="fileNumber" required />
 			</span>

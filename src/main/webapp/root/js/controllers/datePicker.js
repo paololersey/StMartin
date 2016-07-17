@@ -32,6 +32,6 @@ var DatepickerDemoCtrl = function ($scope) {
   };
 
   $scope.initDate = new Date('2030-15-20');
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate','yyyy-MM-dd HH:mm:ss Z'];
-  $scope.format = $scope.formats[1];
+  $scope.formats = ['dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate','yyyy-MM-dd HH:mm:ss Z'];
+  $scope.format = $scope.formats[0];
 };

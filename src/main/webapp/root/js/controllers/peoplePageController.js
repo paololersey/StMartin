@@ -318,7 +318,8 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 /**********************************************************************************************************************************************/		
 /**********************************************************************************************************************************************/
 // This functions retrieve the records of current type of person selected 	
-	    	function personTypeFunction(personTypeParameter) {
+	    	function selectPersonTypeFromTab(personTypeParameter) {
+	    		commonFactory.personTypeSelectedFromTab=personTypeParameter;
 	    		$scope.projectPerson = {
 	    			    "projectCode" : projectCode,
 	    				"personCode"  : personTypeParameter
@@ -340,8 +341,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 	    				"personCode"  : personTypeSelected
 	    			};
 	    		commonMethodFactory.getPeopleList($scope.projectPerson).then(function(object) {
-	    			$scope.personInCharge = object.data;
-	    			
+	    				$scope.personInCharge = object.data;
 	    		});	
 	    	};
 	    	
@@ -417,7 +417,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "supportGroups":$scope.supportGroups, "personState": $scope.personStateNames,
 					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
-					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv};
+					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv, "isCPHARecoveree":$scope.isCPHARecoveree};
 					  				  return array;
 					  				
 					        	  }
@@ -557,6 +557,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			$scope.isCPHA=false;
 			$scope.isCPHAOrphan=false;
 			$scope.isCPHAPlwhiv=false;
+			$scope.isCPHARecoveree=false;
 			
 			  if(personType=="BE" && projectCode=="CPPR") {
 				  $scope.isCPPRBeneficiary=true;
@@ -579,6 +580,9 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			  if(projectCode=="CPHA" && personType=="LH") {
 				  $scope.isCPHAPlwhiv=true;
 			  }
+			  if(projectCode=="CPHA" && personType=="RE") {
+				  $scope.isCPHARecoveree=true;
+			  }
 			  if(personType=="BE" || personType=="OR" || personType=="LH" || personType=="RE") {
 				  $scope.isBeneficiary=true;
 			  }
@@ -596,7 +600,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 		
 		function initialSettings(personTypeParameter){
 		   personType =personTypeParameter;
-	  	   personTypeFunction(personTypeParameter);  
+	  	   selectPersonTypeFromTab(personTypeParameter);  
 	  	   setFlags();
 	  	   resetFormSearch();
 	  	   $scope.selectFilter(null, null, null, null, null);

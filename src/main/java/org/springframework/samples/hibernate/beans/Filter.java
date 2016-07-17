@@ -36,6 +36,8 @@ public class Filter {
     private String volunteerType;
     
     private String contactPerson;
+  
+	private String natureOfPayment;
     
 	public Date getDateStart() {
 		return dateStart;
@@ -165,5 +167,13 @@ public class Filter {
 		this.contactPerson = contactPerson;
 	}
 
+	  
+    public String getNatureOfPayment() {
+		return natureOfPayment;
+	}
+
+	public void setNatureOfPayment(String natureOfPayment) {
+		this.natureOfPayment = natureOfPayment;
+	}
 
 }

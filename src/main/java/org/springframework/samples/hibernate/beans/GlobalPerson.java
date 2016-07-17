@@ -2,8 +2,11 @@ package org.springframework.samples.hibernate.beans;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class GlobalPerson {
 
+	@JsonIgnore
 	private Person person;
 	
 	private ProjectPerson projectPerson;
@@ -11,6 +14,8 @@ public class GlobalPerson {
 	private NatureOfCasePerson natureOfCasePerson;
 	
 	private ArrayList<Sibling> siblingList;
+	
+	private Payment payment;
 
 	public ProjectPerson getProjectPerson() {
 		return projectPerson;
@@ -42,6 +47,14 @@ public class GlobalPerson {
 
 	public void setSiblingList(ArrayList<Sibling> siblingList) {
 		this.siblingList = siblingList;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	

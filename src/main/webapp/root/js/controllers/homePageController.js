@@ -5,7 +5,13 @@
 
 define(['app'], function (app) {
     app.controller('HomePageCtrl', ['$scope', '$http','$location','commonFactory', 'commonMethodFactory',function ($scope, $http,$location,commonFactory, commonMethodFactory) {
-        if(commonFactory.selectedDepartment =='CPPD') $scope.CPPDenabled = true;
+    	$scope.home={};
+    	if(commonFactory.selectedDepartment =='CPPD'){
+        	$scope.home.isCPPD= true;
+        }
+        if(commonFactory.selectedDepartment =='CPHA'){
+        	$scope.home.isCPHA = true;
+        }
         
     	$scope.setSelection = function(code){
     		commonFactory.codePage=code;

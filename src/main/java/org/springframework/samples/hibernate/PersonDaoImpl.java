@@ -123,8 +123,15 @@ public class PersonDaoImpl implements PersonDao {
 		if(projectCode.equals("DIRE") && !personType.equals("BE")){
 			sql="SELECT person.* FROM person LEFT JOIN project_person ON person.PERSON_ID=project_person.PERSON_ID WHERE PERSON_CODE=:personType ORDER BY person.LASTNAME";			
 		}
+		if(projectCode.equals("CPHA") && personType.equals("BE")){
+			sql="SELECT person.* FROM person LEFT JOIN project_person ON person.PERSON_ID=project_person.PERSON_ID WHERE PROJECT_CODE =:projectCode AND PERSON_CODE IN ('OR','LH','RE') ORDER BY person.LASTNAME";			
+
+		}
 		SQLQuery query = instantiateQuery(sql);
-		if(!projectCode.equals("DIRE") || (projectCode.equals("DIRE") && !personType.equals("BE")))query.setParameter("personType", personType);
+		if((projectCode.equals("CPHA") && !personType.equals("BE")) || projectCode.equals("CPCN")
+				|| projectCode.equals("CPPR") || projectCode.equals("CPPD") || (projectCode.equals("DIRE") && !personType.equals("BE"))){
+			query.setParameter("personType", personType);
+		}
 		if(!projectCode.equals("DIRE"))query.setParameter("projectCode", projectCode);
 		return query.list();
 	
@@ -254,16 +261,17 @@ public class PersonDaoImpl implements PersonDao {
 		   }
 		   
 		   String sql= null;
-		   if("BE".equals(personType)){
+		   if("BE".equals(personType) || "RE".equals(personType) || "OR".equals(personType)
+				   || "LH".equals(personType)){
 				  sql="SELECT DISTINCT BEN.* "
 				  + "FROM person BEN, project_person "
 				  + sqlActivityFromCondition
 				  + sqlPersonInChargeFromCondition
 				  + "WHERE BEN.PERSON_ID = project_person.PERSON_ID "
-				  + "AND   project_person.PERSON_CODE = 'BE' "
 			  
 				  + "AND   project_person.PROJECT_CODE=:projectCode "
 				  + "AND   BEN.END_DATE is null "
+				  + "AND project_person.PERSON_CODE=:personType "
 				  + sqlActivityWhereCondition
 				  + sqlActivePersonCondition
 				  + sqlPersonInChargeWhereCondition
@@ -286,7 +294,7 @@ public class PersonDaoImpl implements PersonDao {
 		   }
 		
 		SQLQuery query = instantiateQuery(sql);
-		if (personType!=null && !"BE".equals(personType)) query.setParameter("personType", personType);
+	    query.setParameter("personType", personType);
 		if (personIdPersonIncharge!=null) query.setParameter("personIdPersonIncharge", personIdPersonIncharge);
 		if (dateStart != null) query.setParameter("dateStart", dateStart);
 		if (dateEnd != null) query.setParameter("dateEnd", dateEnd);			

@@ -46,7 +46,10 @@
 		class="org.springframework.samples.hibernate.NatureOfCasePersonDaoImpl">
 		<beans:constructor-arg ref="sessionFactory"/>	
 	</beans:bean>
-	
+	<beans:bean id="paymentDao"
+		class="org.springframework.samples.hibernate.PaymentDaoImpl">
+		<beans:constructor-arg ref="sessionFactory"/>	
+	</beans:bean>
 
 
 
@@ -98,7 +101,10 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.Login
 				</beans:value>
-				
+				<beans:value>org.springframework.samples.hibernate.beans.Payment
+				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.NatureOfPayment
+				</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">

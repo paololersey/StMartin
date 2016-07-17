@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/app.css">
  <link rel="stylesheet" type="text/css"
 	href="css/jqueryui/1.10/theme/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" href="css/animation.css">
 
 <script data-main="js/mainIndex.js" src="js/vendors/requirejs/require.js"></script>
 
@@ -24,7 +25,7 @@
 <body>
      <div id="userBar" data-ng-include="'js/user/view/authentication.html'"></div> 
     <div class="container" data-ng-view></div>
-    <div class="overlay" ng-cloak ng-show="loadingIconManager.isLoading()">
+    <div class="overlay" data-ng-cloak data-ng-show="loadingIconManager.isLoading()">
       <div style="position: fixed; top: 50%; left: 50%;">
         <img data-ng-show="loadingIconManager.showLoadingIcon()" src="image/FhHRx.gif" class="ng-cloak" />
       </div>

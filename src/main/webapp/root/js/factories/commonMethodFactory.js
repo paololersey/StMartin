@@ -24,7 +24,10 @@ define(['angularAMD'], function (angularAMD) {
 			},
 			getActivityList: function(filterActivity){
 				return $http.post('../views/activityList', filterActivity);
-			}
+			},
+			getPaymentList: function(filterPayment) {
+				return $http.post('../views/paymentList', filterPayment);
+			},
     	};
     }]);
 angularAMD.controller('messageDialogController', ['$scope', '$modalInstance','message', function($scope, $modalInstance, message) {

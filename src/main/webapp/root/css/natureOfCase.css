@@ -7,7 +7,7 @@ body {
   background: -webkit-linear-gradient(left top, rgb(252, 244, 181),#E9CF5F); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, rgb(252, 244, 181), #E9CF5F); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right, rgb(252, 244, 181), #E9CF5F);  /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right,  rgb(252, 244, 181), #E9CF5F); /* Standard syntax */
+  background: linear-gradient(to bottom right,  rgb(252, 244, 181), rgb(173, 150, 65)); /* Standard syntax */
   
 }
 
@@ -51,6 +51,15 @@ body {
   border-color:  #F7EEA5;
 }
 
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active{
+	color: #F7EEA5;
+  background-color: #E9CF5F;
+  border-color:  #F7EEA5;
+}
+
 .panel-primary {
   border-color: #E9CF5F;
   background-color: #F7EEA5;
@@ -64,4 +73,11 @@ body {
 
 #userNavigationBar {
   background-color: #E9CF5F;
+}
+
+.formMainSpan select, .formMainSpan input {
+    min-width: 80%;
+    height: 25px;
+    border: 2px SOLID #E9CF5F;
+    border-radius: 5px;
 }
