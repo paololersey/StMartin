@@ -1,0 +1,136 @@
+/* animation */
+
+.btn-project{
+	width:50%;
+	font-weight: bold;
+	font-size: 20px;
+	height:200px;
+    !box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+    transition-property: background-color;
+    transition-duration:1s;
+    border-radius:50%;
+    
+}
+
+.btn-people-animation{
+	-webkit-animation-name: peopleAnimation; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: peopleAnimation;
+    animation-duration: 1s;
+    
+    height: 250px;
+    width: 250px;
+    background: #6C9DC7; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(#6C9DC7, white, #3979C1); /* Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#6C9DC7, white, #3979C1); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(#6C9DC7, white, #3979C1); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#6C9DC7, #D2E1EE, #3979C1); /* Standard syntax (must be last) */
+}
+</style>
+    
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes peopleAnimation {
+      0%   {margin-left:-40%}
+      50% {margin-left:20%}
+    100%  { margin-left:0%}
+}
+
+/* Standard syntax */
+@keyframes peopleAnimation {
+     0%   {margin-left:-40%}
+     50% {margin-left:20%}
+    100%  { margin-left:0%}
+}
+
+
+/* Activities animation */ 
+
+.btn-activities-animation{
+	-webkit-animation-name: activitiesAnimation; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: activitiesAnimation;
+    animation-duration: 1s;
+    height: 250px;
+    width: 250px;
+    background: #E8332A; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(#E8332A, #F8C6C4	, #E8332A); /* Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#E8332A, #F8C6C4	, #E8332A); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(#E8332A, #F8C6C4	, #E8332A); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#E8332A, #F8C6C4	, #E8332A); /* Standard syntax (must be last) */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes activitiesAnimation {
+      0%   {margin-left:-40%}
+     50% {margin-left:20%}
+    100%  { margin-left:0%}
+}
+
+/* Standard syntax */
+@keyframes activitiesAnimation {
+    0%   {margin-left:-40%}
+     50% {margin-left:20%}
+    100%  { margin-left:0%}
+}
+
+/* Nature of case animation*/ 
+
+.btn-natureOfCase-animation{
+	-webkit-animation-name: natureOfCaseAnimation; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: natureOfCaseAnimation;
+    animation-duration: 1s;
+    height: 250px;
+    width: 250px;
+    background: #E9CF5F; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(#E9CF5F, #EFDB7B	, #CD7722); /* Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#E9CF5F, #EFDB7B	, #CD7722); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(#E9CF5F, #EFDB7B	, #CD7722); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#E9CF5F, #EFDB7B	, #CD7722); /* Standard syntax (must be last) */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes natureOfCaseAnimation {
+      0%   {margin-left:80%}
+      50% {margin-left:20%}
+    100%  { margin-left:50%}
+}
+
+/* Standard syntax */
+@keyframes natureOfCaseAnimation {
+     0%   {margin-left:80%}
+     50% {margin-left:20%}
+    100%  { margin-left:50%}
+}
+
+/* Payment animation*/ 
+
+.btn-payment-animation{
+	-webkit-animation-name: paymentAnimation; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: paymentAnimation;
+    animation-duration: 1s;
+    height: 250px;
+    width: 250px;
+    background: #00AF50; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(#43DB24, #F1F1F1	, #00AF50); /* Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#43DB24, #F1F1F1	, #00AF50); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(#43DB24, #F1F1F1	, #00AF50); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#43DB24, #F1F1F1	, #00AF50); /* Standard syntax (must be last) */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes paymentAnimation {
+      0%   {margin-left:80%}
+      50% {margin-left:0%}
+    100%  { margin-left:15%}
+}
+
+/* Standard syntax */
+@keyframes paymentAnimation {
+     0%   {margin-left:80%}
+     50% {margin-left:0%}
+    100%  { margin-left:15%}
+}

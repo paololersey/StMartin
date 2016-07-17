@@ -1,0 +1,83 @@
+body {
+  padding: 10px;
+/*   margin: 5px; */
+  height: 100%;
+  
+  background: white; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, rgb(252, 244, 181),green); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, rgb(252, 244, 181), green); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, rgb(252, 244, 181), green);  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right,  rgb(252, 244, 181), green); /* Standard syntax */
+  
+}
+
+.gridStyle {
+	border-radius:5px ;
+    border: 1px solid green;
+    width: 80%; 
+    height: 420px;
+}
+
+.ngFooterPanel   {
+  background-color: #fff;
+  padding: 0;
+  position: relative;
+}
+
+.ngTopPanel   {
+  color: #fff;
+  z-index: 1;
+  background-color: green;
+  border-bottom: 1px solid #99C66E;
+}
+
+.ngRow.even {
+  background-color: #F7EEA5;
+}
+.ngRow.even:hover,ngRow.odd:active {
+  background-color: #99C66E;
+}
+.ngRow.odd:hover,ngRow.odd:active {
+  background-color: #99C66E;
+}
+.ngRow.selected {
+  background-color: green;
+}
+
+
+.btn-primary {
+  color: #F7EEA5;
+  background-color: green;
+  border-color:  #F7EEA5;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active{
+  color: #F7EEA5;
+  background-color: #99C66E;
+  border-color:  #99C66E;
+}
+
+.panel-primary {
+  border-color: green;
+  background-color: #F7EEA5;
+}
+
+.panel-primary > .panel-heading {
+  color: #fff;
+  background-color: green;
+  border-color: #F7EEA5;
+}
+
+#userNavigationBar {
+  background-color: green;
+}
+
+.formMainSpan select, .formMainSpan input {
+    min-width: 80%;
+    height: 25px;
+    border: 2px SOLID #99C66E;
+    border-radius: 5px;
+}

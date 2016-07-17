@@ -1,0 +1,64 @@
+
+<div class="modal-header">
+	<h3 class="modal-title">Insert/update nature of case</h3>
+</div>
+<div class="modal-body">
+
+	<form name="form" id="insertForm" novalidate>
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Beneficiary:
+			</span> <span class="subFormSpanRight"> <select
+					ng-model="items.objectBEN"
+					ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'
+					name="beneficiary" required><option value=""></option></select>
+			</span>
+			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Nature
+					of Payment: </span> <span class="subFormSpanRight"> <select
+					ng-model="items.payment.natureOfPayment"
+					ng-options='obj for obj in items.natureOfPaymentList'
+					name="natureOfPayment" required><option value=""></option></select>
+
+			</span>
+			</span>
+		</div>
+		<div style="height: 20%;">
+			<input type="text" hidden="true" ng-model="items.payment.paymentId" /><br />
+		</div>
+
+
+
+		<div>
+			<span class="formMainSpan"> <span class="subFormSpanLeft">
+					Amount: </span> <span class="subFormSpanRight"> <input type="text"
+					data-ng-model="items.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+					name="amount" required />
+
+			</span>
+			</span> <span class="formMainSpan"> <span
+				class="subFormSpanLeft">Date: </span> <span class="subFormSpanRight"
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+						type="text" datepicker-popup="{{format}}" data-ng-model="items.date"
+						is-open="opened" min-date="minDate"
+						datepicker-options="dateOptions"
+						date-disabled="disabled(date, mode)" ng-required="true"
+						close-text="Close" name="paymentDate" required>
+				</span>
+					<button vtype="button" class="btn btn-default"
+						ng-click="open($event)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button> <span> </span>
+			</span>
+			</span>
+		</div>
+
+
+	</form>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary"
+		data-ng-disabled="form.$invalid "
+		data-ng-click="ok()">OK</button>
+	<button class="btn btn-warning" data-ng-click="cancel()">Cancel</button>
+</div>
