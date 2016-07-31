@@ -7,7 +7,8 @@
 	<form name="form" id="insertPersonForm" novalidate>
 
 		<div>
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Baptism
+			<span class="formMainSpan"> <span class="subFormSpanLeft" data-ng-if="!items.isCPHARecoveree">Baptism
+					Name: </span><span class="subFormSpanLeft" data-ng-if="items.isCPHARecoveree">First
 					Name: </span> <span class="subFormSpanRight"> <input
 					id="firstNameId" type="text" data-ng-model="items.people.firstName"
 					name="firstName" required />
@@ -28,7 +29,8 @@
 		</div>
 
 		<div>
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Family
+			<span class="formMainSpan"> <span class="subFormSpanLeft" data-ng-if="!items.isCPHARecoveree">Family
+					name: </span> <span class="subFormSpanLeft" data-ng-if="items.isCPHARecoveree">Last
 					name: </span> <span class="subFormSpanRight"> <input type="text"
 					data-ng-model="items.people.thirdName" name="thirdName" required />
 			</span>
@@ -49,7 +51,7 @@
 		</div>
 
 		<div>
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Village:
+			<span class="formMainSpan" data-ng-if="!items.isCPHARecoveree"> <span class="subFormSpanLeft">Village:
 			</span> <span class="subFormSpanRight"> <select style="width: 45%"
 					data-ng-model="items.people.village" name="village"
 					data-ng-options=" opt for opt in items.cities" required>
@@ -71,7 +73,7 @@
 		</div>
 
 		<div>
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Zone:
+			<span class="formMainSpan" data-ng-if="!items.isCPHARecoveree"> <span class="subFormSpanLeft" >Zone:
 			</span> <span class="subFormSpanRight"> <select style="width: 30%"
 					data-ng-model="items.people.zone"
 					data-ng-options=" opt for opt in items.zones">
@@ -79,8 +81,18 @@
 				</select>
 
 			</span>
+			</span>
+			
+			<span class="formMainSpan" data-ng-if="items.isCPHARecoveree"> <span class="subFormSpanLeft" >Parish:
+			</span> <span class="subFormSpanRight"> <select style="width: 30%"
+					data-ng-model="items.people.parish"
+					data-ng-options=" opt for opt in items.parishes">
+						<option value=""></option>
+				</select>
 
-			</span> <span class="formMainSpan" data-ng-hide="items.isCPPRBeneficiary">
+			</span>
+
+			</span> <span class="formMainSpan" data-ng-if="includeStatusLevel()">
 
 				<span class="subFormSpanLeft">Status/level: </span> <span
 				class="subFormSpanRight"> <select style="width: 45%"
@@ -121,8 +133,8 @@
 		</div>
 
 		<div>
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Birth
-					Date: </span> <span class="subFormSpanRight"
+			<span class="formMainSpan"> <span class="subFormSpanLeft">Date of 
+					birth: </span> <span class="subFormSpanRight"
 				data-ng-controller="DatepickerDemoCtrl"> <span> <input
 						id="dateOfBirth" type="text" datepicker-popup="{{format}}"
 						data-ng-model="items.date" is-open="opened" min-date="minDate"
@@ -140,7 +152,7 @@
 			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary">
 
 				<span data-ng-if="!items.isCPHA" class="subFormSpanLeft">File number: </span> 
-				<span data-ng-if="items.isCPHA" class="subFormSpanLeft">Client number: </span> 
+				<span data-ng-if="items.isCPHA" class="subFormSpanLeft">Client code: </span> 
 				<span
 				class="subFormSpanRight"> <input type="text"
 					data-ng-model="items.people.fileNumber" name="fileNumber" required />
@@ -255,14 +267,26 @@
 					data-ng-model="items.people.school" />
 			</span>
 
-			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary">
+			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary && !items.isCPHARecoveree">
 
 				<span class="subFormSpanLeft">Medical status: </span> <span
 				class="subFormSpanRight"> <input type="text"
 					data-ng-model="items.people.medicalStatus" />
+					
 			</span>
 
 			</span>
+			
+			<span class="formMainSpan" data-ng-if="items.isBeneficiary && items.isCPHARecoveree">
+
+				<span class="subFormSpanLeft">Case summary: </span> <span
+				class="subFormSpanRight"> 
+					<textarea maxlength="255" rows="150" data-ng-if="items.isCPHARecoveree" cols="120"
+					data-ng-model="items.people.medicalStatus"></textarea>
+			</span>
+
+			</span>
+			
 		</div>
 
 		<div style="height: 10px;">&nbsp;

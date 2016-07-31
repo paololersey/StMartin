@@ -35,7 +35,17 @@
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
 	</servlet>
+	
+	<servlet>
+    	<servlet-name>PeoplePdfReport</servlet-name>
+    	<servlet-class>org.springframework.samples.mvc.pdf.OutSimplePdf</servlet-class>
+ 	</servlet>
 		
+	<servlet-mapping>
+		<servlet-name>PeoplePdfReport</servlet-name>
+		<url-pattern>/root/peoplePdfReport</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>

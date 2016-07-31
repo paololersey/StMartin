@@ -1,5 +1,6 @@
 package org.springframework.samples.mvc.pdf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,6 +8,10 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.hibernate.PersonDao;
 import org.springframework.samples.hibernate.beans.Activity;
 import org.springframework.samples.hibernate.beans.Filter;
@@ -49,28 +54,35 @@ public class CreatePdf {
  @Autowired
 	private ApplicationContext appContext;
  
-	@RequestMapping(value = "createPdf", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody
-	String createPdf(@RequestBody GlobalPdf globalPdf){
+	@RequestMapping(value = "createPdf", method = RequestMethod.POST, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public 
+	ResponseEntity<byte[]> createPdf(@RequestBody GlobalPdf globalPdf){
  
        try {
         Document document = new Document();
-        try{
-        	 PdfWriter.getInstance(document, new FileOutputStream(FILE));	
-        }
-        catch (Exception e) {
-            return "filePdfAlreadyInUse";
-           }
-       
-        document.open();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PdfWriter.getInstance(document, baos);
         
+       
+        document.open();       
         addTitleAndFilters(document,globalPdf);
         addContent(document,globalPdf);
         document.close();
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Expires", "0");
+        headers.add("Cache-Control","must-revalidate, post-check=0, pre-check=0");
+        headers.add("Pragma", "public");
+        headers.add("content-disposition", "attachment; filename=" + "report.pdf");
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentLength(baos.size());
+          
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.OK);
+        return response;
        } catch (Exception e) {
         e.printStackTrace();
        }
-	return "okPdf";
+	return null;
  }
   
  

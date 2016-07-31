@@ -12,6 +12,7 @@ import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
 import org.springframework.samples.hibernate.beans.LoginBean;
+import org.springframework.samples.hibernate.beans.Parish;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonActivity;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
@@ -166,6 +167,14 @@ public class PersonController {
 	    {
 		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
 	    	return personDao.getZonesList(projectCode);
+	    }
+	 
+
+	 @RequestMapping(value="parishesList",method=RequestMethod.POST, produces="application/json")
+	    public @ResponseBody List<Parish>  parishesList(@RequestBody String projectCode)
+	    {
+		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+	    	return personDao.getParishesList(projectCode);
 	    }
 	 
 	 @RequestMapping(value="majorTrainingList",method=RequestMethod.POST, produces="application/json")

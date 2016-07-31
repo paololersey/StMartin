@@ -6,6 +6,7 @@ import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
 import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
+import org.springframework.samples.hibernate.beans.Parish;
 import org.springframework.samples.hibernate.beans.Person;
 import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
@@ -59,5 +60,7 @@ public interface PersonDao {
 	void mergeLogin(Login login);
 
 	List<Login> getLogin(Login login);
+
+	List<Parish> getParishesList(String projectCode);
 
 }

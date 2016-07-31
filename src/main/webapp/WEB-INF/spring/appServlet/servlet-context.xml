@@ -88,6 +88,8 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.Zone
 				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.Parish
+				</beans:value>
 				
 				<beans:value>org.springframework.samples.hibernate.beans.PersonState
 				</beans:value>

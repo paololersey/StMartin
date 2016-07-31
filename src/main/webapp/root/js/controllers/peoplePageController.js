@@ -92,6 +92,14 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
   	          $scope.majorTrainingList=data;
         	});
         	
+        	$http.post('../views/parishesList', projectCode).success(function(data) {          				
+    	        var arrayParishes=[];
+  				for (var i=0;i<data.length;i++ ){					
+  					arrayParishes.push(data[i].parishCode);
+  				}
+  				$scope.parishes=arrayParishes;
+          	});
+        	
         	$http.post('../views/supportGroupList', projectCode).success(function(data) {          				
   				var supportGroups=[];
   				for (var i=0;i<data.length;i++ ){					
@@ -414,7 +422,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 								            peopleData=$scope.mySelections[0];
 								            dateOfBirthPerson=$scope.mySelections[0].dateOfBirth;
 					        		  }		  				 
-					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes, "supportGroups":$scope.supportGroups, "personState": $scope.personStateNames,
+					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes,"parishes":$scope.parishes, "supportGroups":$scope.supportGroups, "personState": $scope.personStateNames,
 					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
 					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv, "isCPHARecoveree":$scope.isCPHARecoveree};
@@ -534,14 +542,18 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 			
 		$scope.report = function(){
 			var globalPdf ={"peopleList":$scope.personData, "projectPerson":$scope.projectPerson, "filter":filter};
-			$http.post("../pdf/createPeoplePdf", globalPdf).success(function(data){
-				if(data!=null && data!=""){
-				    	openMessageDialog(data);
-				    };	
+			$http.post("../pdf/createPeoplePdf", globalPdf, { responseType: 'arraybuffer' }).success(function(data){
+				
+				 var file = new Blob([data], { type: 'application/pdf' });
+                 var fileURL = URL.createObjectURL(file);
+                 window.open(fileURL);
 			});
+
 		};
 
 
+		
+		
 /*********************************************************************************************************************************************/
 // flag personType
 
@@ -605,5 +617,12 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 	  	   resetFormSearch();
 	  	   $scope.selectFilter(null, null, null, null, null);
 		};	
+		
+		function includeStatusLevel(){
+			if(!items.isCPPRBeneficiary && !items.isCPHARecoveree){
+				return true;
+			}
+			return false;
+		}
 	}]);
 });

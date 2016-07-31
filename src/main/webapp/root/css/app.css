@@ -72,7 +72,8 @@ DIV.ng-dirty.ng-invalid,input.ng-dirty.ng-invalid,select.ng-dirty.ng-invalid {
 	
 }
 .formMainSpan select,
-.formMainSpan input{
+.formMainSpan input,
+.formMainSpan textarea{
 	min-width: 80%;
     height: 25px;
     /* border-radius: 5px;

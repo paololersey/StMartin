@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 @Entity
 @Table(name = "person")
 public class Person {
@@ -54,6 +52,8 @@ public class Person {
 	private Date insertDate;
 
 	private String zone;
+	
+	private String parish;
 
 	private String majorTraining;
 
@@ -458,6 +458,14 @@ public class Person {
 
 	public void setRelationship(String relationship) {
 		this.relationship = relationship;
+	}
+
+	public String getParish() {
+		return parish;
+	}
+
+	public void setParish(String parish) {
+		this.parish = parish;
 	}
 
 }
