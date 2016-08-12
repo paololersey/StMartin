@@ -23,6 +23,8 @@ public class NatureOfCasePerson {
 	
 	private String natureOfCase;
 	
+	private String delayedMilestone;
+	
 	private String projectCode;
 	
 	
@@ -83,6 +85,15 @@ public class NatureOfCasePerson {
 
 	public void setProjectCode(String projectCode) {
 		this.projectCode = projectCode;
+	}
+
+	@Column(name = "DELAYED_MILESTONE")
+	public String getDelayedMilestone() {
+		return delayedMilestone;
+	}
+
+	public void setDelayedMilestone(String delayedMilestone) {
+		this.delayedMilestone = delayedMilestone;
 	}
 
 

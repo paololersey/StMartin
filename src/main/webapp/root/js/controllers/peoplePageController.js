@@ -100,6 +100,9 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
   				$scope.parishes=arrayParishes;
           	});
         	
+        	
+        	
+        	
         	$http.post('../views/supportGroupList', projectCode).success(function(data) {          				
   				var supportGroups=[];
   				for (var i=0;i<data.length;i++ ){					
@@ -423,9 +426,9 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 								            dateOfBirthPerson=$scope.mySelections[0].dateOfBirth;
 					        		  }		  				 
 					  				  var array = {"people": peopleData, "cities": $scope.citiesList, "zones":$scope.zoneCodes,"parishes":$scope.parishes, "supportGroups":$scope.supportGroups, "personState": $scope.personStateNames,
-					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer,
+					  						    "date":dateOfBirthPerson, "volunteerTypeList":$scope.volunteerTypeList,"isVolunteer": $scope.isVolunteer, 
 					  						    "isBeneficiary": $scope.isBeneficiary,"isBeneficiaryNotCPPR": $scope.isBeneficiaryNotCPPR,"isVolunteerNotCPPR": $scope.isVolunteerNotCPPR, "isCPPR": $scope.isCPPR,"isCPPRBeneficiary": $scope.isCPPRBeneficiary,
-					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv, "isCPHARecoveree":$scope.isCPHARecoveree};
+					  						    "majorTrainingList": $scope.majorTrainingList, "isCPHA":$scope.isCPHA, "isCPHAOrphan":$scope.isCPHAOrphan, "isCPHAPlwhiv":$scope.isCPHAPlwhiv, "isCPHARecoveree":$scope.isCPHARecoveree, "isCPPD":$scope.isCPPD};
 					  				  return array;
 					  				
 					        	  }

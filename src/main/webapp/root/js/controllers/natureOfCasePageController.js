@@ -2,7 +2,7 @@
 
 var type;
 define(['app'], function (app) {
-	app.controller('NatureOfCasePageCtrl',['$scope', '$http', '$modal', '$log', '$location', 'commonFactory', function($scope, $http, $modal, $log, $location, commonFactory) {
+	app.controller('NatureOfCasePageCtrl',['$scope', '$http', '$modal', '$log', '$location', 'commonFactory','commonMethodFactory', function($scope, $http, $modal, $log, $location, commonFactory,commonMethodFactory) {
 
 	
            var projectCode = commonFactory.selectedDepartment;
@@ -28,8 +28,13 @@ define(['app'], function (app) {
 				$scope.natureOfCasesStatusList=data;
 			 });
            
-          
-          
+           $http.post('../views/delayedMilestoneList', projectCode).success(function(data) {          				
+   	        var arrayDelayedMilestone=[];
+ 				for (var i=0;i<data.length;i++ ){					
+ 					arrayDelayedMilestone.push(data[i].delayedMilestone);
+ 				}
+ 				$scope.delayedMilestoneList=arrayDelayedMilestone;
+         	});
            
            $http.post('../views/listaBen', $scope.projectPerson).success(
 					function(data) {
@@ -64,6 +69,7 @@ define(['app'], function (app) {
 							              "natureOfCase": natureOfCase,
 							              "natureOfCaseStatus": status,
 							              "projectCode":projectCode};
+					
 					$http.post('../views/natureOfCasePersonList', filter).success(
 							function(data) {						
 								$scope.natureOfCasePersonList = data;		
@@ -137,6 +143,9 @@ define(['app'], function (app) {
 				}, {
 					field : 'status',
 					displayName : 'Status'
+				},{
+					field : 'delayedMilestone',
+					displayName : 'Delayed Milestone'
 				}],
 				
 				showFooter : true
@@ -193,6 +202,7 @@ define(['app'], function (app) {
 					        		$("#activityDate").attr("value", null);
 					        		
 					        		return {"date":null, "natureOfCasesList": $scope.natureOfCasesLista, "natureOfCasesStatusList": $scope.natureOfCasesStatusList,
+					        			    "delayedMilestoneList":$scope.delayedMilestoneList,
 				  						    "beneficiaries":$scope.beneficiaries,"isCPPD":$scope.isCPPD,"isCPPR":$scope.isCPPR};				  				
 					  				
 					        	  }
@@ -239,6 +249,8 @@ define(['app'], function (app) {
 /*********************************************************************************************************************************************/
 //This Function is called when I click ok on the form, and it handles INSERT,UPDATE, AND DELETE of a record of the table activity
 				function update($newScope) {	
+					var filter={'personType':$scope.projectPerson.personCode,
+						    'projectCode':$scope.projectPerson.projectCode};
 					$scope.natureOfCasePerson = $newScope.natureOfCasePerson;
 						//	$scope.natureOfCasePerson = { "natureOfCase":$newScope.natureOfCaseObject, "status":$newScope.natureOfCaseStatus, "insertDate":$newScope.natureOfCaseDate  };							
 							$scope.beneficiary = $newScope.objectBEN;
@@ -251,9 +263,12 @@ define(['app'], function (app) {
 									method : 'POST',
 									data : $scope.natureOfCasePerson
 								}).success(function(data) {
-									$scope.messages = data.messages;
-									$scope.natureOfCasePersonList=commonFactory.natureOfCasePersonData;
-									alert("cancelled!");
+									commonMethodFactory.getNatureOfCasePersonList(filter).then(function(object) {
+										$scope.natureOfCasePersonList = object.data;
+						    			commonFactory.natureOfCasePersonData=$scope.natureOfCasePersonList;	
+						    			alert("The record has been cancelled");
+						    		});
+									
 								});
 							}
 							// insert or update
@@ -270,8 +285,12 @@ define(['app'], function (app) {
 								data : globalPerson
 							}).success(function(data) {
 								$scope.messages = data.messages;
-								$scope.natureOfCasePersonList=commonFactory.natureOfCasePersonData;
-								alert("inserito!");
+								commonMethodFactory.getNatureOfCasePersonList(filter).then(function(object) {
+									$scope.natureOfCasePersonList = object.data;
+					    			commonFactory.natureOfCasePersonData=$scope.natureOfCasePersonList;	
+					    			alert("The record has been added");
+					    		});
+								
 							});
 					   }
 				};

@@ -23,17 +23,34 @@
 			</span>
 		</div>
 
-		<div data-ng-if="items.natureOfCasePerson.natureOfCase=='OTHERS'">
-			<span class="formMainSpan"> <span class="subFormSpanLeft">Specify
-					other </span> <span class="subFormSpanRight"> <input type="text"
+		<div style="height: 10px;">
+			<input type="text" hidden="true" /><br />
+		</div>
+
+		<div>
+			<span class="formMainSpan"
+				data-ng-if="items.isCPPD && items.natureOfCasePerson.natureOfCase=='DELAYED_MILESTONE'">
+				<span class="subFormSpanLeft">Delayed Milestone caused by: </span> <span
+				class="subFormSpanRight"> <select
+					data-ng-model="items.natureOfCasePerson.delayedMilestone"
+					data-ng-options="obj for obj in items.delayedMilestoneList"
+					name="delayedMilestone"></select>
+			</span>
+			</span> <span class="formMainSpan"
+				data-ng-if="items.natureOfCasePerson.natureOfCase=='OTHERS' || (items.isCPPD && items.natureOfCasePerson.natureOfCase=='DELAYED_MILESTONE' && items.natureOfCasePerson.delayedMilestone=='OTHERS')">
+				<span class="subFormSpanLeft">Specify other </span> <span
+				class="subFormSpanRight"> <input type="text"
 					data-ng-model="items.natureOfCasePerson.natureOfCaseOther"
 					name="natureOfCaseOther" required></input>
 			</span>
 			</span>
 		</div>
+		
+		
+
 
 		<div style="height: 20%;">
-			<input id="activityId" type="text" hidden="true"
+			<input id="natureOfCasePersonId" type="text" hidden="true"
 				data-ng-model="items.natureOfCasePerson.natureOfCasePersonId" /><br />
 		</div>
 		<div>

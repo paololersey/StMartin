@@ -14,6 +14,8 @@ public class NatureOfCasePersonMapBean {
 	
 	private String natureOfCase;
 	
+	private String delayedMilestone;
+	
 	private String projectCode;
 	
 	
@@ -63,6 +65,14 @@ public class NatureOfCasePersonMapBean {
 
 	public void setBeneficiary(String beneficiary) {
 		this.beneficiary = beneficiary;
+	}
+
+	public String getDelayedMilestone() {
+		return delayedMilestone;
+	}
+
+	public void setDelayedMilestone(String delayedMilestone) {
+		this.delayedMilestone = delayedMilestone;
 	}
 
 

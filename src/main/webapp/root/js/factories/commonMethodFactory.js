@@ -28,6 +28,9 @@ define(['angularAMD'], function (angularAMD) {
 			getPaymentList: function(filterPayment) {
 				return $http.post('../views/paymentList', filterPayment);
 			},
+			getNatureOfCasePersonList: function(filterNatureOfCase) {
+				return $http.post('../views/natureOfCasePersonList', filterNatureOfCase);
+			}
     	};
     }]);
 angularAMD.controller('messageDialogController', ['$scope', '$modalInstance','message', function($scope, $modalInstance, message) {

@@ -46,6 +46,7 @@ public class NatureOfCaseController {
 			natureOfCasePersonMapBean.setNatureOfCase(natureOfCasePerson.getNatureOfCase());
 			natureOfCasePersonMapBean.setInsertDate(natureOfCasePerson.getInsertDate());
 			natureOfCasePersonMapBean.setStatus(natureOfCasePerson.getStatus());
+			natureOfCasePersonMapBean.setDelayedMilestone(natureOfCasePerson.getDelayedMilestone());
 			if(beneficiary.size()>0){
 				Person ben=beneficiary.get(0);
 				natureOfCasePersonMapBean.setBeneficiary(ben.getFirstName() + " " + ben.getLastName() + " " + ben.getThirdName());

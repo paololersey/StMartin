@@ -99,6 +99,8 @@ public class Person {
 
 	private String relationship;
 	
+	private String delayedMilestone;
+	
 	@NotNull
 	@Id
 	@GeneratedValue
@@ -460,12 +462,22 @@ public class Person {
 		this.relationship = relationship;
 	}
 
+	@Column(name = "PARISH")
 	public String getParish() {
 		return parish;
 	}
 
 	public void setParish(String parish) {
 		this.parish = parish;
+	}
+	
+	@Column(name = "DELAYED_MILESTONE")
+	public String getDelayedMilestone() {
+		return delayedMilestone;
+	}
+
+	public void setDelayedMilestone(String delayedMilestone) {
+		this.delayedMilestone = delayedMilestone;
 	}
 
 }

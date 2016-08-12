@@ -2,13 +2,12 @@ package org.springframework.samples.hibernate;
 
 import java.util.List;
 
+import org.springframework.samples.hibernate.beans.DelayedMilestone;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
-import org.springframework.samples.hibernate.beans.NatureOfCasePerson;
 import org.springframework.samples.hibernate.beans.Parish;
 import org.springframework.samples.hibernate.beans.Person;
-import org.springframework.samples.hibernate.beans.PersonState;
 import org.springframework.samples.hibernate.beans.ProjectPerson;
 import org.springframework.samples.hibernate.beans.SupportGroup;
 import org.springframework.samples.hibernate.beans.Zone;
@@ -62,5 +61,7 @@ public interface PersonDao {
 	List<Login> getLogin(Login login);
 
 	List<Parish> getParishesList(String projectCode);
+
+	List<DelayedMilestone> getDelayedMilestoneList(String projectCode);
 
 }

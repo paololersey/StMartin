@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.samples.hibernate.PersonDao;
+import org.springframework.samples.hibernate.beans.DelayedMilestone;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
@@ -175,6 +176,13 @@ public class PersonController {
 	    {
 		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
 	    	return personDao.getParishesList(projectCode);
+	    }
+	 
+	 @RequestMapping(value="delayedMilestoneList",method=RequestMethod.POST, produces="application/json")
+	    public @ResponseBody List<DelayedMilestone>  delayedMilestoneList(@RequestBody String projectCode)
+	    {
+		    PersonDao personDao = (PersonDao) appContext.getBean("personDao");
+	    	return personDao.getDelayedMilestoneList(projectCode);
 	    }
 	 
 	 @RequestMapping(value="majorTrainingList",method=RequestMethod.POST, produces="application/json")

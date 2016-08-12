@@ -107,6 +107,8 @@
 				</beans:value>
 				<beans:value>org.springframework.samples.hibernate.beans.NatureOfPayment
 				</beans:value>
+				<beans:value>org.springframework.samples.hibernate.beans.DelayedMilestone
+				</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">

@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.hibernate.beans.DelayedMilestone;
 import org.springframework.samples.hibernate.beans.Filter;
 import org.springframework.samples.hibernate.beans.GlobalPerson;
 import org.springframework.samples.hibernate.beans.Login;
@@ -437,6 +438,16 @@ public class PersonDaoImpl implements PersonDao {
 				.createSQLQuery(sql);
 		query.setParameter("projectCode", projectCode);
 		query.addEntity(Parish.class);
+		return query.list();
+	}
+
+	@Override
+	public List<DelayedMilestone> getDelayedMilestoneList(String projectCode) {
+		String sql = "SELECT * FROM delayed_milestone WHERE PROJECT_CODE=:projectCode OR PROJECT_CODE IS NULL";
+		SQLQuery query = this.sessionFactory.getCurrentSession()
+				.createSQLQuery(sql);
+		query.setParameter("projectCode", projectCode);
+		query.addEntity(DelayedMilestone.class);
 		return query.list();
 	}
 
