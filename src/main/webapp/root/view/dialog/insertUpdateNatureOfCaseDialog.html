@@ -9,7 +9,7 @@
 		<div>
 			<span class="formMainSpan"> <span class="subFormSpanLeft">Beneficiary:
 			</span> <span class="subFormSpanRight"> <select
-					data-ng-model="items.objectBEN"
+					data-ng-model="items.objectBEN" 
 					data-ng-options='objectBEN.firstName+" "+objectBEN.lastName for objectBEN in items.beneficiaries'
 					name="beneficiary" required><option value=""></option></select>
 			</span>
@@ -24,7 +24,7 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
@@ -39,7 +39,7 @@
 			</span> <span class="formMainSpan"
 				data-ng-if="items.natureOfCasePerson.natureOfCase=='OTHERS' || (items.isCPPD && items.natureOfCasePerson.natureOfCase=='DELAYED_MILESTONE' && items.natureOfCasePerson.delayedMilestone=='OTHERS')">
 				<span class="subFormSpanLeft">Specify other </span> <span
-				class="subFormSpanRight"> <input type="text"
+				class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.natureOfCasePerson.natureOfCaseOther"
 					name="natureOfCaseOther" required></input>
 			</span>
@@ -50,7 +50,7 @@
 
 
 		<div style="height: 20%;">
-			<input id="natureOfCasePersonId" type="text" hidden="true"
+			<input upcase  id="natureOfCasePersonId" type="text" hidden="true"
 				data-ng-model="items.natureOfCasePerson.natureOfCasePersonId" /><br />
 		</div>
 		<div>
@@ -63,7 +63,7 @@
 			</span>
 			</span> <span class="formMainSpan" ng-hide="items.isCPPR"> <span
 				class="subFormSpanLeft">Date: </span> <span class="subFormSpanRight"
-				ng-controller="DatepickerDemoCtrl"> <span> <input
+				ng-controller="DatepickerDemoCtrl"> <span> <input upcase 
 						type="text" datepicker-popup="{{format}}" ng-model="items.date"
 						is-open="opened" min-date="minDate"
 						datepicker-options="dateOptions"

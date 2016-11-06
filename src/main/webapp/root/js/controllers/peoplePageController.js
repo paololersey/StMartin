@@ -19,7 +19,7 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
         	   personType="OR";	
            }
            
-           
+           $scope.toUppercase=toUppercase;
 
 /**********************************************************************************************************************************************/
 // These functions regards the tab selection 
@@ -626,6 +626,10 @@ app.controller('PeoplePageCtrl',['$scope', '$http', '$modal', '$log', '$location
 				return true;
 			}
 			return false;
+		}
+		
+		function toUppercase(field){
+			return field.toUppercase();
 		}
 	}]);
 });

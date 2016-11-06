@@ -9,13 +9,13 @@
 		<div>
 			<span class="formMainSpan"> <span class="subFormSpanLeft" data-ng-if="!items.isCPHARecoveree">Baptism
 					Name: </span><span class="subFormSpanLeft" data-ng-if="items.isCPHARecoveree">First
-					Name: </span> <span class="subFormSpanRight"> <input
+					Name: </span> <span class="subFormSpanRight"> <input upcase  
 					id="firstNameId" type="text" data-ng-model="items.people.firstName"
-					name="firstName" required />
+					name="firstName" required data-ng-change="toUppercase(items.people.firstName)"/>
 			</span>
 
 			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">
-					Middle name: </span> <span class="subFormSpanRight"> <input
+					Middle name: </span> <span class="subFormSpanRight"> <input upcase 
 					id="lastNameId" type="text" data-ng-model="items.people.lastName"
 					name="lastName" required />
 			</span>
@@ -24,14 +24,14 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input id="personId" type="text" hidden="true"
+			<input upcase  id="personId" type="text" hidden="true"
 				data-ng-model="items.people.personId" name="personId" /><br />
 		</div>
 
 		<div>
 			<span class="formMainSpan"> <span class="subFormSpanLeft" data-ng-if="!items.isCPHARecoveree">Family
 					name: </span> <span class="subFormSpanLeft" data-ng-if="items.isCPHARecoveree">Last
-					name: </span> <span class="subFormSpanRight"> <input type="text"
+					name: </span> <span class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.thirdName" name="thirdName" required />
 			</span>
 
@@ -47,7 +47,7 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
@@ -61,7 +61,7 @@
 			</span>
 
 			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Physical
-					addr.: </span> <span class="subFormSpanRight"> <input type="text"
+					addr.: </span> <span class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.address" name="address" required />
 			</span>
 
@@ -69,7 +69,7 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
@@ -105,14 +105,14 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
 			<span class="formMainSpan">
 				<div>
 					<span class="subFormSpanLeft">Tel.: </span> <span
-						class="subFormSpanRight"> <input id="telephoneId"
+						class="subFormSpanRight"> <input upcase  id="telephoneId"
 						type="text" data-ng-model="items.people.telephone" name="telefone"
 						name="telephone" integer ng-minlength="10"
 						data-ng-pattern="/^[0-9/]+$/" />
@@ -121,7 +121,7 @@
 			</span> <span class="formMainSpan">
 				<div>
 					<span class="subFormSpanLeft"> E-mail: </span> <span
-						class="subFormSpanRight"> <input type="email"
+						class="subFormSpanRight"> <input upcase  type="email"
 						data-ng-model="items.people.email" name="uEmail" />
 					</span>
 				</div>
@@ -129,13 +129,13 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
 			<span class="formMainSpan"> <span class="subFormSpanLeft">Date of 
 					birth: </span> <span class="subFormSpanRight"
-				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input upcase 
 						id="dateOfBirth" type="text" datepicker-popup="{{format}}"
 						data-ng-model="items.date" is-open="opened" min-date="minDate"
 						datepicker-options="dateOptions"
@@ -154,7 +154,7 @@
 				<span data-ng-if="!items.isCPHA" class="subFormSpanLeft">File number: </span> 
 				<span data-ng-if="items.isCPHA" class="subFormSpanLeft">Client code: </span> 
 				<span
-				class="subFormSpanRight"> <input type="text"
+				class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.fileNumber" name="fileNumber" required />
 			</span>
 
@@ -163,17 +163,17 @@
 		</div>
 
 		<div data-ng-if="items.isCPPRBeneficiary" style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div data-ng-if="items.isCPPRBeneficiary">
 			<span class="formMainSpan"> < <span class="subFormSpanLeft">Contact
-					person </span> <span class="subFormSpanRight"> <input type="text"
+					person </span> <span class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.contactPerson" />
 			</span>
 
 			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Contact
-					p. role: </span> <span class="subFormSpanRight"> <input type="text"
+					p. role: </span> <span class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.contactPersonRole" />
 			</span>
 
@@ -182,13 +182,13 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 		
 		<div data-ng-if="items.isVolunteer">
 			<span class="formMainSpan"> <span class="subFormSpanLeft">Date of joining:
 					</span> <span class="subFormSpanRight"
-				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input upcase 
 						id="dateOfBirth" type="text" datepicker-popup="{{format}}"
 						data-ng-model="items.people.joiningDate" is-open="opened" min-date="minDate"
 						datepicker-options="dateOptions"
@@ -203,7 +203,7 @@
 
 			</span> <span class="formMainSpan"> <span class="subFormSpanLeft">Date of recommitment:
 					</span>  <span class="subFormSpanRight"
-				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input upcase 
 						id="dateOfBirth" type="text" datepicker-popup="{{format}}"
 						data-ng-model="items.people.recommitmentDate" is-open="opened" min-date="minDate"
 						datepicker-options="dateOptions"
@@ -221,7 +221,7 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
@@ -237,7 +237,7 @@
 			 <span class="formMainSpan" data-ng-if="items.isBeneficiary && !items.isCPHA">
 
 				<span class="subFormSpanLeft">Parent/Guard.: </span> <span
-				class="subFormSpanRight"> <input type="text"
+				class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.parentGuardian" name="parentGuardian" />
 			</span>
 
@@ -256,21 +256,21 @@
 		</div>
 
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div>
 			<span class="formMainSpan" data-ng-if="((items.isBeneficiary && !items.isCPHA) || (items.isCPHAOrphan && items.isCPHA))">
 
 				<span class="subFormSpanLeft">School: </span> <span
-				class="subFormSpanRight"> <input type="text"
+				class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.school" />
 			</span>
 
 			</span> <span class="formMainSpan" data-ng-if="items.isBeneficiary && !items.isCPHARecoveree">
 
 				<span class="subFormSpanLeft">Medical status: </span> <span
-				class="subFormSpanRight"> <input type="text"
+				class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.people.medicalStatus" />
 					
 			</span>
@@ -301,7 +301,7 @@
 		<!--  -->
 		
 		<div style="height: 10px;">
-			<input type="text" hidden="true" /><br />
+			<input upcase  type="text" hidden="true" /><br />
 		</div>
 
 		<div data-ng-if="form.uEmail.$dirty && form.uEmail.$invalid">

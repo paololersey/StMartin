@@ -54,8 +54,8 @@ define(['common'], function (angularAMD) {
 			   $modalInstance.dismiss("cancel");
 			};
 	}]);
-
   
+
    
     return angularAMD.bootstrap(app);
 });

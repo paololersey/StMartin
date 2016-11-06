@@ -23,21 +23,21 @@
 			</span>
 		</div>
 		<div style="height: 20%;">
-			<input type="text" hidden="true" ng-model="items.payment.paymentId" /><br />
+			<input upcase  type="text" hidden="true" ng-model="items.payment.paymentId" /><br />
 		</div>
 
 
 
 		<div>
 			<span class="formMainSpan"> <span class="subFormSpanLeft">
-					Amount: </span> <span class="subFormSpanRight"> <input type="text"
+					Amount: </span> <span class="subFormSpanRight"> <input upcase  type="text"
 					data-ng-model="items.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
 					name="amount" required />
 
 			</span>
 			</span> <span class="formMainSpan"> <span
 				class="subFormSpanLeft">Date: </span> <span class="subFormSpanRight"
-				data-ng-controller="DatepickerDemoCtrl"> <span> <input
+				data-ng-controller="DatepickerDemoCtrl"> <span> <input upcase 
 						type="text" datepicker-popup="{{format}}" data-ng-model="items.date"
 						is-open="opened" min-date="minDate"
 						datepicker-options="dateOptions"

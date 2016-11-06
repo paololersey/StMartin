@@ -240,7 +240,7 @@ div.overlay {
 	vertical-align: middle;
 }
 div.input,div.select,div.textarea{
-	text-transform:uppercase;
+	/*text-transform:uppercase;*/
 }
 
 div.upperPageDiv{

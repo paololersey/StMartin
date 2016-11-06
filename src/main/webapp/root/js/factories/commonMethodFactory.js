@@ -42,4 +42,6 @@ angularAMD.controller('messageDialogController', ['$scope', '$modalInstance','me
 		   $modalInstance.dismiss("cancel");
 		};
 }]);
+
+
 });
