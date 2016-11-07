@@ -588,11 +588,15 @@ app.controller('ActivitiesPageCtrl',['$scope', '$http', '$modal', '$log', '$loca
  						noteArray.push($scope.activitiesNotes[i].note);
  					}
  					var globalActivityPdf = {"activityList":activityArray, "noteList": noteArray, "filter": filterActivity};
- 					$http.post("../pdf/createPdf",globalActivityPdf).success(function(data){
- 						    if(data!=null && data!=""){
- 						    	openMessageDialog(data);
- 						    }
- 						  
+ 					$http.post("../pdf/createPdf",globalActivityPdf,{ responseType: 'arraybuffer' }).success(function(data){
+ 						 var file = new Blob([data], { type: 'application/pdf' });
+ 		                 var fileURL = URL.createObjectURL(file);
+ 		                 window.open(fileURL);    
+// 						
+// 						if(data!=null && data!=""){
+// 						    	openMessageDialog(data);
+// 						    }
+// 						  
  					});
  				}; 				
  				
