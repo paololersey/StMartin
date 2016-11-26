@@ -6,6 +6,7 @@
 	<artifactId>myProject</artifactId>
 	<name>StMartin</name>
 	<packaging>war</packaging>
+	<!--<packaging>pom</packaging>-->
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.7</java-version>
@@ -383,4 +384,10 @@
       </build>
     </profile>
   </profiles>
+  
+ <!-- <modules>
+		<module>StMartin-webapp</module>
+  </modules>-->
+  
+  
 </project>
